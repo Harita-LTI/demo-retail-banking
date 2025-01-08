@@ -1,0 +1,26 @@
+.catelog-main-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10px 10px 10px 0;
+}
+
+.info-tile {
+  display: flex;
+  align-items: center;
+  margin: 20px 20px 20px 0;
+}
+
+.catelog-title {
+  font-size: 1.67rem;
+  font-weight: 300;
+  padding-right: 15px;
+}
+
+.info-arrow {
+  color: #db0011;
+}
+
+.info-tile:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

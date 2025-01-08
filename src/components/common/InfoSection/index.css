@@ -1,0 +1,14 @@
+.InfoSection-main {
+  box-sizing: border-box;
+  display: flex;
+  padding: 20px;
+  background: rgba(55, 103, 152, .15);
+  border: 1px solid #376798;
+  margin: 25px 0;
+}
+
+.info {
+  padding: 0 15px;
+  font-size: 1rem;
+  font-family: inherit;
+}

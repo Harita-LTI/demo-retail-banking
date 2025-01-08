@@ -1,0 +1,35 @@
+.socialConnect-main {
+  border-top: 1px solid #eaeaea;
+  padding: 15px 0 25px;
+  color: #5a5555;
+}
+
+.social-link-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-section {
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  padding-bottom: 15px;
+}
+
+.socialConnect-main div span {
+  color: #db0011;
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+.header-section:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  cursor: pointer;
+}
+
+.social-links:nth-child(-n+2) {
+  padding-right: 10px;
+}

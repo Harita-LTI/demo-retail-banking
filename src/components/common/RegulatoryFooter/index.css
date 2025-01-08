@@ -1,0 +1,25 @@
+.regulatory-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: black;
+  color: #fff;
+  padding: 10px 40px 25px;
+  font-size: 0.86rem;
+}
+
+.links-section {
+  display: flex;
+  flex: 3;
+}
+
+.text-section {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  flex: 2;
+}
+
+.links-section>div {
+  padding: 5px;
+}

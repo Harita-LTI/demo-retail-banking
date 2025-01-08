@@ -1,0 +1,81 @@
+.navbar2-main {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 15px 10px 8px;
+  position: relative;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.pointer {
+  position: absolute;
+  top: -5px;
+  left: 38px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+}
+
+.logo-container {
+  flex: 0.6;
+}
+
+.hsbc-full-logo {
+  width: 92%;
+  cursor: pointer;
+}
+
+.feature-container {
+  flex: 3;
+  display: flex;
+}
+
+.navbar2-right-separator {
+  border-right: 1px solid #e3e3e3;
+}
+
+.navbar2-option {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.125rem;
+  padding: 0 30px 0 25px;
+}
+
+.preview-desc {
+  color: grey;
+  font-size: 0.7rem;
+}
+
+/* .navBar2-hover-main {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  padding: 50px 10px 35px;
+  background: rgb(216, 216, 216);
+  overflow-y: auto;
+  display: none;
+}
+
+.navbar2-hover-header {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.navbar2-hover-section {
+  display: flex;
+  flex-direction: column;
+  padding-right: 6em;
+  padding-left: 15px;
+  border-right: 1px solid #c9c9c9;
+} */
+
+/* .navbar2-hover-sub-section {
+  display: flex;
+  flex-direction: column;
+} */

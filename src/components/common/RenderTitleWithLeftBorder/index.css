@@ -1,0 +1,13 @@
+.renderTitle-main {
+  display: flex;
+  margin: 15px 0;
+  font-size: 1.7rem;
+  color: #333;
+  align-items: baseline;
+}
+
+.border-left {
+  border-left: 5px solid #db0011;
+  margin-right: 15px;
+  height: 19px;
+}

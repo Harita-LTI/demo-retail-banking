@@ -1,0 +1,43 @@
+.imgcatelog-main-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px 0 10px;
+}
+
+.img-info-tile {
+  cursor: pointer;
+  margin: 20px 20px 20px 0;
+  border: 0.5px solid #d7d8d6;
+}
+
+.img-container {
+  display: block;
+  width: 100%;
+}
+
+.imgcatelog-title {
+  font-size: 1.67rem;
+  font-weight: 300;
+  margin: 0 10px 10px 0;
+}
+
+.info-arrow {
+  color: #db0011;
+}
+
+.img-info-tile:hover .imgcatelog-title {
+  text-decoration: underline;
+}
+
+.info-container {
+  padding: 15px;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+}
+
+.desc-section {
+  text-decoration: none;
+}
