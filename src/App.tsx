@@ -10,6 +10,8 @@ import styled, { createGlobalStyle } from "styled-components";
 //import Dashboard from "./Components/Dashboard/Dashboard";
 import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import CreateCustomer from "./pages/admin/CreateCustomer";
+import CustomerListTable from "./pages/admin/CustomerList";
 // import LoginPage from "./Components/layout/LogPage/Loginpage";
 // import Transactions from "./Components/Dashboard/TransactionList";
 // import Transaction from "./Components/layout/Main/TransactionHistory/TransactionHistory";
@@ -45,6 +47,8 @@ function App() {
         <ContentContainer>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<CreateCustomer />} />
+            <Route path="/admin/customers" element={<CustomerListTable />} />
             {/* <Route
               path="/dashboard"
               element={<ProtectedRoutes Comp={Dashboard} />}
