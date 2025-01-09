@@ -1,6 +1,6 @@
 import "./index.css";
 
-function RegulatoryFooter(params) {
+function RegulatoryFooter() {
   return (
     <>
       <div className="regulatory-main">

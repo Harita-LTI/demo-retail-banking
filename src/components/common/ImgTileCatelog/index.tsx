@@ -3,12 +3,16 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 import "./index.css";
 
-function ImgTileCatelog({ param }) {
+interface ImgTileCatelogProps {
+  param: any;
+}
+
+function ImgTileCatelog(fn:ImgTileCatelogProps) {
   return (
     <>
-      {param ? (
+      {fn.param ? (
         <div className="imgcatelog-main-container">
-          {param.map((infoObj, i) => {
+          {fn.param.map((infoObj:any, i:number) => {
             return (
               <div className="img-info-tile" key={i}>
                 <img

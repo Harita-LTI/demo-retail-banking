@@ -3,13 +3,17 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 import "./index.css";
 
-function LinkCatelog({param}) {
+interface LinkCatelogProps {
+  param: any;
+}
+
+function LinkCatelog(fn:LinkCatelogProps ) {
   return(
     <>
       {
-        param ? <div className="catelog-main-container">
+        fn.param ? <div className="catelog-main-container">
           {
-            param.map((infoObj,i) => {
+            fn.param.map((infoObj:any,i:number) => {
               return <div className="info-tile" key={i}>
                 <div className="catelog-title">{infoObj.title}</div>
                 <FontAwesomeIcon className="info-arrow" icon={faAngleRight} />

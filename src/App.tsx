@@ -9,6 +9,7 @@ import {
 import styled, { createGlobalStyle } from "styled-components";
 //import Dashboard from "./Components/Dashboard/Dashboard";
 import Home from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 // import LoginPage from "./Components/layout/LogPage/Loginpage";
 // import Transactions from "./Components/Dashboard/TransactionList";
 // import Transaction from "./Components/layout/Main/TransactionHistory/TransactionHistory";
@@ -28,7 +29,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: #f4f5f7;
   }
 `;
-
 const AppContainer = styled.div`
   display: flex;
 `;
@@ -40,7 +40,7 @@ const ContentContainer = styled.div`
 function App() {
   return (
     <Router>
-      <GlobalStyle />
+      {/* // <GlobalStyle /> */}
       <AppContainer>
         <ContentContainer>
           <Routes>
@@ -70,8 +70,8 @@ function App() {
               element={<ProtectedRoutes Comp={Profile} />}
             />
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<LoginPage />} />
             {/* Define routes for other components here... */}
+            <Route path="/login" element={<LoginPage />} />
             {/* Redirect to Dashboard if the path is not found */}
             {/*<Route path="*" element={<Navigate to="/" />} /> */}
           </Routes>
