@@ -3,7 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./index.css";
 
-function InfoSection({param}) {
+interface InfoSectionProps {
+  param: any;
+}
+
+function InfoSection(fn:InfoSectionProps ) {
 
   return (
     <>
@@ -11,15 +15,15 @@ function InfoSection({param}) {
         <div><FontAwesomeIcon icon={faInfoCircle} /></div>
         <div className="info">
           {
-            param.first ? <div className="para">
-              {param.first}
+            fn.param.first ? <div className="para">
+              {fn.param.first}
             </div> : null
           }
 
           {
-            param.second ? <div className="para">
+            fn.param.second ? <div className="para">
               <p></p>
-              {param.second}
+              {fn.param.second}
               <p></p>
             </div> : null
           }

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./index.css";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-function SocialConnect(params) {
+function SocialConnect(params:any) {
   return (
     <>
       <div className="socialConnect-main">
