@@ -1,6 +1,9 @@
 import React, { AnyActionArg } from "react";
 import { useForm } from "react-hook-form";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
+import { FaListAlt, FaPlus } from "react-icons/fa";
+import PrimaryLinkButton from "../../components/common/PrimaryLinkButton";
 
 const CreateCustomer = () => {
   const {
@@ -120,4 +123,19 @@ const CreateCustomer = () => {
   );
 };
 
-export default CreateCustomer;
+function CreateCustomerPage() {
+  //return 'abcd'
+  return (
+    <LayoutWithSidebar
+      icon={<FaPlus />}
+      title={"Add New Customer"}
+      btn={
+        <PrimaryLinkButton buttonText="Customer List" url="/admin/customers" />
+      }
+    >
+      <CreateCustomer />
+    </LayoutWithSidebar>
+  );
+}
+
+export default CreateCustomerPage;

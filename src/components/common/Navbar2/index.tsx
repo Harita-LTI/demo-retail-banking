@@ -12,7 +12,9 @@ function NavBar2() {
         <div className="logo-container" onClick={() => navigate("/")}>
           <img
             className="hsbc-full-logo"
-            src={process.env.PUBLIC_URL + "assets/images/hsbc_logo_full_rs.png"}
+            src={
+              process.env.PUBLIC_URL + "/assets/images/hsbc_logo_full_rs.png"
+            }
             alt="hsbc_logo"
           />
         </div>
