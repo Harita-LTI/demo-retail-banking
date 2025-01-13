@@ -20,6 +20,11 @@ tr td {
   color: #db0011 !important;
 }
 
+.btn,
+.form-control {
+  border-radius: 0 !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -68,6 +68,8 @@ import { FaCircle, FaUser } from "react-icons/fa";
 import NavbarSupport from "../NavbarSupport";
 import "./index.css";
 import SidebarMenu from "./SidebarMenu";
+import EngagementFooter from "../EngagementFooter";
+import RegulatoryFooter from "../RegulatoryFooter";
 
 interface LayoutWithSidebarProps {
   children: any;
@@ -84,7 +86,7 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
   return (
     <div>
       <Header />
-      <Row className="m-0">
+      <Row className="m-0 vh-100">
         <Col md={2} className="bg-black sidebar pt-4">
           <SidebarMenu />
         </Col>
@@ -142,13 +144,13 @@ const Header = () => {
               <Dropdown.Menu>
                 <Dropdown.Item href="#action/1">
                   <b className="text-secondary">
-                    <small>LoggedIn As: </small>
+                    <small>Logged In As: </small>
                   </b>
                   <br />
                   John Doe
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="#action/3">Logout</Dropdown.Item>
+                <Dropdown.Item href="/">Logout</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
