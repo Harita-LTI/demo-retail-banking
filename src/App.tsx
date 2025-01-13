@@ -12,6 +12,7 @@ import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import CreateCustomer from "./pages/admin/CreateCustomer";
 import CustomerListTable from "./pages/admin/CustomerList";
+import DashboardPage from "./pages/user/Dashboard";
 // import LoginPage from "./Components/layout/LogPage/Loginpage";
 // import Transactions from "./Components/Dashboard/TransactionList";
 // import Transaction from "./Components/layout/Main/TransactionHistory/TransactionHistory";
@@ -47,9 +48,15 @@ function App() {
         <ContentContainer>
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* admin screens */}
             <Route path="/admin" element={<CreateCustomer />} />
             <Route path="/admin/customers" element={<CustomerListTable />} />
             <Route path="/admin/create-customer" element={<CreateCustomer />} />
+
+            {/* User screens */}
+            <Route path="/dashboard" element={<DashboardPage />} />
+
             {/* <Route
               path="/dashboard"
               element={<ProtectedRoutes Comp={Dashboard} />}

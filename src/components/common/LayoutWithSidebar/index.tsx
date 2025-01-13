@@ -116,7 +116,7 @@ const Header = () => {
     <>
       <NavbarSupport />
       <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="http://localhost:3000/">
           <img
             className="hsbc-full-logo"
             src={

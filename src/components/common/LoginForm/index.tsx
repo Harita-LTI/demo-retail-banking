@@ -1,6 +1,6 @@
 // import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
@@ -8,7 +8,7 @@ import "./loginFormStyles.css";
 
 export default function SignInForm() {
   const { register, handleSubmit, formState: { errors }, setError } = useForm();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // let timerInterval;
 
   // useEffect(() => {
@@ -21,6 +21,13 @@ export default function SignInForm() {
 
   const onSubmit = async (data:any) => {
     const { email, password } = data;
+
+    if(email && email === "admin@gmail.com" && password && password === "admin") {
+      navigate("/admin")
+    }
+    else {
+      navigate("/dashboard")
+    }
 
     // try {
     //   const response = await axios.post(
