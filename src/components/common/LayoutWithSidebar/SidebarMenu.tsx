@@ -21,12 +21,20 @@ function SidebarMenu() {
   const [activeItem, setActiveItem] = useState("View Customers");
   // const [anchorEl, setAnchorEl] = React.useState(null);
   const menuItems = [
-    { name: "View Customers", path: "/withdraw", icon: <FaUsers /> },
-    { name: "Create Customer", path: "/deposits", icon: <FaPlus /> },
+    {
+      name: "View Customers",
+      path: "/admin/customers",
+      icon: <FaUsers />,
+    },
+    {
+      name: "Create Customer",
+      path: "/admin/create-customer",
+      icon: <FaPlus />,
+    },
     { name: "View Transactions", path: "/withdraw", icon: <FaPeopleArrows /> },
     {
       name: "Create New Account",
-      path: "/transaction-history",
+      path: "/admin/transaction-history",
       icon: <FaPlusSquare />,
     },
   ];

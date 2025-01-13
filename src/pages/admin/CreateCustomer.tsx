@@ -14,9 +14,13 @@ const CreateCustomer = () => {
   const onSubmit = (data: any) => console.log(JSON.stringify(data));
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-3">
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <h2>Personal Information</h2>
+        <Row className="text-red border-bottom border-2 bg-light p-2 mb-2">
+          <Col>
+            <b>Personal Information</b>
+          </Col>
+        </Row>
         <Row className="mb-3">
           <Form.Group as={Col}>
             <Form.Label>First Name</Form.Label>
@@ -43,20 +47,25 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
-        <Form.Group className="mb-3">
-          <Form.Label>Date of Birth</Form.Label>
-          <Form.Control
-            type="date"
-            {...register("dateOfBirth", { required: true })}
-          />
-          {errors.dateOfBirth && (
-            <Form.Text className="text-danger">
-              This field is required
-            </Form.Text>
-          )}
-        </Form.Group>
-
-        <h2>Contact Information</h2>
+        <Row>
+          <Form.Group className="mb-3" as={Col} xs md={6}>
+            <Form.Label>Date of Birth</Form.Label>
+            <Form.Control
+              type="date"
+              {...register("dateOfBirth", { required: true })}
+            />
+            {errors.dateOfBirth && (
+              <Form.Text className="text-danger">
+                This field is required
+              </Form.Text>
+            )}
+          </Form.Group>
+        </Row>
+        <Row className="text-red border-bottom border-2 bg-light p-2 mt-3 mb-2">
+          <Col>
+            <b>Contact Information</b>
+          </Col>
+        </Row>
         <Form.Group className="mb-3">
           <Form.Label>Residential Address</Form.Label>
           <Form.Control
@@ -69,39 +78,44 @@ const CreateCustomer = () => {
             </Form.Text>
           )}
         </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            {...register("email", {
-              required: true,
-              pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-            })}
-          />
-          {errors.email && (
-            <Form.Text className="text-danger">
-              This field is required and must be a valid email address
-            </Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Phone Number</Form.Label>
-          <Form.Control
-            type="tel"
-            {...register("phoneNumber", {
-              required: true,
-              pattern: /^[0-9]{10}$/,
-            })}
-          />
-          {errors.phoneNumber && (
-            <Form.Text className="text-danger">
-              This field is required and must be a 10-digit number
-            </Form.Text>
-          )}
-        </Form.Group>
-
-        <h2>Identification Information</h2>
-        <Form.Group className="mb-3">
+        <Row>
+          <Form.Group className="mb-3" as={Col}>
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              type="email"
+              {...register("email", {
+                required: true,
+                pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+              })}
+            />
+            {errors.email && (
+              <Form.Text className="text-danger">
+                This field is required and must be a valid email address
+              </Form.Text>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" as={Col}>
+            <Form.Label>Phone Number</Form.Label>
+            <Form.Control
+              type="tel"
+              {...register("phoneNumber", {
+                required: true,
+                pattern: /^[0-9]{10}$/,
+              })}
+            />
+            {errors.phoneNumber && (
+              <Form.Text className="text-danger">
+                This field is required and must be a 10-digit number
+              </Form.Text>
+            )}
+          </Form.Group>
+        </Row>
+        <Row className="text-red border-bottom border-2 bg-light p-2 mt-3 mb-2">
+          <Col>
+            <b>Identification Information</b>
+          </Col>
+        </Row>
+        <Form.Group className="mb-3" as={Col} xs md={6}>
           <Form.Label>PAN Number</Form.Label>
           <Form.Control
             type="text"
@@ -116,8 +130,12 @@ const CreateCustomer = () => {
             </Form.Text>
           )}
         </Form.Group>
-
-        <Button type="submit">Submit</Button>
+        <Form.Group className="mt-4">
+          <Button type="submit">Submit</Button>
+          <Button type="button" className="ms-2" variant="dark">
+            Cancel
+          </Button>
+        </Form.Group>
       </Form>
     </Container>
   );
