@@ -77,7 +77,7 @@ function App() {
             {/* Define routes for other components here... */}
             <Route path="/login" element={<LoginPage />} />
             {/* Redirect to Dashboard if the path is not found */}
-            {/*<Route path="*" element={<Navigate to="/" />} /> */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </ContentContainer>
       </AppContainer>
