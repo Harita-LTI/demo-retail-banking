@@ -49,6 +49,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<CreateCustomer />} />
             <Route path="/admin/customers" element={<CustomerListTable />} />
+            <Route path="/admin/create-customer" element={<CreateCustomer />} />
             {/* <Route
               path="/dashboard"
               element={<ProtectedRoutes Comp={Dashboard} />}
