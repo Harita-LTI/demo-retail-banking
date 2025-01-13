@@ -11,11 +11,11 @@ function GenericLayout(fn:GenericLayoutProps) {
   return (
     <>
       <div style={{ background: "#fff" }}>
-        <div style={{ position: "fixed", top: "0", width: "100%" }}>
+        <div style={{ position: "fixed", top: "0", width: "100%", zIndex: "1" }}>
           <NavBar1 />
           <NavBar2 />
         </div>
-        <div style={{ padding: "118px 20px 0" }}>
+        <div style={{ padding: "50px 20px 0px", background: "#f4f4f4" }}>
           {fn.children}
         </div>
         <EngagementFooter />
