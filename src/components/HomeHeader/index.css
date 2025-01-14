@@ -17,9 +17,9 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #3e505d;
+  background: #1f6b6b;
   color: #fff;
-  padding: 20px;
+  padding: 20px 20px 0;
 }
 
 .homeHeader-service-tab {

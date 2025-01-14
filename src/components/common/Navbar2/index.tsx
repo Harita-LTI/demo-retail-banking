@@ -11,11 +11,11 @@ function NavBar2() {
         <div className="pointer"></div>
         <div className="logo-container" onClick={() => navigate("/")}>
           <img
-            className="hsbc-full-logo"
+            className="bank-full-logo"
             src={
-              process.env.PUBLIC_URL + "/assets/images/hsbc_logo_full_rs.png"
+              process.env.PUBLIC_URL + "/assets/images/unity_bank_full_logo_vertical.png"
             }
-            alt="hsbc_logo"
+            alt="bank_logo"
           />
         </div>
         <div className="feature-container">

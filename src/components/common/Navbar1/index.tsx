@@ -14,6 +14,7 @@ function NavBar1() {
   const handleRegisterClick = () => {
     navigate("/register");
   };
+  
   return(
     <>
       <div className="main">

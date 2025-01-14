@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   padding: 35px 15px 45px;
-  background: #404040;
+  background: #1f6b6b;
   color: #fff;
   font-size: 1rem;
   box-sizing: border-box;
@@ -20,7 +20,7 @@
 
 .footer-icon {
   font-size: 1.5rem;
-  color: #a7a7a7;
+  color: #ffffff;
 }
 
 .info-section {

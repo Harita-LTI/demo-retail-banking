@@ -87,7 +87,7 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
     <div>
       <Header />
       <Row className="m-0 vh-100">
-        <Col md={2} className="bg-black sidebar pt-4">
+        <Col md={2} className="sidebar pt-4" style={{ background: "#00a3a3" }} >
           <SidebarMenu />
         </Col>
         <Col md={10} className="p-4 bg-content">
@@ -120,11 +120,11 @@ const Header = () => {
       <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
         <Navbar.Brand href="http://localhost:3000/">
           <img
-            className="hsbc-full-logo"
+            className="bank-full-logo"
             src={
-              process.env.PUBLIC_URL + "/assets/images/hsbc_logo_full_rs.png"
+              process.env.PUBLIC_URL + "/assets/images/unity_bank_full_logo_vertical.png"
             }
-            alt="hsbc_logo"
+            alt="bank_logo"
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
