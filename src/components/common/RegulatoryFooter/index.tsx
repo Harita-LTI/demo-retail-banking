@@ -13,7 +13,7 @@ function RegulatoryFooter() {
         </div>
 
         <div className="text-section">
-          <div>© The Hongkong and Shanghai Banking Corporation Limited, India (HSBC India). Incorporated in Hong Kong SAR with limited liability.</div>
+          <div>© The Hongkong and Shanghai Banking Corporation Limited, India (UNITY India). Incorporated in Hong Kong SAR with limited liability.</div>
           <div>All rights reserved.</div>
           <div>This website is designed for use in India. Cross-border disclosure.Cross-border disclosure. View Cross-border notice</div>
         </div>

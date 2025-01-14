@@ -17,7 +17,7 @@ function HomeHeader() {
         <div className="homeHeader-child">
           <div className="homeHeader-service-tab">
             <div className="homeHeader-sevice-tab-title">
-              HSBC Live+ Credit Card{" "}
+              UNITY Live+ Credit Card{" "}
               <span>
                 <FontAwesomeIcon icon={faAngleRight} />
               </span>

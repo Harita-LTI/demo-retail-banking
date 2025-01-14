@@ -21,11 +21,11 @@ button.LoginBtn {
   color: #fff;
   min-height: 40px;
   min-width: 100px;
-  background-color: #db0011;
+  background-color: #e8474c;
 }
 
 .LoginBtn:hover {
-  background-color: #db0011 !important;
+  background-color: #e8474c !important;
 }
 
 .login-input-field {

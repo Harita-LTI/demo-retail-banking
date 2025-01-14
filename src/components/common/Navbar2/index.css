@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  padding: 15px 10px 8px;
+  padding: 8px 10px;
   position: relative;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
@@ -25,8 +25,8 @@
   flex: 0.6;
 }
 
-.hsbc-full-logo {
-  width: 92%;
+.bank-full-logo {
+  width: 62%;
   cursor: pointer;
 }
 

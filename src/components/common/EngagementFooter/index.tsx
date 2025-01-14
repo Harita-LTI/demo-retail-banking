@@ -9,7 +9,7 @@ function EngagementFooter() {
       <div className="child-section">
         <FontAwesomeIcon className="footer-icon" icon={faPhone} />
         <div className="info-section">
-          <div>Contact HSBC</div>
+          <div>Contact UNITY</div>
           <div style={{"width": "70%"}}>
             Enquire online, call or send a message
              <span><FontAwesomeIcon className="right-icon" icon={faAngleRight} /></span>
@@ -22,7 +22,7 @@ function EngagementFooter() {
         <div className="info-section">
           <div>Find a branch or ATM</div>
           <div style={{"width": "70%"}}>
-            Find your nearest HSBC branch or ATM
+            Find your nearest UNITY branch or ATM
             <span><FontAwesomeIcon className="right-icon" icon={faAngleRight} /></span>
           </div>
         </div>
@@ -42,7 +42,7 @@ function EngagementFooter() {
       <div className="child-section">
         <FontAwesomeIcon className="footer-icon" icon={faGlobe} />
         <div className="info-section">
-          <div>About HSBC</div>
+          <div>About UNITY</div>
           <div style={{"width": "70%"}}>
             Careers, media, investor and corporate information
             <span><FontAwesomeIcon className="right-icon" icon={faAngleRight} /></span>

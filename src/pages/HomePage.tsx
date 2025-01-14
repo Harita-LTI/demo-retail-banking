@@ -13,8 +13,8 @@ import ImgInfoSection from "../components/common/ImgInfoSection";
 
 function Home() {
   const infoBox = {
-    first: `We are now on WhatsApp! Say Hi on +91 86558 58111 to start your conversation. Access and receive information on the latest offers on HSBC products and services through WhatsApp. Learn more`,
-    second: `IMPORTANT : Make a payment towards your HSBC credit card account via National Electronic Fund Transfer (NEFT), mentioning the complete 16-digit HSBC credit card number and the IFSC code HSBC0400002.`,
+    first: `We are now on WhatsApp! Say Hi on +91 86558 58111 to start your conversation. Access and receive information on the latest offers on UNITY products and services through WhatsApp. Learn more`,
+    second: `IMPORTANT : Make a payment towards your UNITY credit card account via National Electronic Fund Transfer (NEFT), mentioning the complete 16-digit UNITY credit card number and the IFSC code UNITY0400002.`,
   };
 
   const CatelogInfo = [
@@ -30,9 +30,9 @@ function Home() {
 
   const ImgBasedCatelogInfo = [
     {
-      title: "HSBC India Mobile Banking app",
+      title: "UNITY India Mobile Banking app",
       imgLink: "ind_mob_app.png",
-      desc1: "Conveniently manage your HSBC accounts anytime, anywhere.",
+      desc1: "Conveniently manage your UNITY accounts anytime, anywhere.",
       desc2: "",
       desc3: "",
     },
@@ -52,15 +52,15 @@ function Home() {
       desc3: "",
     },
     {
-      title: "Claim funds from your in-operative HSBC account",
+      title: "Claim funds from your in-operative UNITY account",
       imgLink: "claim_funds.png",
       desc1:
-        " Learn how you can withdraw funds from your inoperative HSBC account with ease!",
+        " Learn how you can withdraw funds from your inoperative UNITY account with ease!",
       desc2: "",
       desc3: "",
     },
     {
-      title: "HSBC Customer Studio",
+      title: "UNITY Customer Studio",
       imgLink: "cutomer_studio.png",
       desc1:
         "Join our online community, share your ideas and help us improve our product and services.",
@@ -71,7 +71,7 @@ function Home() {
       title: "Safeguard",
       imgLink: "safeguards.png",
       desc1:
-        "HSBC Safeguard is a series of related initiatives to better protect our customers from fraud and financial crime.",
+        "UNITY Safeguard is a series of related initiatives to better protect our customers from fraud and financial crime.",
       desc2: "",
       desc3: "",
     },
@@ -96,15 +96,15 @@ function Home() {
     },
     {
       first: "Important income tax requirement - linking PAN to Aadhaar",
-      second: "HSBC India Customer Rights Policy (PDF, 258KB)",
+      second: "UNITY India Customer Rights Policy (PDF, 258KB)",
     },
     {
       first: "Feedback & Complaints",
-      second: "HSBC Bank IFSC Codes, MICR Codes and BSR Codes (PDF, 57KB)",
+      second: "UNITY Bank IFSC Codes, MICR Codes and BSR Codes (PDF, 57KB)",
     },
     {
       first: "Common Reporting Standard (CRS)",
-      second: "HSBC Citizens Charter (PDF, 92KB)",
+      second: "UNITY Citizens Charter (PDF, 92KB)",
     },
     {
       first: "Regulatory & Banking Practices",

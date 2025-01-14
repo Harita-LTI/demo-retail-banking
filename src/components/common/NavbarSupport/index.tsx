@@ -20,11 +20,11 @@ function NavbarSupport() {
   };
   return (
     <>
-      <div className="main">
-        <div className="child">
-          <div className="option">For Support: </div>
-          <div className="option"></div>
-          <div className="option">
+      <div className="ns-main">
+        <div className="ns-child">
+          <div className="ns-option">For Support: </div>
+          <div className="ns-option"></div>
+          <div className="ns-option">
             <FontAwesomeIcon icon={faPhone} />
             <span
               onClick={handleRegisterClick}
@@ -36,9 +36,9 @@ function NavbarSupport() {
               1800-0000-000
             </span>
           </div>
-          <div className="option login-button" onClick={onLogin}>
+          <div className="ns-option login-button" onClick={onLogin}>
             <FontAwesomeIcon icon={faEnvelope} />
-            support@hsbc.com
+            support@unity.com
           </div>
         </div>
       </div>

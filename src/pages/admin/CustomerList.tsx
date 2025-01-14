@@ -43,7 +43,7 @@ const CustomerListTable = () => {
 
   return (
     <Table hover>
-      <thead className="border-bottom" style={{ backgroundColor: "#db0011" }}>
+      <thead className="border-bottom" style={{ backgroundColor: "#e8474c" }}>
         <tr className="text-red">
           <th>
             {" "}

@@ -50,7 +50,7 @@ function ImgInfoSection() {
           <div className="imgInfo-info-section">
             <div>We're registered with the DICGC</div>
             <div>
-              The Hongkong and Shanghai Banking Corporation Limited, India (HSBC
+              The Hongkong and Shanghai Banking Corporation Limited, India (UNITY
               India) is registered with the Deposit Insurance and Credit
               Guarantee Corporation (DICGC).
             </div>
