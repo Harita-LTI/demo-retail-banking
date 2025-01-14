@@ -10,7 +10,7 @@ function HomeHeader() {
         <div className="homeHeader-child">
           <img
             className="homeHeader-img"
-            src={process.env.PUBLIC_URL + "assets/images/hsbc_header_img.png"}
+            src={process.env.PUBLIC_URL + "assets/images/bank_interior_header_img.jpg"}
             alt="hsbc_header_img"
           />
         </div>
