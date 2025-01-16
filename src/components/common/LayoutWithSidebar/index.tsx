@@ -72,10 +72,10 @@ import EngagementFooter from "../EngagementFooter";
 import RegulatoryFooter from "../RegulatoryFooter";
 
 interface LayoutWithSidebarProps {
-  children: any;
-  icon: any;
-  title: string;
-  btn: any;
+  children?: any;
+  icon?: any;
+  title?: string;
+  btn?: any;
   //param:any
 }
 function LayoutWithSidebar(fn: LayoutWithSidebarProps) {

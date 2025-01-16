@@ -13,6 +13,8 @@ import LoginPage from "./pages/LoginPage";
 import CreateCustomer from "./pages/admin/CreateCustomer";
 import CustomerListTable from "./pages/admin/CustomerList";
 import DashboardPage from "./pages/user/Dashboard";
+import DebitPage from "./pages/user/Debit";
+import CreditPage from "./pages/user/Credit";
 // import LoginPage from "./Components/layout/LogPage/Loginpage";
 // import Transactions from "./Components/Dashboard/TransactionList";
 // import Transaction from "./Components/layout/Main/TransactionHistory/TransactionHistory";
@@ -55,7 +57,9 @@ function App() {
             <Route path="/admin/create-customer" element={<CreateCustomer />} />
 
             {/* User screens */}
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/user/dashboard" element={<DashboardPage />} />
+            <Route path="/user/withdraw" element={<DebitPage />} />
+            <Route path="/user/deposit" element={<CreditPage />} />
 
             {/* <Route
               path="/dashboard"
