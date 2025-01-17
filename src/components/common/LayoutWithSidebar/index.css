@@ -27,3 +27,29 @@
   justify-content: space-between;
   align-items: center;
 }
+.footer-main{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #000000;
+  padding: 10px 40px 0px;
+  font-size: 0.86rem;
+}
+.links-side{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  flex: 2;
+}
+.contact-side{
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  flex: 2;
+}
+.content{
+  flex:1;
+  padding: 20;
+  overflow-y:auto;
+}
