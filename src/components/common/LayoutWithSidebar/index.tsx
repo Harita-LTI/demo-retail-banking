@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./index.css";
 import LayoutContainer from "./LayoutContainer";
 import Header from "./Header";
+import LayoutFooter from "./Footer";
 
 interface LayoutWithSidebarProps {
   children?: any;
@@ -20,6 +21,7 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
     <div>
       <Header />
       <LayoutContainer fn={fn}/>
+      <LayoutFooter/>
     </div>
   );
 }
