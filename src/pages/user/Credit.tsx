@@ -5,7 +5,7 @@ import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { Button, Form } from "react-bootstrap";
 
 const Credit = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const onSubmit = (data:any) => {
     console.log(data);
@@ -13,10 +13,10 @@ const Credit = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group controlId="amount" className="py-2">
-          <Form.Label>Please enter the amount</Form.Label>
+          <Form.Label>Please enter the amount <span className="text-danger">*</span></Form.Label>
           <Form.Control
             type="number"
             autoComplete='off'
@@ -28,9 +28,12 @@ const Credit = () => {
             {typeof errors.amount?.message === 'string' && errors.amount.message}
           </Form.Control.Feedback>
         </Form.Group>
-        <Button type="submit" className="mt-3" style={{ backgroundColor: '#e8474c', color: '#fff' }}>
-          Submit
-        </Button>
+        <Form.Group className="mt-4">
+          <Button type="submit">Submit</Button>
+          <Button type="button" className="ms-2" variant="dark" onClick={() => reset()}>
+            Cancel
+          </Button>
+        </Form.Group>
       </Form>
     </div>
   );

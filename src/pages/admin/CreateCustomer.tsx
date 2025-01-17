@@ -9,6 +9,7 @@ const CreateCustomer = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data: any) => console.log(JSON.stringify(data));
@@ -23,7 +24,7 @@ const CreateCustomer = () => {
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col}>
-            <Form.Label>First Name</Form.Label>
+            <Form.Label>First Name <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="text"
               {...register("firstName", { required: true, maxLength: 20 })}
@@ -35,7 +36,7 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Last Name</Form.Label>
+            <Form.Label>Last Name <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="text"
               {...register("lastName", { required: true, maxLength: 20 })}
@@ -49,7 +50,7 @@ const CreateCustomer = () => {
         </Row>
         <Row>
           <Form.Group className="mb-3" as={Col} xs md={6}>
-            <Form.Label>Date of Birth</Form.Label>
+            <Form.Label>Date of Birth <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="date"
               {...register("dateOfBirth", { required: true })}
@@ -67,7 +68,7 @@ const CreateCustomer = () => {
           </Col>
         </Row>
         <Form.Group className="mb-3">
-          <Form.Label>Residential Address</Form.Label>
+          <Form.Label>Residential Address <span className="text-danger">*</span></Form.Label>
           <Form.Control
             type="text"
             {...register("residentialAddress", { required: true })}
@@ -80,7 +81,7 @@ const CreateCustomer = () => {
         </Form.Group>
         <Row>
           <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Email Address</Form.Label>
+            <Form.Label>Email Address <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="email"
               {...register("email", {
@@ -95,7 +96,7 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Phone Number</Form.Label>
+            <Form.Label>Phone Number <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="tel"
               {...register("phoneNumber", {
@@ -115,8 +116,9 @@ const CreateCustomer = () => {
             <b>Identification Information</b>
           </Col>
         </Row>
-        <Form.Group className="mb-3" as={Col} xs md={6}>
-          <Form.Label>PAN Number</Form.Label>
+        <Row>
+        <Form.Group className="mb-3" as={Col}>
+          <Form.Label>PAN Number <span className="text-danger">*</span></Form.Label>
           <Form.Control
             type="text"
             {...register("panNumber", {
@@ -130,9 +132,25 @@ const CreateCustomer = () => {
             </Form.Text>
           )}
         </Form.Group>
+        <Form.Group className="mb-3" as={Col}>
+          <Form.Label>AADHAR Number <span className="text-danger">*</span></Form.Label>
+          <Form.Control
+            type="text"
+            {...register("aadharNumber", {
+              required: true,
+              pattern: /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
+            })}
+          />
+          {errors.aadharNumber && (
+            <Form.Text className="text-danger">
+              This field is required and must be a valid Aadhar number
+            </Form.Text>
+          )}
+        </Form.Group>
+        </Row>
         <Form.Group className="mt-4">
           <Button type="submit">Submit</Button>
-          <Button type="button" className="ms-2" variant="dark">
+          <Button type="button" className="ms-2" variant="dark" onClick={() => reset()}>
             Cancel
           </Button>
         </Form.Group>
