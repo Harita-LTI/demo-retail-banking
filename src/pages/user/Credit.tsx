@@ -30,7 +30,7 @@ const Credit = () => {
         </Form.Group>
         <Form.Group className="mt-4">
           <Button type="submit">Submit</Button>
-          <Button type="button" className="ms-2" variant="dark" onClick={() => reset()}>
+          <Button type="button" className="ms-2" variant="danger" onClick={() => reset()}>
             Cancel
           </Button>
         </Form.Group>
