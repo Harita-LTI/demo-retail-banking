@@ -57,7 +57,7 @@ export default function SignInForm() {
             <h1 className="headline pb-4">Log In</h1>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group controlId="email" className="py-2">
-                <Form.Label>Please enter your email</Form.Label>
+                <Form.Label>Please enter your email <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   type="email"
                   autoComplete="off"
@@ -73,7 +73,7 @@ export default function SignInForm() {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="password" className="py-2">
-                <Form.Label>Please enter your password</Form.Label>
+                <Form.Label>Please enter your password <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   type="password"
                   {...register("password", {
