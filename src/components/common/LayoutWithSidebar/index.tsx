@@ -18,7 +18,7 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
     setSidebarOpen(!sidebarOpen);
   };
   return (
-    <div className="content">
+    <div>
       <Header />
       <LayoutContainer fn={fn}/>
       <LayoutFooter/>

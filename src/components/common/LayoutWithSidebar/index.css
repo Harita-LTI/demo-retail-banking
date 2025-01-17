@@ -48,8 +48,3 @@
   text-align: end;
   flex: 2;
 }
-.content{
-  flex:1;
-  padding: 20;
-  overflow-y:auto;
-}

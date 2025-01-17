@@ -13,7 +13,7 @@ interface LayoutContainerProps {
 const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
   return (
     <>
-      <Row className="m-0 vh-100">
+      <Row className="m-0">
         <Col md={2} className="sidebar pt-4" style={{ background: "#1f6b6b" }}>
           <SidebarMenu />
         </Col>
