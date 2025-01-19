@@ -17,14 +17,16 @@ const CreateCustomer = () => {
   return (
     <Container className="mt-3">
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Row className="text-red border-bottom border-2 bg-light p-2 mb-2">
+        <Row className="text-primary border-bottom border-2 bg-light p-2 mb-2">
           <Col>
             <b>Personal Information</b>
           </Col>
         </Row>
         <Row className="mb-3">
           <Form.Group as={Col}>
-            <Form.Label>First Name <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              First Name <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               {...register("firstName", { required: true, maxLength: 20 })}
@@ -36,7 +38,9 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Last Name <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Last Name <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               {...register("lastName", { required: true, maxLength: 20 })}
@@ -50,7 +54,9 @@ const CreateCustomer = () => {
         </Row>
         <Row>
           <Form.Group className="mb-3" as={Col} xs md={6}>
-            <Form.Label>Date of Birth <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Date of Birth <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="date"
               {...register("dateOfBirth", { required: true })}
@@ -62,13 +68,15 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
-        <Row className="text-red border-bottom border-2 bg-light p-2 mt-3 mb-2">
+        <Row className="text-primary border-bottom border-2 bg-light p-2 mt-3 mb-2">
           <Col>
             <b>Contact Information</b>
           </Col>
         </Row>
         <Form.Group className="mb-3">
-          <Form.Label>Residential Address <span className="text-danger">*</span></Form.Label>
+          <Form.Label>
+            Residential Address <span className="text-danger">*</span>
+          </Form.Label>
           <Form.Control
             type="text"
             {...register("residentialAddress", { required: true })}
@@ -81,7 +89,9 @@ const CreateCustomer = () => {
         </Form.Group>
         <Row>
           <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Email Address <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Email Address <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="email"
               {...register("email", {
@@ -96,7 +106,9 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Phone Number <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              Phone Number <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="tel"
               {...register("phoneNumber", {
@@ -111,46 +123,55 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
-        <Row className="text-red border-bottom border-2 bg-light p-2 mt-3 mb-2">
+        <Row className="text-primary border-bottom border-2 bg-light p-2 mt-3 mb-2">
           <Col>
             <b>Identification Information</b>
           </Col>
         </Row>
         <Row>
-        <Form.Group className="mb-3" as={Col}>
-          <Form.Label>PAN Number <span className="text-danger">*</span></Form.Label>
-          <Form.Control
-            type="text"
-            {...register("panNumber", {
-              required: true,
-              pattern: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
-            })}
-          />
-          {errors.panNumber && (
-            <Form.Text className="text-danger">
-              This field is required and must be a valid PAN number
-            </Form.Text>
-          )}
-        </Form.Group>
-        <Form.Group className="mb-3" as={Col}>
-          <Form.Label>AADHAR Number <span className="text-danger">*</span></Form.Label>
-          <Form.Control
-            type="text"
-            {...register("aadharNumber", {
-              required: true,
-              pattern: /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
-            })}
-          />
-          {errors.aadharNumber && (
-            <Form.Text className="text-danger">
-              This field is required and must be a valid Aadhar number
-            </Form.Text>
-          )}
-        </Form.Group>
+          <Form.Group className="mb-3" as={Col}>
+            <Form.Label>
+              PAN Number <span className="text-danger">*</span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              {...register("panNumber", {
+                required: true,
+                pattern: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
+              })}
+            />
+            {errors.panNumber && (
+              <Form.Text className="text-danger">
+                This field is required and must be a valid PAN number
+              </Form.Text>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3" as={Col}>
+            <Form.Label>
+              AADHAR Number <span className="text-danger">*</span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              {...register("aadharNumber", {
+                required: true,
+                pattern: /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
+              })}
+            />
+            {errors.aadharNumber && (
+              <Form.Text className="text-danger">
+                This field is required and must be a valid Aadhar number
+              </Form.Text>
+            )}
+          </Form.Group>
         </Row>
         <Form.Group className="mt-4">
           <Button type="submit">Submit</Button>
-          <Button type="button" className="ms-2" variant="danger" onClick={() => reset()}>
+          <Button
+            type="button"
+            className="ms-2"
+            variant="danger"
+            onClick={() => reset()}
+          >
             Cancel
           </Button>
         </Form.Group>
