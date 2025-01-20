@@ -129,17 +129,12 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
-<<<<<<< HEAD
         <Row className="text-danger border-bottom border-2 bg-light p-2 mt-3 mb-2">
-=======
-        <Row className="text-primary border-bottom border-2 bg-light p-2 mt-3 mb-2">
->>>>>>> 30f6ebe04cfb5566bd29f41635052104024308cd
           <Col>
             <h4>Identification Information</h4>
           </Col>
         </Row>
         <Row>
-<<<<<<< HEAD
         <Form.Group className="mb-3" as={Col}>
           <Form.Label>PAN Number <span className="text-danger">*</span></Form.Label>
           <Form.Control
@@ -172,42 +167,6 @@ const CreateCustomer = () => {
             </Form.Text>
           )}
         </Form.Group>
-=======
-          <Form.Group className="mb-3" as={Col}>
-            <Form.Label>
-              PAN Number <span className="text-danger">*</span>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              {...register("panNumber", {
-                required: true,
-                pattern: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
-              })}
-            />
-            {errors.panNumber && (
-              <Form.Text className="text-danger">
-                This field is required and must be a valid PAN number
-              </Form.Text>
-            )}
-          </Form.Group>
-          <Form.Group className="mb-3" as={Col}>
-            <Form.Label>
-              AADHAR Number <span className="text-danger">*</span>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              {...register("aadharNumber", {
-                required: true,
-                pattern: /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
-              })}
-            />
-            {errors.aadharNumber && (
-              <Form.Text className="text-danger">
-                This field is required and must be a valid Aadhar number
-              </Form.Text>
-            )}
-          </Form.Group>
->>>>>>> 30f6ebe04cfb5566bd29f41635052104024308cd
         </Row>
         <Form.Group className="mt-4">
           <Button type="submit">Submit</Button>
