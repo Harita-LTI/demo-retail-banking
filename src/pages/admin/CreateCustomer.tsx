@@ -71,11 +71,7 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
-<<<<<<< HEAD
         <Row className="text-danger border-bottom border-2 bg-light p-2 mt-3 mb-2">
-=======
-        <Row className="text-primary border-bottom border-2 bg-light p-2 mt-3 mb-2">
->>>>>>> 30f6ebe04cfb5566bd29f41635052104024308cd
           <Col>
             <h4>Contact Information</h4>
           </Col>
