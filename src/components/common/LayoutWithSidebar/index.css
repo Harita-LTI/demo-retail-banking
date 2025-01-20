@@ -48,3 +48,6 @@
   text-align: end;
   flex: 2;
 }
+.text-danger{
+  color: #B71C1C !important;
+}

@@ -17,9 +17,9 @@ const CreateCustomer = () => {
   return (
     <Container className="mt-3">
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Row className="text-primary border-bottom border-2 bg-light p-2 mb-2">
+        <Row className="text-danger border-bottom border-2 bg-light p-2 mb-2">
           <Col>
-            <b>Personal Information</b>
+            <h4>Personal Information</h4>
           </Col>
         </Row>
         <Row className="mb-3">
@@ -29,6 +29,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="text"
+              aria-label="First Name"
               {...register("firstName", { required: true, maxLength: 20 })}
             />
             {errors.firstName && (
@@ -43,6 +44,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="text"
+              aria-label="Last Name"
               {...register("lastName", { required: true, maxLength: 20 })}
             />
             {errors.lastName && (
@@ -59,6 +61,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="date"
+              aria-label="Date of Birth"
               {...register("dateOfBirth", { required: true })}
             />
             {errors.dateOfBirth && (
@@ -68,9 +71,13 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
+<<<<<<< HEAD
+        <Row className="text-danger border-bottom border-2 bg-light p-2 mt-3 mb-2">
+=======
         <Row className="text-primary border-bottom border-2 bg-light p-2 mt-3 mb-2">
+>>>>>>> 30f6ebe04cfb5566bd29f41635052104024308cd
           <Col>
-            <b>Contact Information</b>
+            <h4>Contact Information</h4>
           </Col>
         </Row>
         <Form.Group className="mb-3">
@@ -79,6 +86,7 @@ const CreateCustomer = () => {
           </Form.Label>
           <Form.Control
             type="text"
+            aria-label="Residential Address"
             {...register("residentialAddress", { required: true })}
           />
           {errors.residentialAddress && (
@@ -94,6 +102,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="email"
+              aria-label="Email"
               {...register("email", {
                 required: true,
                 pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -111,6 +120,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="tel"
+              aria-label="Phone Number"
               {...register("phoneNumber", {
                 required: true,
                 pattern: /^[0-9]{10}$/,
@@ -123,12 +133,50 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
         </Row>
+<<<<<<< HEAD
+        <Row className="text-danger border-bottom border-2 bg-light p-2 mt-3 mb-2">
+=======
         <Row className="text-primary border-bottom border-2 bg-light p-2 mt-3 mb-2">
+>>>>>>> 30f6ebe04cfb5566bd29f41635052104024308cd
           <Col>
-            <b>Identification Information</b>
+            <h4>Identification Information</h4>
           </Col>
         </Row>
         <Row>
+<<<<<<< HEAD
+        <Form.Group className="mb-3" as={Col}>
+          <Form.Label>PAN Number <span className="text-danger">*</span></Form.Label>
+          <Form.Control
+            type="text"
+            aria-label="PAN Number"
+            {...register("panNumber", {
+              required: true,
+              pattern: /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,
+            })}
+          />
+          {errors.panNumber && (
+            <Form.Text className="text-danger">
+              This field is required and must be a valid PAN number
+            </Form.Text>
+          )}
+        </Form.Group>
+        <Form.Group className="mb-3" as={Col}>
+          <Form.Label><strong>AADHAR Number</strong> <span className="text-danger">*</span></Form.Label>
+          <Form.Control
+            type="text"
+            aria-label="AADHAR Number"
+            {...register("aadharNumber", {
+              required: true,
+              pattern: /^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/,
+            })}
+          />
+          {errors.aadharNumber && (
+            <Form.Text className="text-danger">
+              This field is required and must be a valid Aadhar number
+            </Form.Text>
+          )}
+        </Form.Group>
+=======
           <Form.Group className="mb-3" as={Col}>
             <Form.Label>
               PAN Number <span className="text-danger">*</span>
@@ -163,6 +211,7 @@ const CreateCustomer = () => {
               </Form.Text>
             )}
           </Form.Group>
+>>>>>>> 30f6ebe04cfb5566bd29f41635052104024308cd
         </Row>
         <Form.Group className="mt-4">
           <Button type="submit">Submit</Button>

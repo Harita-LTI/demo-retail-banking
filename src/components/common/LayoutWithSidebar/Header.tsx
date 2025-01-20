@@ -29,6 +29,7 @@ const Header = () => {
                 <Dropdown.Toggle
                   variant="light"
                   id="dropdown-basic"
+                  aria-label="login user button"
                   className="rounded-circle height-50"
                 >
                   <FaUser />
