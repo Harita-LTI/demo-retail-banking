@@ -6,7 +6,9 @@ import {
   FaPlusSquare,
   FaPeopleArrows,
   FaHome,
-  FaMoneyBill,
+  FaListOl,
+  FaMoneyBillWave,
+  FaExchangeAlt,
 } from "react-icons/fa";
 import "./index.css";
 import { Nav } from "react-bootstrap";
@@ -40,19 +42,24 @@ function SidebarMenu() {
       icon: <FaHome />,
     },
     {
-      name: "Withdrawal",
+      name: "Withdraw",
       path: "/user/withdraw",
-      icon: <FaMoneyBill />,
+      icon: <FaMoneyBillWave />,
     },
     {
       name: "Deposit",
       path: "/user/deposit",
-      icon: <FaMoneyBill />,
+      icon: <FaMoneyBillWave />,
     },
     {
       name: "Transfer",
       path: "/user/transfer",
-      icon: <FaMoneyBill />,
+      icon: <FaExchangeAlt />,
+    },
+    {
+      name: "Statement",
+      path: "/user/statement",
+      icon: <FaListOl />,
     },
   ];
   // const handleClick = (event) => {
