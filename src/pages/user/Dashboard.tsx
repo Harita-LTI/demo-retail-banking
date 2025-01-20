@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { Card, Col, Row } from "react-bootstrap";
 import {
-  FaCreditCard,
   FaExchangeAlt,
   FaHome,
+  FaListOl,
   FaMoneyBillWave,
-  FaMoneyCheckAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -75,7 +74,7 @@ const QuickOptions = () => {
   const handleOptionClick = (option: string) => {
     console.log(`${option} clicked`);
 
-    if (option === "Transaction") navigate("/");
+    if (option === "Statement") navigate("/user/Statement");
     else if (option === "Deposit") navigate("/user/deposit");
     else if (option === "Withdraw") navigate("/user/withdraw");
     else if (option === "Transfer") navigate("/user/transfer");
@@ -87,15 +86,15 @@ const QuickOptions = () => {
         <Row>
           <Col>
             <OptionCard
-              title="Transaction"
-              Icon={FaExchangeAlt}
-              onClick={() => handleOptionClick("Transaction")}
+              title="Statement"
+              Icon={FaListOl}
+              onClick={() => handleOptionClick("Statement")}
             />
           </Col>
           <Col>
             <OptionCard
               title="Deposit"
-              Icon={FaMoneyCheckAlt}
+              Icon={FaMoneyBillWave}
               onClick={() => handleOptionClick("Deposit")}
             />
           </Col>
@@ -109,7 +108,7 @@ const QuickOptions = () => {
           <Col>
             <OptionCard
               title="Transfer"
-              Icon={FaCreditCard}
+              Icon={FaExchangeAlt}
               onClick={() => handleOptionClick("Transfer")}
             />
           </Col>
