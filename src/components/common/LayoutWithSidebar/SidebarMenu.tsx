@@ -49,6 +49,11 @@ function SidebarMenu() {
       path: "/user/deposit",
       icon: <FaMoneyBill />,
     },
+    {
+      name: "Transfer",
+      path: "/user/transfer",
+      icon: <FaMoneyBill />,
+    },
   ];
   // const handleClick = (event) => {
   //   setAnchorEl(event.currentTarget);
