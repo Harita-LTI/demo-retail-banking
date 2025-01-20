@@ -6,7 +6,7 @@
   align-items: baseline;
 }
 
-.border-left {
+.renderTitle-main .border-left {
   border-left: 5px solid #e8474c;
   margin-right: 15px;
   height: 19px;

@@ -20,7 +20,7 @@ const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
         <Col md={10} className="p-4 bg-content">
           <Card className="rounded-0 border-0 card-shadow">
             <Card.Header className="bg-white py-3">
-              <h5 className="mb-0 text-darkgrey">
+              <h5 className="mb-0 text-primary">
                 <strong>
                   {fn.icon} <span className="ms-2">{fn.title}</span>
                 </strong>
