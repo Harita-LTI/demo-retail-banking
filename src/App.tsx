@@ -16,6 +16,7 @@ import DashboardPage from "./pages/user/Dashboard";
 import DebitPage from "./pages/user/Debit";
 import CreditPage from "./pages/user/Credit";
 import CustomerDetailsPage from "./pages/admin/CustomerDetails";
+import TransferPage from "./pages/user/Transfer";
 // import LoginPage from "./Components/layout/LogPage/Loginpage";
 // import Transactions from "./Components/Dashboard/TransactionList";
 // import Transaction from "./Components/layout/Main/TransactionHistory/TransactionHistory";
@@ -65,6 +66,7 @@ function App() {
             <Route path="/user/dashboard" element={<DashboardPage />} />
             <Route path="/user/withdraw" element={<DebitPage />} />
             <Route path="/user/deposit" element={<CreditPage />} />
+            <Route path="/user/transfer" element={<TransferPage />} />
 
             {/* <Route
               path="/dashboard"

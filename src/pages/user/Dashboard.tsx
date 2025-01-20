@@ -78,7 +78,7 @@ const QuickOptions = () => {
     if (option === "Transaction") navigate("/");
     else if (option === "Deposit") navigate("/user/deposit");
     else if (option === "Withdraw") navigate("/user/withdraw");
-    else if (option === "Transfer") navigate("/");
+    else if (option === "Transfer") navigate("/user/transfer");
   };
 
   return (
@@ -110,7 +110,7 @@ const QuickOptions = () => {
             <OptionCard
               title="Transfer"
               Icon={FaCreditCard}
-              onClick={() => handleOptionClick("Cards")}
+              onClick={() => handleOptionClick("Transfer")}
             />
           </Col>
         </Row>
