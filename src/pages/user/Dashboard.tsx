@@ -24,11 +24,11 @@ const UserDetailsCard = ({ accountId }:UserDetailsCardProps) => {
       <Card.Body className="d-flex justify-content-between">
         <div>
           <Card.Title style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#6a6767' }}>Account ID</Card.Title>
-          <Card.Text style={{ fontSize: '0.8rem', color: '#afafaf' }}>{accountId}</Card.Text>
+          <Card.Text style={{ fontSize: '0.8rem', color: '#6C757D' }}>{accountId}</Card.Text>
         </div>
         <div>
           <Card.Title style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#6a6767' }}>Current Time</Card.Title>
-          <Card.Text style={{ fontSize: '0.8rem', color: '#afafaf' }}>{currentTime} IST</Card.Text>
+          <Card.Text style={{ fontSize: '0.8rem', color: '#6C757D' }}>{currentTime} IST</Card.Text>
         </div>
       </Card.Body>
     </Card>
@@ -45,7 +45,7 @@ const OptionCard = ({ title, Icon, onClick }:OptionCardProps) => (
   <Card className="text-center" onClick={onClick} style={{ cursor: 'pointer' }}>
     <Card.Body>
       <Icon />
-      <Card.Text style={{ fontSize: '0.9rem', color: 'darkgrey', marginTop: '10px' }}>{title}</Card.Text>
+      <Card.Text style={{ fontSize: '0.9rem', color: '#6C757D', marginTop: '10px' }}>{title}</Card.Text>
     </Card.Body>
   </Card>
 );

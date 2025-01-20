@@ -25,8 +25,9 @@
 }
 
 .login-button {
-  background: #e8474c;
   margin: unset;
   padding: 10px 22px;
   cursor: pointer;
+  color: #fff; 
+  background: #B71C1C;
 }
