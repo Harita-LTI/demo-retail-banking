@@ -60,6 +60,7 @@ export default function SignInForm() {
                 <Form.Label>Please enter your email <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   type="email"
+                  aria-label="Please enter your email"
                   autoComplete="off"
                   {...register("email", {
                     required: "You must provide your email.",
@@ -76,6 +77,7 @@ export default function SignInForm() {
                 <Form.Label>Please enter your password <span className="text-danger">*</span></Form.Label>
                 <Form.Control
                   type="password"
+                  aria-label="Please enter your password"
                   {...register("password", {
                     required: "You must provide your password.",
                   })}
