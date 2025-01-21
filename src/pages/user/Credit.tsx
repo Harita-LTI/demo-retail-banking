@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaMoneyBill } from "react-icons/fa";
+import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
-import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { FaMoneyBill } from "react-icons/fa";
 import { useDepositMutation } from "../../services/userServices";
 
 const Credit = () => {
@@ -14,7 +15,10 @@ const Credit = () => {
     formState: { errors },
     setError,
   } = useForm();
-  const [deposit, {}] = useDepositMutation();
+  const [deposit, { isLoading }] = useDepositMutation();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const navigate = useNavigate();
 
   const onSubmit = async (formData: any) => {
     if (
@@ -30,13 +34,18 @@ const Credit = () => {
     }
     try {
       const resp = await deposit({
-        // #check
         userId: "1",
         amount: JSON.parse(formData.amount),
       }).unwrap();
 
-      // #check
-      console.log("----------", resp);
+      setModalMessage(resp.message || 'Transaction successful!');
+      setShowModal(true);
+      reset();
+
+      setTimeout(() => {
+        setShowModal(false);
+        navigate('/user/dashboard');
+      }, 3000);
     } catch (err) {
       console.log(err);
     }
@@ -85,6 +94,18 @@ const Credit = () => {
           </Button>
         </Form.Group>
       </Form>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Transaction Status</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

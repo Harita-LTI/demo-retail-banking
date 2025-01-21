@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaMoneyBillAlt } from "react-icons/fa";
+import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
-import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { FaMoneyBillAlt } from "react-icons/fa";
 import { useWithdrawMutation } from "../../services/userServices";
 
 const Debit = () => {
@@ -15,6 +16,9 @@ const Debit = () => {
     setError
   } = useForm();
   const [ withdraw, {}] = useWithdrawMutation();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const navigate = useNavigate();
 
   const onSubmit = async (formData: any) => {
     if (formData.amount % 100 !== 0 && formData.amount % 200 !== 0 && formData.amount % 500 !== 0) {
@@ -26,13 +30,18 @@ const Debit = () => {
     }
     try {
       const resp = await withdraw({
-        // #check
         userId: "2",
-        amount: JSON.parse(formData.amount) // #check as 
+        amount: JSON.parse(formData.amount)
       }).unwrap();
 
-      // #check
-      console.log("----------", resp)
+      setModalMessage(resp.message || 'Transaction successful!');
+      setShowModal(true);
+      reset();
+
+      setTimeout(() => {
+        setShowModal(false);
+        navigate('/user/dashboard');
+      }, 3000);
     } catch (err) {
       console.log(err)
     }
@@ -77,6 +86,18 @@ const Debit = () => {
           </Button>
         </Form.Group>
       </Form>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Transaction Status</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
