@@ -1,5 +1,6 @@
 import { Row, Col, Card } from "react-bootstrap";
 import SidebarMenu from "./SidebarMenu";
+import "./index.css";
 interface LayoutWithSidebarProps {
   children?: any;
   icon?: any;
@@ -13,7 +14,7 @@ interface LayoutContainerProps {
 const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
   return (
     <>
-      <Row className="m-0">
+      <Row className="m-0 content-height">
         <Col md={2} className="sidebar pt-4" style={{ background: "#1f6b6b" }}>
           <SidebarMenu />
         </Col>

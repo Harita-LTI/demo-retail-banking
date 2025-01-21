@@ -12,29 +12,33 @@ const Credit = () => {
     handleSubmit,
     reset,
     formState: { errors },
-    setError
+    setError,
   } = useForm();
   const [deposit, {}] = useDepositMutation();
 
   const onSubmit = async (formData: any) => {
-    if (formData.amount % 100 !== 0 && formData.amount % 200 !== 0 && formData.amount % 500 !== 0) {
-      setError('amount', {
-        type: 'manual',
-        message: 'The amount should be a multiple of 100, 200, or 500.',
+    if (
+      formData.amount % 100 !== 0 &&
+      formData.amount % 200 !== 0 &&
+      formData.amount % 500 !== 0
+    ) {
+      setError("amount", {
+        type: "manual",
+        message: "The amount should be a multiple of 100, 200, or 500.",
       });
       return;
     }
     try {
       const resp = await deposit({
         // #check
-        userId: "2",
-        amount: JSON.parse(formData.amount)
+        userId: "1",
+        amount: JSON.parse(formData.amount),
       }).unwrap();
 
       // #check
-      console.log("----------", resp)
+      console.log("----------", resp);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -46,7 +50,11 @@ const Credit = () => {
             Please enter the amount <span className="text-danger">*</span>
             <OverlayTrigger
               placement="right"
-              overlay={<Tooltip>The amount should be a multiple of 100, 200, or 500.</Tooltip>}
+              overlay={
+                <Tooltip>
+                  The amount should be a multiple of 100, 200, or 500.
+                </Tooltip>
+              }
             >
               <span className="ml-2 text-info">ℹ️</span>
             </OverlayTrigger>

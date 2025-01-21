@@ -12,11 +12,16 @@ import {
 } from "react-icons/fa";
 import "./index.css";
 import { Nav } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
+import { NavLink, useNavigate } from "react-router";
 
 function SidebarMenu() {
   const [activeItem, setActiveItem] = useState("View Customers");
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  const menuItems = [
+  const { user } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+  let menuItems: any = [];
+  const adminMenuItems = [
     {
       name: "View Customers",
       path: "/admin/customers",
@@ -27,15 +32,18 @@ function SidebarMenu() {
       path: "/admin/create-customer",
       icon: <FaPlus />,
     },
-    { name: "View Transactions",
+    {
+      name: "View Transactions",
       path: "/admin/withdraw",
-      icon: <FaPeopleArrows /> 
+      icon: <FaPeopleArrows />,
     },
     {
       name: "Create New Account",
       path: "/admin/transaction-history",
       icon: <FaPlusSquare />,
     },
+  ];
+  const userMenuItems = [
     {
       name: "Home",
       path: "/user/dashboard",
@@ -62,6 +70,13 @@ function SidebarMenu() {
       icon: <FaListOl />,
     },
   ];
+  if (user?.role && user.role === "BF_ADMIN") {
+    menuItems = [...menuItems, ...adminMenuItems];
+  } else if (user?.role && user?.role === "BF_CUSTOMER") {
+    menuItems = [...menuItems, ...userMenuItems];
+  }
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+
   // const handleClick = (event) => {
   //   setAnchorEl(event.currentTarget);
   // };
@@ -72,20 +87,21 @@ function SidebarMenu() {
 
   useEffect(() => {
     let curLocation = window.location.pathname;
-    let curTab = menuItems.find((c) => c.path === curLocation);
+    let curTab = menuItems.find((c: any) => c.path === curLocation);
 
     if (curTab) setActiveItem(curTab.name);
   }, []);
 
   return (
     <Nav defaultActiveKey="/home" className="flex-column mt-4">
-      {menuItems.map((item) => (
+      {menuItems?.map((item: any) => (
         <Nav.Link
           className="text-white mb-2"
           key={item.name}
-          href={item.path}
+          to={item.path}
           active={item.name === activeItem}
           onClick={() => handleMenuClick(item.name)}
+          as={NavLink}
         >
           {item.icon}
           <span className="ms-2">
