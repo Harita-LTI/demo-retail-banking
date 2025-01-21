@@ -4,13 +4,25 @@ import { Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LayoutWithSidebar from '../../components/common/LayoutWithSidebar';
 import { FaMoneyBill } from 'react-icons/fa';
+import { useTransferMutation } from '../../services/userServices';
 
 const TransferForm = () => {
   const { register, reset, handleSubmit, formState: { errors } } = useForm();
+  const [transfer, {}] = useTransferMutation();
+  
+  const onSubmit = async (formData: any) => {
+    try {
+      const resp = await transfer({
+        receiverAccount: "0600140000003", // #check -> account number needed
+        senderAccount: "0600140000002",   // #check -> account number needed
+        amount: JSON.parse(formData.amount)
+      }).unwrap();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // Handle the form submission logic here
+      // #check
+      console.log("----------", resp)
+    } catch (err) {
+      console.log(err)
+    }    
   };
 
   const handleCancel = () => {

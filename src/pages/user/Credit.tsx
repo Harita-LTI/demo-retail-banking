@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaMoneyBill } from "react-icons/fa";
+import { useDepositMutation } from "../../services/userServices";
 
 const Credit = () => {
   const {
@@ -13,17 +14,28 @@ const Credit = () => {
     formState: { errors },
     setError
   } = useForm();
+  const [deposit, {}] = useDepositMutation();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    if (data.amount % 100 !== 0 && data.amount % 200 !== 0 && data.amount % 500 !== 0) {
+  const onSubmit = async (formData: any) => {
+    if (formData.amount % 100 !== 0 && formData.amount % 200 !== 0 && formData.amount % 500 !== 0) {
       setError('amount', {
         type: 'manual',
         message: 'The amount should be a multiple of 100, 200, or 500.',
       });
       return;
     }
-    // Handle the transaction logic here
+    try {
+      const resp = await deposit({
+        // #check
+        userId: "2",
+        amount: JSON.parse(formData.amount)
+      }).unwrap();
+
+      // #check
+      console.log("----------", resp)
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   return (

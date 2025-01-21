@@ -2,14 +2,35 @@ import { FaListOl } from "react-icons/fa";
 import { Container, Table } from 'react-bootstrap';
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
+import { useGetStatementListQuery } from "../../services/userServices";
+import { useEffect, useState } from "react";
 
-const transactions = [
+const statements = [
   { id: 'T001', time: '10:30:45', type: 'Credit', amount: 5000, closingAmount: 15000 },
   { id: 'T002', time: '11:15:30', type: 'Debit', amount: 2000, closingAmount: 13000 },
   { id: 'T003', time: '12:45:00', type: 'Transfer', amount: 3000, closingAmount: 10000 },
 ];
 
-const TransactionList = () => {
+const StatementList = () => {
+  const [statementList, setStatementList] = useState([]);
+  const { data, error, isLoading } = useGetStatementListQuery({userId: 1}); // #check
+
+  useEffect(() => {
+    if(!statementList || !statementList.length) {
+      try {
+        // #check
+        const resp = data;
+        console.log("++++++++++++++", resp)
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+  }, [statementList])
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading...</div>;
+
   return (
     <Container className="">
       <h2 className="mb-4">Account Statement</h2>
@@ -24,7 +45,7 @@ const TransactionList = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction) => (
+          {statements.map((transaction) => (
             <tr key={transaction.id}>
               <td>{transaction.id}</td>
               <td>{transaction.time}</td>
@@ -42,7 +63,7 @@ const TransactionList = () => {
 function StatementPage() {
   return (
     <LayoutWithSidebar title="Statement" icon={<FaListOl />}>
-      <TransactionList />
+      <StatementList />
     </LayoutWithSidebar>
   );
 }
