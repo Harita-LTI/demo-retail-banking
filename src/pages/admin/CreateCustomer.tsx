@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
+import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
+
+import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import PrimaryLinkButton from "../../components/common/PrimaryLinkButton";
+import { RegisterUserObj, useRegisterCustomerMutation } from "../../services/adminServices";
+import PlaneModalForNotification from "../../components/common/PlaneModalForNotification";
 
 const CreateCustomer = () => {
   const {
@@ -12,8 +16,41 @@ const CreateCustomer = () => {
     reset,
     formState: { errors },
   } = useForm();
+  const [registerCustomer, {isLoading, isError}] = useRegisterCustomerMutation();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const navigate = useNavigate();
+  
+  const onSubmit = async (data: any) => {
+    const newCustomerObj: RegisterUserObj = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      contact: data.phoneNumber,
+      emailId: data.email,
+      panNumber: data.panNumber,
+      aadharNumber: data.aadharNumber,
+      address: data.residentialAddress,
+      role: "BF_CUSTOMER",
+      userStatus: "ACTIVE",
+      dateOfBirth: data.dateOfBirth,
+      password: ""
+    };
 
-  const onSubmit = (data: any) => console.log(JSON.stringify(data));
+    try {
+      const resp = await registerCustomer(newCustomerObj).unwrap();
+      
+      setModalMessage(resp.message + "Customer ID: " + resp.customerid || "Customer Created Successfully");
+      setShowModal(true);
+      reset();
+      
+      setTimeout(() => {
+        setShowModal(false);
+        navigate('/admin/customer-details/' + resp.customerid);
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Container className="mt-3">
@@ -30,6 +67,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="text"
+              autoComplete="off"
               aria-label="First Name"
               {...register("firstName", { required: true, minLength: 3, maxLength: 20 })}
             />
@@ -45,6 +83,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="text"
+              autoComplete="off"
               aria-label="Last Name"
               {...register("lastName", { required: true, minLength: 3, maxLength: 20 })}
             />
@@ -67,6 +106,7 @@ const CreateCustomer = () => {
             />
             {/* <Form.Control
               type="text"
+              autoComplete="off"
               aria-label="Date of Birth"
               placeholder="dd-mm-yyyy"
               {...register("dateOfBirth", {
@@ -92,6 +132,7 @@ const CreateCustomer = () => {
           </Form.Label>
           <Form.Control
             type="text"
+            autoComplete="off"
             aria-label="Residential Address"
             {...register("residentialAddress", { required: true })}
           />
@@ -109,6 +150,7 @@ const CreateCustomer = () => {
             <Form.Control
               type="email"
               aria-label="Email"
+              autoComplete="off"
               {...register("email", {
                 required: true,
                 pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -126,6 +168,7 @@ const CreateCustomer = () => {
             </Form.Label>
             <Form.Control
               type="tel"
+              autoComplete="off"
               aria-label="Phone Number"
               {...register("phoneNumber", {
                 required: true,
@@ -149,6 +192,7 @@ const CreateCustomer = () => {
             <Form.Label>PAN Number <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="text"
+              autoComplete="off"
               aria-label="PAN Number"
               {...register("panNumber", {
                 required: true,
@@ -165,6 +209,7 @@ const CreateCustomer = () => {
             <Form.Label>AADHAAR Number <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="text"
+              autoComplete="off"
               aria-label="AADHAR Number"
               {...register("aadharNumber", {
                 required: true,
@@ -190,6 +235,13 @@ const CreateCustomer = () => {
           </Button>
         </Form.Group>
       </Form>
+
+      <PlaneModalForNotification
+        bodyMessage={modalMessage}
+        title="Notification"
+        setShowModal={() => setShowModal}
+        showModal={showModal}
+      />
     </Container>
   );
 };

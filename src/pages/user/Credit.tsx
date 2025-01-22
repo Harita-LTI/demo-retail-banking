@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { useDepositMutation } from "../../services/userServices";
+import PlaneModalForNotification from "../../components/common/PlaneModalForNotification";
 
 const Credit = () => {
   const {
@@ -34,7 +35,7 @@ const Credit = () => {
     }
     try {
       const resp = await deposit({
-        userId: "1",
+        userId: "1", // #check
         amount: JSON.parse(formData.amount),
       }).unwrap();
 
@@ -95,7 +96,14 @@ const Credit = () => {
         </Form.Group>
       </Form>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <PlaneModalForNotification
+        bodyMessage={modalMessage}
+        title="Transaction Status"
+        showModal={showModal}
+        setShowModal={() => setShowModal}
+      />
+
+      {/* <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Transaction Status</Modal.Title>
         </Modal.Header>
@@ -105,7 +113,7 @@ const Credit = () => {
             Close
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

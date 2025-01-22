@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Table } from "react-bootstrap";
 import { FaListAlt } from "react-icons/fa";
+import { useGetCustomerListQuery } from "../../../services/adminServices";
 
-import { useGetCustomerListQuery } from "../../../services/customerServices";
 
 const CustomerListTable = () => {
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
