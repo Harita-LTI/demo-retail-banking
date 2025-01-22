@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
   const { user, token }: any = useSelector((state: RootState) => state.auth);
 
   // show unauthorized screen if no user is found in redux store
-  if (!user && token) {
+  if (!user || !token) {
     return (
       <div className="unauthorized">
         <h1>Unauthorized :(</h1>
