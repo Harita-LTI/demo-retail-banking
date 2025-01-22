@@ -9,6 +9,8 @@ import { useLoginAndValidateMutation } from "../../../services/authServices";
 import { setCredentials } from "../../../features/auth/authSlice";
 import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
+import { navigateUser } from "../../../utils/user";
+import { setToken } from "../../../utils/token";
 
 export default function SignInForm() {
   const {
@@ -31,13 +33,8 @@ export default function SignInForm() {
         timeZone: "IST",
       }).unwrap();
       await dispatch(setCredentials(user));
-      if (user?.user?.role && user.user.role === "BF_ADMIN") {
-        navigate("/admin/customers");
-      } else if (user?.user?.role && user.user.role !== "BF_ADMIN") {
-        navigate("/user/dashboard");
-      } else {
-        console.log("role not found");
-      }
+      setToken(user?.token);
+      navigateUser(user?.user, navigate);
     } catch (err) {
       console.log("error");
     }
@@ -57,7 +54,9 @@ export default function SignInForm() {
             <h1 className="headline pb-4">Log In</h1>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group controlId="email" className="py-2">
-                <Form.Label>Please enter your email <span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Please enter your email <span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   type="email"
                   aria-label="Please enter your email"
@@ -74,7 +73,10 @@ export default function SignInForm() {
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="password" className="py-2">
-                <Form.Label>Please enter your password <span className="text-danger">*</span></Form.Label>
+                <Form.Label>
+                  Please enter your password{" "}
+                  <span className="text-danger">*</span>
+                </Form.Label>
                 <Form.Control
                   type="password"
                   aria-label="Please enter your password"

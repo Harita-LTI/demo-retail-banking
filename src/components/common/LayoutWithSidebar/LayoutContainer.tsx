@@ -28,9 +28,7 @@ const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
               </h5>
               {fn.btn ? fn.btn : null}
             </Card.Header>
-            <Card.Body>
-              <Card.Text>{fn.children}</Card.Text>
-            </Card.Body>
+            <Card.Body>{fn.children}</Card.Body>
           </Card>
         </Col>
       </Row>

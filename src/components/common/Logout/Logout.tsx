@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../../features/auth/authSlice";
 import { Link, NavLink, useNavigate } from "react-router";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import { removeToken } from "../../../utils/token";
 
 const Logout: React.FC = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const Logout: React.FC = () => {
   const handleLogout = (e: any) => {
     e.preventDefault();
     dispatch(logout());
+    removeToken();
     navigate("/login");
   };
 
