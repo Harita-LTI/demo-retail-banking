@@ -19,8 +19,8 @@ export const userDetailsApi = baseApi.injectEndpoints({
           status,
         })),
     }),
-    getCustomerDetails: builder.mutation({
-      query: (userId) => `/User/getUser/${userId}`,
+    getCustomerDetails: builder.query({
+      query: (userId) => `/retailBanking/customer/displayCustomer/${userId}`,
       //method: "GET",
       //transformResponse: (response) => response.data,
     }),
@@ -28,7 +28,7 @@ export const userDetailsApi = baseApi.injectEndpoints({
       query: (userData) => ({
         url: `/User/update/${userData.userId}`,
         //method: "PUT",
-        body: userData,
+        //body: userData,
         //transformResponse: (response) => response.data,
       }),
     }),
@@ -37,6 +37,6 @@ export const userDetailsApi = baseApi.injectEndpoints({
 
 export const {
   useGetCustomerListQuery,
-  useGetCustomerDetailsMutation,
+  useGetCustomerDetailsQuery,
   useUpdateCustomerDetailsMutation,
 } = userDetailsApi;

@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import CreateCustomer from "./pages/admin/CreateCustomer";
@@ -21,7 +26,10 @@ function App() {
         <Route path="/admin" element={<CustomerListTable />} />
         <Route path="/admin/customers" element={<CustomerListTable />} />
         <Route path="/admin/create-customer" element={<CreateCustomer />} />
-        <Route path="/admin/customer-details" element={<CustomerDetailsPage />} />
+        <Route
+          path="/admin/customer-details/:userId"
+          element={<CustomerDetailsPage />}
+        />
 
         {/* User screens */}
         <Route path="/user/dashboard" element={<DashboardPage />} />
@@ -29,7 +37,7 @@ function App() {
         <Route path="/user/deposit" element={<CreditPage />} />
         <Route path="/user/transfer" element={<TransferPage />} />
         <Route path="/user/statement" element={<StatementPage />} />
-       
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

@@ -1,19 +1,32 @@
 import React from "react";
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
+import { useParams } from "react-router";
+import { useGetCustomerDetailsQuery } from "../../../services/customerServices";
 
 function CustomerDetails() {
+  const { userId } = useParams();
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useGetCustomerDetailsQuery(userId, { skip: !userId });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading customer details.</div>;
+  const isCustomer = user !== undefined && user !== null ? true : false;
   return (
     <Container>
       <Row>
         <Col md={3} className="d-flex flex-column align-items-start border-end">
           <h5 className="text-primary">
-            <strong>Harita Jadeja</strong>{" "}
-            <Badge bg="success" text="white">
-              Active
+            <strong>{user.firstName + " " + user.lastName}</strong>
+            <Badge bg="success" text="white" className="ms-1">
+              <small>{user.userStatus}</small>
             </Badge>
           </h5>
           <p>
-            <b>DOB:</b>19-11-1989
+            <b>DOB: </b>
+            {user.dateOfBirth}
           </p>
           <Button variant="primary" className="mt-2" size="sm">
             Create Account
@@ -33,7 +46,7 @@ function CustomerDetails() {
                     <small>Email</small>
                   </b>
                 </p>
-                <p>abc@gmail.com</p>
+                <p>{user.emailId}</p>
               </div>
             </Col>
             <Col>
@@ -43,7 +56,7 @@ function CustomerDetails() {
                     <small>Contact Number</small>
                   </b>
                 </p>
-                <p>123456</p>
+                <p>{user.contact}</p>
               </div>
             </Col>
             <Col>
@@ -53,7 +66,7 @@ function CustomerDetails() {
                     <small>Address</small>
                   </b>
                 </p>
-                <p>21, street name, area, City - 000 000</p>
+                <p>{user.address}</p>
               </div>
             </Col>
           </Row>
@@ -70,7 +83,7 @@ function CustomerDetails() {
                     <small>PAN Number</small>
                   </b>
                 </p>
-                <p>abc@gmail.com</p>
+                <p>{user.panNumber}</p>
               </div>
             </Col>
             <Col>
@@ -80,7 +93,7 @@ function CustomerDetails() {
                     <small>Aaadhar Number</small>
                   </b>
                 </p>
-                <p>123456</p>
+                <p>{user.aadharNumber}</p>
               </div>
             </Col>
             <Col></Col>
@@ -93,7 +106,10 @@ function CustomerDetails() {
             </Col>
             <Col>
               <div className="p-3 border bg-light">
-                <p className="mb-0">
+                <p className="mb-0 text-primary" style={{ fontSize: "0.8rem" }}>
+                  <small>Savings Account</small>
+                </p>
+                <p className="mb-2">
                   <b>1100023456</b>
                 </p>
                 <p>$25000</p>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Table } from "react-bootstrap";
 import { FaListAlt } from "react-icons/fa";
 import { useGetCustomerListQuery } from "../../../services/adminServices";
-
+import { NavLink } from "react-router";
 
 const CustomerListTable = () => {
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
@@ -65,13 +65,16 @@ const CustomerListTable = () => {
               <td>{customer.lastName}</td>
               <td>{customer.status}</td>
               <td>
-                <a href="#" className="text-primary text-decoration-none">
+                <NavLink
+                  to={`/admin/customer-details/${customer.id}`}
+                  className="text-primary text-decoration-none"
+                >
                   {/* <FaEye /> */}
                   <span title="View Customer Details">
                     <small className="me-2 text-small"></small>
                     <FaListAlt />
                   </span>
-                </a>
+                </NavLink>
               </td>
             </tr>
           ))}
