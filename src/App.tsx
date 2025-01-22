@@ -15,28 +15,30 @@ import CreditPage from "./pages/user/Credit";
 import CustomerDetailsPage from "./pages/admin/CustomerDetails";
 import TransferPage from "./pages/user/Transfer";
 import StatementPage from "./pages/user/StatementList";
+import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route element={<ProtectedRoute />}>
+          {/* admin screens */}
+          <Route path="/admin" element={<CustomerListTable />} />
+          <Route path="/admin/customers" element={<CustomerListTable />} />
+          <Route path="/admin/create-customer" element={<CreateCustomer />} />
+          <Route
+            path="/admin/customer-details/:userId"
+            element={<CustomerDetailsPage />}
+          />
 
-        {/* admin screens */}
-        <Route path="/admin" element={<CustomerListTable />} />
-        <Route path="/admin/customers" element={<CustomerListTable />} />
-        <Route path="/admin/create-customer" element={<CreateCustomer />} />
-        <Route
-          path="/admin/customer-details/:userId"
-          element={<CustomerDetailsPage />}
-        />
-
-        {/* User screens */}
-        <Route path="/user/dashboard" element={<DashboardPage />} />
-        <Route path="/user/withdraw" element={<DebitPage />} />
-        <Route path="/user/deposit" element={<CreditPage />} />
-        <Route path="/user/transfer" element={<TransferPage />} />
-        <Route path="/user/statement" element={<StatementPage />} />
+          {/* User screens */}
+          <Route path="/user/dashboard" element={<DashboardPage />} />
+          <Route path="/user/withdraw" element={<DebitPage />} />
+          <Route path="/user/deposit" element={<CreditPage />} />
+          <Route path="/user/transfer" element={<TransferPage />} />
+          <Route path="/user/statement" element={<StatementPage />} />
+        </Route>
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" />} />
