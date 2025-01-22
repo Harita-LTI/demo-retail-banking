@@ -45,8 +45,20 @@ export const authApi = baseApi.injectEndpoints({
         return { data: { user: userResult.data, token } };
       },
     }),
+    validate: builder.query({
+      query: (token) => ({
+        url: "/auth/validateToken",
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      //query: () => "/auth/validateToken",
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useLoginAndValidateMutation } = authApi;
+export const {
+  useLoginMutation,
+  useLoginAndValidateMutation,
+  useValidateQuery,
+} = authApi;

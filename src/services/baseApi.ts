@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getToken } from "../utils/token";
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
-  const token = api.getState().auth.token;
+  const token = getToken(); //api.getState().auth.token;
   //const headers = token ? { Authorization: `Bearer ${token}` } : {};
   const result = await fetchBaseQuery({
     baseUrl: "/api",
