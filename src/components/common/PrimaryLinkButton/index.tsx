@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
+import { NavLink } from "react-router";
 
 interface PrimaryLinkButton {
   url: string;
@@ -13,9 +14,9 @@ const PrimaryLinkButton: React.FC<PrimaryLinkButton> = ({
   buttonText,
 }) => {
   return (
-    <Button variant="primary" href={url} size="sm">
+    <NavLink to={url} className="btn btn-primary btn-sm">
       {buttonText}
-    </Button>
+    </NavLink>
   );
 };
 

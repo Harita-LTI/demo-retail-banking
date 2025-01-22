@@ -32,16 +32,16 @@ function SidebarMenu() {
       path: "/admin/create-customer",
       icon: <FaPlus />,
     },
-    {
-      name: "View Transactions",
-      path: "/admin/withdraw",
-      icon: <FaPeopleArrows />,
-    },
-    {
-      name: "Create New Account",
-      path: "/admin/transaction-history",
-      icon: <FaPlusSquare />,
-    },
+    // {
+    //   name: "View Transactions",
+    //   path: "/admin/withdraw",
+    //   icon: <FaPeopleArrows />,
+    // },
+    // {
+    //   name: "Create New Account",
+    //   path: "/admin/transaction-history",
+    //   icon: <FaPlusSquare />,
+    // },
   ];
   const userMenuItems = [
     {
