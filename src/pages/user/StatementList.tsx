@@ -24,10 +24,9 @@ const StatementList = () => {
 
   return (
     <Container className="">
-      <h2 className="mb-4">Account Statement</h2>
-      <Table striped bordered hover>
+      <Table hover>
         <thead>
-          <tr>
+          <tr className="text-primary">
             <th>ID</th>
             <th>Time</th>
             <th>Type</th>
@@ -53,7 +52,7 @@ const StatementList = () => {
 
 function StatementPage() {
   return (
-    <LayoutWithSidebar title="Statement" icon={<FaListOl />}>
+    <LayoutWithSidebar title="Account Statement" icon={<FaListOl />}>
       <StatementList />
     </LayoutWithSidebar>
   );
