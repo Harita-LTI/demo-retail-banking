@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
-import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, Table } from "react-bootstrap";
 import {
+  FaArrowDown,
+  FaArrowUp,
   FaExchangeAlt,
   FaHome,
   FaListOl,
   FaMoneyBillWave,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { RootState } from "../../store/store";
+import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
+import { useAccountViewByUserIdQuery } from "../../services/adminServices";
+import { useGetStatementListQuery } from "../../services/userServices";
+import { convertStingToDate } from "../../utils/utility";
 
 interface UserDetailsCardProps {
-  accountId: string;
+  accountId: string
+  balance: number
 }
 
-const UserDetailsCard = ({ accountId }: UserDetailsCardProps) => {
+const UserDetailsCard = ({ accountId, balance }: UserDetailsCardProps) => {
   const [currentTime, setCurrentTime] = useState(
     new Date().toLocaleTimeString("en-IN", { hour12: false })
   );
@@ -34,6 +43,12 @@ const UserDetailsCard = ({ accountId }: UserDetailsCardProps) => {
             <b>Account ID</b>
           </Card.Title>
           <Card.Text style={{ fontSize: "0.8rem" }}>{accountId}</Card.Text>
+        </div>
+        <div>
+          <Card.Title style={{ fontSize: "0.9rem" }} className="text-primary">
+            <b>Balance (INR)</b>
+          </Card.Title>
+          <Card.Text style={{ fontSize: "0.8rem" }}>{balance}</Card.Text>
         </div>
         <div>
           <Card.Title style={{ fontSize: "0.9rem" }} className="text-primary">
@@ -118,11 +133,64 @@ const QuickOptions = () => {
   );
 };
 
+const RecentTransactions = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { data: statementList, error, isLoading } = useGetStatementListQuery(2); // #check user.userId
+  const reversedStatementList = statementList && [...statementList].reverse();
+
+  const getTransactionTypeIcon = (type: string) => {
+    if (type === 'DEBIT') {
+      return <FaArrowUp className="text-danger" />;
+    } else if (type === 'CREDIT') {
+      return <FaArrowDown className="text-success" />;
+    }
+    return null;
+  };
+
+  return (
+    <Card className="mb-3 border-0">
+      <Card.Body className="px-0 py-3 border-0">
+        <h5 className="fw-bold" style={{color:"#1f6b6b"}}>Recent Transactions</h5>
+        <Row className="px-1">
+          <Table hover>
+            <thead>
+              <tr className="text-primary">
+                <th>Time</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Closing Amount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                reversedStatementList?.slice(0, 5).map((transaction) => (
+                  <tr key={transaction.transactionID}>
+                    <td>{convertStingToDate(transaction.createdDate)}</td>
+                    <td>{transaction.transactionType}</td>
+                    <td>{transaction.transaction_amount}</td>
+                    <td>{transaction.closingBalance}</td>
+                    <td>{getTransactionTypeIcon(transaction.transactionType)}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </Table>
+        </Row>
+      </Card.Body>
+    </Card>
+  );
+};
+
 const Dashboard = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { data: accountInfo, error, isLoading } = useAccountViewByUserIdQuery(2); //user.userId
+
   return (
     <>
-      <UserDetailsCard accountId={"123456789142"} />
+      <UserDetailsCard accountId={accountInfo?.accountNumber} balance={accountInfo?.availableBalance} />
       <QuickOptions />
+      <RecentTransactions />
     </>
   );
 };

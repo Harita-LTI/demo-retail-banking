@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaMoneyBill } from "react-icons/fa";
-import { Button, Form, Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { useDepositMutation } from "../../services/userServices";
 import PlaneModalForNotification from "../../components/common/PlaneModalForNotification";
+import { RootState } from "../../store/store";
 
 const Credit = () => {
   const {
@@ -20,6 +22,7 @@ const Credit = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const onSubmit = async (formData: any) => {
     if (
@@ -35,7 +38,7 @@ const Credit = () => {
     }
     try {
       const resp = await deposit({
-        userId: "1", // #check
+        userId: "2", // user.userId, // #check
         amount: JSON.parse(formData.amount),
       }).unwrap();
 
@@ -102,18 +105,6 @@ const Credit = () => {
         showModal={showModal}
         setShowModal={() => setShowModal}
       />
-
-      {/* <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Transaction Status</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMessage}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
     </div>
   );
 };
