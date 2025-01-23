@@ -36,12 +36,6 @@ interface Customer {
 
 export const userTransactionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    /*
-     "status": "success",
-    "statusCode": 200,
-    "message": "Registration successful, Create Account to get account number. ",
-    "customerid": "3"
-    */
     registerCustomer: builder.mutation<RegisterCustomerResponse,RegisterUserObj>({
       query: (userData) => ({
         url: "/retailBanking/customer/createCustomer",
@@ -87,7 +81,6 @@ export const userTransactionApi = baseApi.injectEndpoints({
     }),
     getCustomerList: builder.query<Customer[], void>({
       query: () => "/retailBanking/customer/displayAllCustomer",
-      //method: "GET",
       transformResponse: (response: any[]) =>
         response.map(({ id, firstName, lastName, userStatus: status }) => ({
           id,
