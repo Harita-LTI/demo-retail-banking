@@ -34,7 +34,7 @@ const Debit = () => {
     }
     try {
       const resp = await withdraw({
-        userId: "2", //user.userId,  // #check
+        userId: user.userId,
         amount: JSON.parse(formData.amount)
       }).unwrap();
 

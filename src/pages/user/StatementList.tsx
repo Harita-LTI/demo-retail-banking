@@ -10,7 +10,7 @@ import { RootState } from "../../store/store";
 
 const StatementList = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data:statementList, error, isLoading } = useGetStatementListQuery(2); // #check user.userId
+  const { data:statementList, error, isLoading } = useGetStatementListQuery(user.userId);
   const reversedStatementList = statementList && [...statementList].reverse();
   const [ statementObjList, setStatementObjList ] = useState(reversedStatementList);
   // const [filteredTransactions, setFilteredTransactions] = useState(reversedStatementList);
@@ -89,7 +89,7 @@ const StatementList = () => {
           </tr>
         </thead>
         <tbody>
-          {reversedStatementList?.map((transaction) => (
+          {reversedStatementList && reversedStatementList.length > 0 ? (reversedStatementList?.map((transaction) => (
             <tr key={transaction.transactionID}>
               <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
               <td>{transaction.transactionType}</td>
@@ -97,7 +97,12 @@ const StatementList = () => {
               <td className="text-center">{transaction.closingBalance}</td>
               <td>{getTransactionTypeIcon(transaction.transactionType)}</td>
             </tr>
-          ))}
+          ))
+          ) : (
+            <tr>
+              <td colSpan={5} style={{ "color": "#a4a1a1 !important" }}>No recent transaction</td>
+            </tr>
+          )}
         </tbody>
       </Table>
     </Container>
