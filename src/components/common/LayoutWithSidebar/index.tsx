@@ -25,7 +25,11 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
   const navigate = useNavigate();
   const token = getToken();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: userData, isLoading } = useValidateQuery(token, {
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useValidateQuery(token, {
     skip: !token || user,
   });
   async function setUser(user: any, token: string) {
@@ -37,6 +41,9 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
       setUser(userData, token);
     }
   }, [userData]);
+  if (error) {
+    navigate("/login");
+  }
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
