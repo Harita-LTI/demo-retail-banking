@@ -16,6 +16,7 @@ import CustomerDetailsPage from "./pages/admin/CustomerDetails";
 import TransferPage from "./pages/user/Transfer";
 import StatementPage from "./pages/user/StatementList";
 import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
+import PageNotFound from "./components/common/PageNotFound";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
         </Route>
 
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );
