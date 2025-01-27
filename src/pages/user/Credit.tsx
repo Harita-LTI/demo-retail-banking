@@ -38,7 +38,7 @@ const Credit = () => {
     }
     try {
       const resp = await deposit({
-        userId: "2", // user.userId, // #check
+        userId: user.userId,
         amount: JSON.parse(formData.amount),
       }).unwrap();
 

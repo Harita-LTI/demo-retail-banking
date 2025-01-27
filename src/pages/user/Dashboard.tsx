@@ -14,8 +14,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { useAccountViewByUserIdQuery } from "../../services/adminServices";
-import { useGetStatementListQuery } from "../../services/userServices";
-import { convertStingToDate } from "../../utils/utility";
+import { StatementInfo, useGetStatementListQuery } from "../../services/userServices";
+import { dateToDDMonYYYYTime } from "../../utils/utility";
 
 interface UserDetailsCardProps {
   accountId: string
@@ -133,10 +133,11 @@ const QuickOptions = () => {
   );
 };
 
-const RecentTransactions = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { data: statementList, error, isLoading } = useGetStatementListQuery(2); // #check user.userId
-  const reversedStatementList = statementList && [...statementList].reverse();
+interface RecentTransactionsProps {
+  statementList:StatementInfo[]|undefined
+}
+
+const RecentTransactions = (props:RecentTransactionsProps) => {
 
   const getTransactionTypeIcon = (type: string) => {
     if (type === 'DEBIT') {
@@ -163,17 +164,21 @@ const RecentTransactions = () => {
               </tr>
             </thead>
             <tbody>
-              {
-                reversedStatementList?.slice(0, 5).map((transaction) => (
+              {props.statementList && props.statementList.length > 0 ? (
+                props.statementList.slice(0, 5).map((transaction) => (
                   <tr key={transaction.transactionID}>
-                    <td>{convertStingToDate(transaction.createdDate)}</td>
+                    <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
                     <td>{transaction.transactionType}</td>
                     <td>{transaction.transaction_amount}</td>
                     <td>{transaction.closingBalance}</td>
                     <td>{getTransactionTypeIcon(transaction.transactionType)}</td>
                   </tr>
                 ))
-              }
+              ) : (
+                <tr>
+                  <td colSpan={5} style={{"color": "#a4a1a1 !important"}}>No recent transaction</td>
+                </tr>
+              )}
             </tbody>
           </Table>
         </Row>
@@ -182,23 +187,41 @@ const RecentTransactions = () => {
   );
 };
 
-const Dashboard = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { data: accountInfo, error, isLoading } = useAccountViewByUserIdQuery(2); //user.userId
+interface DashboardProps {
+  accountId: string
+  balance: number
+  statementList:StatementInfo[]|undefined
+}
+
+const Dashboard = (props:DashboardProps) => {
 
   return (
     <>
-      <UserDetailsCard accountId={accountInfo?.accountNumber} balance={accountInfo?.availableBalance} />
+      <UserDetailsCard accountId={props.accountId} balance={props.balance} />
       <QuickOptions />
-      <RecentTransactions />
+      <RecentTransactions statementList={props.statementList}/>
     </>
   );
 };
 
 function DashboardPage() {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { data: accountInfo, error, isLoading, refetch } = useAccountViewByUserIdQuery(user.userId);
+  const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery(user.userId);
+  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList].reverse();
+  
+  useEffect(() => {
+    refetch();
+    statementRefetch();
+  }, [refetch, statementRefetch]);
+
   return (
-    <LayoutWithSidebar icon={<FaHome />} title="Hello, John Doe">
-      <Dashboard />
+    <LayoutWithSidebar icon={<FaHome />} title={`Hello${user.first_Name ? `, ${user.first_Name}` : ''} ${user.last_name ? ` ${user.last_name}` : ''}`}>
+      <Dashboard
+        accountId={accountInfo?.accountNumber}
+        balance={accountInfo?.availableBalance}
+        statementList={reversedStatementList}
+      />
     </LayoutWithSidebar>
   );
 }
