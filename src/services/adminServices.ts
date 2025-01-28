@@ -23,7 +23,7 @@ export interface RegisterCustomerResponse {
 
 export interface createAccountObj {
   userId: number;
-  accountType: "Savings" | "Current" | "Joint" | string;
+  accountType: "Saving" | "Current" | "Joint" | string;
   currency: "INR" | string;
 }
 
@@ -56,9 +56,8 @@ export const userTransactionApi = baseApi.injectEndpoints({
       }),
     }),
     closeAccountByAccountNumber: builder.mutation({
-      query: () => ({
-        url: (accountNumber: number) =>
-          `/retailBanking/account/closeAccount/${accountNumber}`,
+      query: (accountNumber: number) => ({
+        url: `/retailBanking/account/closeAccount/${accountNumber}`,
         method: "POST",
         transformResponse: (response: any) => response.data,
       }),

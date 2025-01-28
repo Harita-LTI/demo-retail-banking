@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 import { useParams } from "react-router";
-import { useAccountViewByUserIdQuery } from "../../../services/adminServices";
+import {
+  useAccountViewByUserIdQuery,
+  useCloseAccountByAccountNumberMutation,
+} from "../../../services/adminServices";
 import ConfirmModal from "../../common/ConfirmModal";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import { toTitleCase } from "../../../utils/utility";
@@ -11,20 +14,9 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [buttonText, setButtonText] = useState("Close Account");
-
-  const handleButtonClick = () => {
-    if (account.availableBalance > 0) setShowModal(true);
-    else setShowConfirmModal(true);
-  };
-
-  const handleOkClick = () => {
-    setShowConfirmModal(false);
-    setButtonText("Closing...");
-  };
-
-  const handleCancelClick = () => {
-    setShowConfirmModal(false);
-  };
+  const [modalMessage, setModalMessage] = useState("");
+  const [closeAccount, { isLoading: accountLoading, isError }] =
+    useCloseAccountByAccountNumberMutation();
 
   const {
     data: account,
@@ -32,6 +24,39 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
     isLoading,
     refetch,
   }: any = useAccountViewByUserIdQuery(userId, { skip: !userId });
+
+  const handleButtonClick = async () => {
+    if (account.availableBalance > 0) {
+      await setModalMessage("Balance must be zero, Before closing  account.");
+      setShowModal(true);
+    } else setShowConfirmModal(true);
+  };
+
+  const handleOkClick = async () => {
+    setShowConfirmModal(false);
+    setButtonText("Closing...");
+    if (account.accountNumber) {
+      try {
+        const resp = await closeAccount(account.accountNumber).unwrap();
+        refetch();
+        setShowModal(true);
+        setModalMessage("Account Closed Successfully");
+        setButtonText("Close Account");
+        setTimeout(() => {
+          setShowModal(false);
+          //navigate("/admin/customer-details/" + userId);
+        }, 2000);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      console.log("Account not found");
+    }
+  };
+
+  const handleCancelClick = () => {
+    setShowConfirmModal(false);
+  };
 
   useEffect(() => {
     if (newAccountAdded) refetch(); // This will re-execute the query when the props change
@@ -76,14 +101,16 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
             <b>{account.accountNumber}</b>
           </p>
           <p>{account.currency + " " + account.availableBalance}</p>
-          <Button
-            size="sm"
-            variant="danger"
-            title="Close Account"
-            onClick={handleButtonClick}
-          >
-            {buttonText}
-          </Button>
+          {account.accountStatus !== "CLOSED" && (
+            <Button
+              size="sm"
+              variant="danger"
+              title="Close Account"
+              onClick={handleButtonClick}
+            >
+              {buttonText}
+            </Button>
+          )}
         </div>
       </Col>
       <Col></Col>
@@ -100,7 +127,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
         handleNo={handleCancelClick}
       />
       <PlaneModalForNotification
-        bodyMessage={"Balance must be zero, Before closing  account."}
+        bodyMessage={modalMessage}
         title="Not Allowed"
         setShowModal={setShowModal}
         showModal={showModal}
