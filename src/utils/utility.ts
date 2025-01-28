@@ -44,3 +44,11 @@ export function dateToDDMonYYYYTime(date: string) {
 export function toTitleCase(str: string) {
   return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }
+
+export function convertDateFormat(dateString: string) {
+  // Split the input date string by the hyphen
+  const [year, month, day] = dateString.split("-");
+
+  // Return the date in the desired format
+  return `${day}/${month}/${year}`;
+}

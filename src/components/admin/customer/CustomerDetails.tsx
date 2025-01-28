@@ -42,7 +42,7 @@ function CustomerDetails() {
       try {
         const accData = {
           userId: parseInt(userId ? userId : "0"),
-          accountType: "Savings",
+          accountType: "Saving",
           currency: "INR",
         };
         const resp = await createAccount(accData).unwrap();

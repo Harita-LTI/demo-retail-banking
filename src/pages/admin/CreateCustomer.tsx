@@ -6,8 +6,12 @@ import { FaPlus } from "react-icons/fa";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import PrimaryLinkButton from "../../components/common/PrimaryLinkButton";
-import { RegisterUserObj, useRegisterCustomerMutation } from "../../services/adminServices";
+import {
+  RegisterUserObj,
+  useRegisterCustomerMutation,
+} from "../../services/adminServices";
 import PlaneModalForNotification from "../../components/common/PlaneModalForNotification";
+import { convertDateFormat } from "../../utils/utility";
 
 const CreateCustomer = () => {
   const {
@@ -16,12 +20,14 @@ const CreateCustomer = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const [registerCustomer, {isLoading, isError}] = useRegisterCustomerMutation();
+  const [registerCustomer, { isLoading, isError }] =
+    useRegisterCustomerMutation();
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
-  
+
   const onSubmit = async (data: any) => {
+    const formattedDob = convertDateFormat(data.dateOfBirth);
     const newCustomerObj: RegisterUserObj = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -32,25 +38,28 @@ const CreateCustomer = () => {
       address: data.residentialAddress,
       role: "BF_CUSTOMER",
       userStatus: "ACTIVE",
-      dateOfBirth: data.dateOfBirth,
-      password: ""
+      dateOfBirth: formattedDob,
+      password: "",
     };
 
     try {
       const resp = await registerCustomer(newCustomerObj).unwrap();
-      
-      setModalMessage(resp.message + "Customer ID: " + resp.customerid || "Customer Created Successfully");
+
+      setModalMessage(
+        resp.message + "Customer ID: " + resp.customerid ||
+          "Customer Created Successfully"
+      );
       setShowModal(true);
       reset();
-      
+
       setTimeout(() => {
         setShowModal(false);
-        navigate('/admin/customer-details/' + resp.customerid);
+        navigate("/admin/customer-details/" + resp.customerid);
       }, 2000);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <Container className="mt-3">
@@ -69,7 +78,11 @@ const CreateCustomer = () => {
               type="text"
               autoComplete="off"
               aria-label="First Name"
-              {...register("firstName", { required: true, minLength: 3, maxLength: 20 })}
+              {...register("firstName", {
+                required: true,
+                minLength: 3,
+                maxLength: 20,
+              })}
             />
             {errors.firstName && (
               <Form.Text className="text-danger">
@@ -85,7 +98,11 @@ const CreateCustomer = () => {
               type="text"
               autoComplete="off"
               aria-label="Last Name"
-              {...register("lastName", { required: true, minLength: 3, maxLength: 20 })}
+              {...register("lastName", {
+                required: true,
+                minLength: 3,
+                maxLength: 20,
+              })}
             />
             {errors.lastName && (
               <Form.Text className="text-danger">
@@ -189,7 +206,9 @@ const CreateCustomer = () => {
         </Row>
         <Row>
           <Form.Group className="mb-3" as={Col}>
-            <Form.Label>PAN Number <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              PAN Number <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               autoComplete="off"
@@ -206,7 +225,9 @@ const CreateCustomer = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3" as={Col}>
-            <Form.Label>AADHAAR Number <span className="text-danger">*</span></Form.Label>
+            <Form.Label>
+              AADHAAR Number <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               autoComplete="off"
