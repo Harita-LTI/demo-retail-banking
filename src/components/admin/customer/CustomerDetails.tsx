@@ -6,6 +6,7 @@ import CustomerAccounts from "./CutomerAccounts";
 import { useCreateAccountMutation } from "../../../services/adminServices";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import showError from "../../../utils/error";
+import { generateCustomerId } from "../../../utils/utility";
 
 function CustomerDetails() {
   const { userId } = useParams();
@@ -70,19 +71,18 @@ function CustomerDetails() {
               <small>{user.userStatus}</small>
             </Badge>
           </h5>
-          <p>
-            <b>DOB: </b>
-            {user.dateOfBirth}
-          </p>
-          <Button
-            variant="primary"
-            className={"mt-2" + createButtonClass}
-            size="sm"
-            disabled={!showCreateButton}
-            onClick={handleCreateAccount}
-          >
-            {accountLoading ? "Creating..." : "Create Account"}
-          </Button>
+          <p className="">{generateCustomerId(user.id)}</p>
+          <span className={createButtonClass}>
+            <Button
+              variant="primary"
+              className={"mt-2"}
+              size="sm"
+              disabled={!showCreateButton}
+              onClick={handleCreateAccount}
+            >
+              {accountLoading ? "Creating..." : "Create Account"}
+            </Button>
+          </span>
         </Col>
         <Col md={9}>
           <Row className="border-bottom">
@@ -132,6 +132,16 @@ function CustomerDetails() {
               <div className="p-1">
                 <p className="mb-0">
                   <b>
+                    <small>Date of Birth</small>
+                  </b>
+                </p>
+                <p>{user.dateOfBirth}</p>
+              </div>
+            </Col>
+            <Col>
+              <div className="p-1">
+                <p className="mb-0">
+                  <b>
                     <small>PAN Number</small>
                   </b>
                 </p>
@@ -148,7 +158,6 @@ function CustomerDetails() {
                 <p>{user.aadharNumber}</p>
               </div>
             </Col>
-            <Col></Col>
           </Row>
           <Row className="mt-3">
             <Col md={12}>
