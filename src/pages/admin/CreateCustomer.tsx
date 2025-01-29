@@ -11,7 +11,7 @@ import {
   useRegisterCustomerMutation,
 } from "../../services/adminServices";
 import PlaneModalForNotification from "../../components/common/PlaneModalForNotification";
-import { convertDateFormat } from "../../utils/utility";
+import { convertDateFormat, encrypt, toTitleCase } from "../../utils/utility";
 
 const CreateCustomer = () => {
   const {
@@ -28,6 +28,8 @@ const CreateCustomer = () => {
 
   const onSubmit = async (data: any) => {
     const formattedDob = convertDateFormat(data.dateOfBirth);
+    const password = toTitleCase(data.firstName) + "@123";
+    const encryptedPassword = encrypt(password);
     const newCustomerObj: RegisterUserObj = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -39,7 +41,7 @@ const CreateCustomer = () => {
       role: "BF_CUSTOMER",
       userStatus: "ACTIVE",
       dateOfBirth: formattedDob,
-      password: "",
+      password: encryptedPassword,
     };
 
     try {

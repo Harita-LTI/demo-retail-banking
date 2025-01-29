@@ -11,6 +11,7 @@ import { AppDispatch } from "../../../store/store";
 import { useDispatch } from "react-redux";
 import { navigateUser } from "../../../utils/user";
 import { setToken } from "../../../utils/token";
+import { encrypt } from "../../../utils/utility";
 
 export default function SignInForm() {
   const {
@@ -29,14 +30,14 @@ export default function SignInForm() {
     try {
       const user: any = await login({
         emailId: email,
-        password: password,
+        password: password ? encrypt(password) : "",
         timeZone: "IST",
       }).unwrap();
       await dispatch(setCredentials(user));
       setToken(user?.token);
       navigateUser(user?.user, navigate);
     } catch (err) {
-      console.log("error");
+      console.log("error", err);
     }
   };
 
