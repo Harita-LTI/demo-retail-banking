@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 // 16-01-2025 11:38:15
 export function convertStingToDate(date: string) {
   const dateObj = new Date(date);
@@ -51,4 +52,12 @@ export function convertDateFormat(dateString: string) {
 
   // Return the date in the desired format
   return `${day}/${month}/${year}`;
+}
+
+export function encrypt(password: string) {
+  // Generate salt and hash the password
+  const salt = "$2a$10$vpDxyCQL8SmhLaoqFHmxJu"; //bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(password, salt);
+  console.log(hashedPassword);
+  return hashedPassword;
 }

@@ -1,7 +1,8 @@
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
+  // Generate salt and hash the password
+
   endpoints: (builder) => ({
     login: builder.mutation<
       { user: any; token: string },
