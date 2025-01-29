@@ -187,41 +187,32 @@ const RecentTransactions = (props:RecentTransactionsProps) => {
   );
 };
 
-interface DashboardProps {
-  accountId: string
-  balance: number
-  statementList:StatementInfo[]|undefined
-}
-
-const Dashboard = (props:DashboardProps) => {
+const Dashboard = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { data: accountInfo, error, isLoading, refetch } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
+  const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery(user?.userId, {skip: !user});
+  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList].reverse();
+  
+  useEffect(() => {
+    if(user) {
+      refetch();
+      statementRefetch();
+    }
+  }, [refetch, statementRefetch]);
 
   return (
     <>
-      <UserDetailsCard accountId={props.accountId} balance={props.balance} />
+      <UserDetailsCard accountId={accountInfo?.accountId} balance={accountInfo?.balance} />
       <QuickOptions />
-      <RecentTransactions statementList={props.statementList}/>
+      <RecentTransactions statementList={reversedStatementList}/>
     </>
   );
 };
 
 function DashboardPage() {
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { data: accountInfo, error, isLoading, refetch } = useAccountViewByUserIdQuery(user.userId);
-  const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery(user.userId);
-  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList].reverse();
-  
-  useEffect(() => {
-    refetch();
-    statementRefetch();
-  }, [refetch, statementRefetch]);
-
   return (
-    <LayoutWithSidebar icon={<FaHome />} title={`Hello${user.first_Name ? `, ${user.first_Name}` : ''} ${user.last_name ? ` ${user.last_name}` : ''}`}>
-      <Dashboard
-        accountId={accountInfo?.accountNumber}
-        balance={accountInfo?.availableBalance}
-        statementList={reversedStatementList}
-      />
+    <LayoutWithSidebar icon={<FaHome />} title={"Hello"}>
+      <Dashboard />
     </LayoutWithSidebar>
   );
 }

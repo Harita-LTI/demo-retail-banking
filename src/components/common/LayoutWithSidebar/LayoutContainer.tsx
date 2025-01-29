@@ -1,6 +1,8 @@
 import { Row, Col, Card } from "react-bootstrap";
 import SidebarMenu from "./SidebarMenu";
 import "./index.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 interface LayoutWithSidebarProps {
   children?: any;
   icon?: any;
@@ -12,6 +14,12 @@ interface LayoutContainerProps {
   fn: LayoutWithSidebarProps;
 }
 const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
+  const { user } = useSelector((state: RootState) => state.auth);
+  let title = fn.title;
+  
+  if(window.location.pathname === "/user/dashboard" && user)
+    title = title + ", " +user.first_Name + " " + user.last_name;
+
   return (
     <>
       <Row className="m-0 content-height">
@@ -23,7 +31,7 @@ const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
             <Card.Header className="bg-white py-3">
               <h5 className="mb-0 text-primary">
                 <strong>
-                  {fn.icon} <span className="ms-2">{fn.title}</span>
+                  {fn.icon} <span className="ms-2">{title}</span>
                 </strong>
               </h5>
               {fn.btn ? fn.btn : null}
