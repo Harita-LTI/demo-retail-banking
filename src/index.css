@@ -40,6 +40,7 @@ code {
     monospace;
 }
 
-.not-allowed {
+.not-allowed,
+.btn.disabled {
   cursor: not-allowed !important;
 }

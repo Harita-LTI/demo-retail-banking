@@ -61,3 +61,22 @@ export function encrypt(password: string) {
   console.log(hashedPassword);
   return hashedPassword;
 }
+
+export function generateCustomerId(id: number) {
+  const prefix = "0032";
+  const serialNumber = prefix + id.toString().padStart(7, "0");
+  return serialNumber;
+}
+
+export function getBgClass(status: string) {
+  switch (status) {
+    case "ACTIVE":
+      return "success";
+    case "INACTIVE":
+      return "secondary";
+    case "CLOSED":
+      return "secondary";
+    default:
+      return "success";
+  }
+}

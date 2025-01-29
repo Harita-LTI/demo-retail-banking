@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { FaListAlt } from "react-icons/fa";
 import { useGetCustomerListQuery } from "../../../services/adminServices";
 import { NavLink } from "react-router";
+import { generateCustomerId } from "../../../utils/utility";
 
 const CustomerListTable = () => {
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
@@ -60,7 +61,7 @@ const CustomerListTable = () => {
                   //onChange={() => handleSelectCustomer(customer.id)}
                 />
               </td>
-              <td>{customer.id}</td>
+              <td>{generateCustomerId(customer.id)}</td>
               <td>{customer.firstName}</td>
               <td>{customer.lastName}</td>
               <td>{customer.status}</td>

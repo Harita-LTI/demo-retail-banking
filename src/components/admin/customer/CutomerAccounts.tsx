@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 import { useParams } from "react-router";
 import {
-  useAccountViewByUserIdQuery,
+  //useAccountViewByUserIdQuery,
+  useAllAccountViewByUserIdQuery,
   useCloseAccountByAccountNumberMutation,
 } from "../../../services/adminServices";
 import ConfirmModal from "../../common/ConfirmModal";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
-import { toTitleCase } from "../../../utils/utility";
+import { getBgClass, toTitleCase } from "../../../utils/utility";
 
 const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   const { userId }: any = useParams();
@@ -15,29 +16,37 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [buttonText, setButtonText] = useState("Close Account");
   const [modalMessage, setModalMessage] = useState("");
+  const [selectedAccount, setSelectedAccount]: any = useState(null);
   const [closeAccount, { isLoading: accountLoading, isError }] =
     useCloseAccountByAccountNumberMutation();
 
   const {
-    data: account,
+    data: accounts,
     error,
     isLoading,
     refetch,
-  }: any = useAccountViewByUserIdQuery(userId, { skip: !userId });
+  }: any = useAllAccountViewByUserIdQuery(userId, { skip: !userId });
+  const userAccounts = accounts
+    ? Array.isArray(accounts)
+      ? [...accounts]
+      : [accounts]
+    : [];
 
-  const handleButtonClick = async () => {
-    if (account.availableBalance > 0) {
-      await setModalMessage("Balance must be zero, Before closing  account.");
-      setShowModal(true);
-    } else setShowConfirmModal(true);
+  const handleButtonClick = async (account: any) => {
+    // if (account.availableBalance > 0) {
+    //   await setModalMessage("Balance must be zero, Before closing  account.");
+    //   setShowModal(true);
+    // } else
+    await setSelectedAccount(account);
+    setShowConfirmModal(true);
   };
 
   const handleOkClick = async () => {
     setShowConfirmModal(false);
     setButtonText("Closing...");
-    if (account.accountNumber) {
+    if (selectedAccount && selectedAccount.accountNumber) {
       try {
-        const resp = await closeAccount(account.accountNumber).unwrap();
+        const resp = await closeAccount(selectedAccount.accountNumber).unwrap();
         refetch();
         setShowModal(true);
         setModalMessage("Account Closed Successfully");
@@ -63,12 +72,15 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   }, [newAccountAdded, refetch]);
 
   useEffect(() => {
-    if (error && error.status === 404) {
+    const hasActiveAccount = userAccounts.some(
+      (account) => account.accountStatus === "ACTIVE"
+    );
+    if (!hasActiveAccount) {
       disableButton(false);
     } else {
       disableButton(true);
     }
-  }, [error]);
+  }, [userAccounts]);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -84,41 +96,52 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
         Error loading customer account details. Please try again.
       </div>
     );
-
+  const accountsSection: any = () => {
+    return (
+      <>
+        {userAccounts.map((account: any) => (
+          <Col md={4}>
+            <div className="p-3 border bg-light h-100">
+              <p className="mb-0 text-primary d-flex justify-content-between w-100">
+                <small style={{ fontSize: "0.85rem" }}>
+                  {toTitleCase(account.accountType)} Account
+                </small>
+                <Badge
+                  bg={getBgClass(account.accountStatus)}
+                  className="lh-base text-white"
+                >
+                  {account.accountStatus}
+                </Badge>
+              </p>
+              <p className="mb-2">
+                <b>{account.accountNumber}</b>
+              </p>
+              <p>{account.currency + " " + account.availableBalance}</p>
+              {account.accountStatus !== "CLOSED" && (
+                <Button
+                  size="sm"
+                  variant="danger"
+                  title="Close Account"
+                  onClick={() => {
+                    handleButtonClick(account);
+                  }}
+                >
+                  {buttonText}
+                </Button>
+              )}
+            </div>
+          </Col>
+        ))}
+      </>
+    );
+  };
   return (
-    <>
-      <Col>
-        <div className="p-3 border bg-light">
-          <p className="mb-0 text-primary d-flex justify-content-between w-100">
-            <small style={{ fontSize: "0.85rem" }}>
-              {toTitleCase(account.accountType)} Account
-            </small>
-            <Badge bg="success" className="lh-base text-white">
-              {account.accountStatus}
-            </Badge>
-          </p>
-          <p className="mb-2">
-            <b>{account.accountNumber}</b>
-          </p>
-          <p>{account.currency + " " + account.availableBalance}</p>
-          {account.accountStatus !== "CLOSED" && (
-            <Button
-              size="sm"
-              variant="danger"
-              title="Close Account"
-              onClick={handleButtonClick}
-            >
-              {buttonText}
-            </Button>
-          )}
-        </div>
-      </Col>
-      <Col></Col>
-      <Col></Col>
+    <React.Fragment>
+      {accountsSection()}
       <ConfirmModal
         bodyMessage={
           "Are you sure you want to close the account " +
-          account.accountNumber +
+          selectedAccount?.accountNumber +
           "?"
         }
         setShowModal={() => setShowConfirmModal}
@@ -132,7 +155,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
         setShowModal={setShowModal}
         showModal={showModal}
       />
-    </>
+    </React.Fragment>
   );
 };
 
