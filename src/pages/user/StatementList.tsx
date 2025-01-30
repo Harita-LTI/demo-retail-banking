@@ -1,59 +1,85 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowDown, FaArrowUp, FaListOl } from "react-icons/fa";
 import { Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
-import { useGetStatementListQuery } from "../../services/userServices";
+import { useGetStatementListInDateRangeQuery, useGetStatementListQuery } from "../../services/userServices";
 import { dateToDDMonYYYYTime } from "../../utils/utility";
 import { RootState } from "../../store/store";
 
 const StatementList = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data:statementList, error, isLoading } = useGetStatementListQuery(user.userId);
-  const reversedStatementList = statementList && [...statementList].reverse();
-  const [ statementObjList, setStatementObjList ] = useState(reversedStatementList);
-  // const [filteredTransactions, setFilteredTransactions] = useState(reversedStatementList);
+  const { data:statementList, error, isLoading } = useGetStatementListQuery(user?.userId, {skip: !user});
+  const [ finalizedStatementList, setFinalizedStatementList ] = useState<any>([]);
+  const [ startDate, setStartDate ] = useState<string>("");
+  const [ endDate, setEndDate ] = useState<string>("");
 
-  const filterTransactions = (filterType:string) => {
+  const userData = {
+    userId: user?.userId,
+    startDate: startDate,
+    endDate: endDate
+  }
+  const { data:newList, error: statementListErr } = useGetStatementListInDateRangeQuery(userData, { skip: !startDate || !endDate || !user});
+  console.log("------------------", newList);
+  // @ts-ignore
+  const filteredStatementList = newList && [...newList].reverse();
+
+  useEffect(() => {
+    if(filteredStatementList)
+      setFinalizedStatementList(filteredStatementList);
+    else {
+      if(statementList && statementList.length) {
+        let list = [...statementList].reverse();
+        setFinalizedStatementList(list);
+      }
+    }
+  }, [filteredStatementList, statementList]);
+
+
+  const calculateDateRange = (filterType: string) => {
     const now = new Date();
-    let filteredList;
-
+    let startDate, endDate;
+  
     switch (filterType) {
       case 'last10':
-        filteredList = reversedStatementList?.slice(0, 10);
+        startDate = new Date(now.setDate(now.getDate() - 10)).toISOString().split('T')[0];
+        endDate = new Date().toISOString().split('T')[0];
         break;
       case 'lastWeek':
-        filteredList = reversedStatementList?.filter(transaction => {
-          const transactionDate = new Date(transaction.createdDate);
-          const oneWeekAgo = new Date(now.setDate(now.getDate() - 7));
-          return transactionDate >= oneWeekAgo;
-        });
+        startDate = new Date(now.setDate(now.getDate() - 7)).toISOString().split('T')[0];
+        endDate = new Date().toISOString().split('T')[0];
         break;
       case 'lastMonth':
-        filteredList = reversedStatementList?.filter(transaction => {
-          const transactionDate = new Date(transaction.createdDate);
-          const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
-          return transactionDate >= oneMonthAgo;
-        });
+        startDate = new Date(now.setMonth(now.getMonth() - 1)).toISOString().split('T')[0];
+        endDate = new Date().toISOString().split('T')[0];
         break;
       case 'lastQuarter':
-        filteredList = reversedStatementList?.filter(transaction => {
-          const transactionDate = new Date(transaction.createdDate);
-          const oneQuarterAgo = new Date(now.setMonth(now.getMonth() - 3));
-          return transactionDate >= oneQuarterAgo;
-        });
+        startDate = new Date(now.setMonth(now.getMonth() - 3)).toISOString().split('T')[0];
+        endDate = new Date().toISOString().split('T')[0];
         break;
       case 'currentYear':
-        filteredList = reversedStatementList?.filter(transaction => {
-          const transactionDate = new Date(transaction.createdDate);
-          return transactionDate.getFullYear() === now.getFullYear();
-        });
+        startDate = new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0];
+        endDate = new Date().toISOString().split('T')[0];
         break;
       default:
-        filteredList = reversedStatementList;
+        startDate = '';
+        endDate = '';
     }
-    setStatementObjList(filteredList);
+  
+    return { startDate, endDate };
+  };
+
+  const fetchStatements = (filterType: string, userId: number) => {
+    const { startDate, endDate } = calculateDateRange(filterType);
+  
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
+
+  const handleFilterSelect = (filterType: string|null) => {
+    if(filterType)
+      fetchStatements(filterType, user?.userId)
   };
 
   const getTransactionTypeIcon = (type:string) => {
@@ -66,13 +92,19 @@ const StatementList = () => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading...</div>;
+
+  //@ts-ignore
+  if (error && error.status === 404) {
+    return <div>No transaction found</div>
+  }
+  else if (error) {
+    return <div>Error loading...</div>
+  }
 
   return (
-    // () => filterTransactions
     <Container className="">
-      <DropdownButton id="dropdown-basic-button" title="Filter Transactions" className="pb-3" onSelect={() => {}}>
-        <Dropdown.Item eventKey="last10">Last 10 Transactions</Dropdown.Item>
+      <DropdownButton id="dropdown-basic-button" title="Filter Transactions" className="pb-3" onSelect={handleFilterSelect}>
+        {/* <Dropdown.Item eventKey="last10">Last 10 Transactions</Dropdown.Item> */}
         <Dropdown.Item eventKey="lastWeek">Last Week Transactions</Dropdown.Item>
         <Dropdown.Item eventKey="lastMonth">Last Month Transactions</Dropdown.Item>
         <Dropdown.Item eventKey="lastQuarter">Last Quarter Transactions</Dropdown.Item>
@@ -89,7 +121,7 @@ const StatementList = () => {
           </tr>
         </thead>
         <tbody>
-          {reversedStatementList && reversedStatementList.length > 0 ? (reversedStatementList?.map((transaction) => (
+          {finalizedStatementList && finalizedStatementList.length > 0 ? (finalizedStatementList?.map((transaction:any) => (
             <tr key={transaction.transactionID}>
               <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
               <td>{transaction.transactionType}</td>

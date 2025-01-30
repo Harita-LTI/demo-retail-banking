@@ -15,25 +15,15 @@ export function convertStingToDate(date: string) {
 // 23 Jan 2025, 11:30AM
 export function dateToDDMonYYYYTime(date: string) {
   const dateObj = new Date(date);
-  const day = String(dateObj.getUTCDate()).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
   const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
-  const month = monthNames[dateObj.getUTCMonth()];
-  const year = dateObj.getUTCFullYear();
-  let hours = dateObj.getUTCHours();
-  const minutes = String(dateObj.getUTCMinutes()).padStart(2, "0");
+  const month = monthNames[dateObj.getMonth()];
+  const year = dateObj.getFullYear();
+  let hours = dateObj.getHours();
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
   const ampm = hours >= 12 ? "PM" : "AM";
   hours = hours % 12;
   hours = hours ? hours : 12;
