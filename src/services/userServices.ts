@@ -60,15 +60,17 @@ export const userTransactionApi = baseApi.injectEndpoints({
           createdDate
         })),
     }),
-    getStatementListInDateRange: builder.query<{}, {userId:number, startDate:string, endDate:string}>({
-      query: () => `/retailBanking/transaction/statement/date-range`,
-      // transformResponse: (response: any[]) =>
-      //   response.map(({ id, firstName, lastName, userStatus: status }) => ({
-      //     id,
-      //     firstName,
-      //     lastName,
-      //     status,
-      //   })),
+    // getStatementListInDateRange: builder.query<{}, {userId:number, startDate:string, endDate:string}>({
+    //   query: (userData:{userId:number, startDate:string, endDate:string}) => ({
+    //     url: `/retailBanking/transaction/statement/date-range`,
+    //     params: userData,
+    //   })
+    // }),
+    getStatementListInDateRange: builder.query<{}, { userId: number; startDate: string; endDate: string }>({
+      query: ({ userId, startDate, endDate }) => ({
+        url: `/retailBanking/transaction/statement/${userId}/date-range`,
+        params: { startDate, endDate },
+      }),
     }),
   }),
 });
