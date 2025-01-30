@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import { Row, Col, Card } from "react-bootstrap";
+
 import SidebarMenu from "./SidebarMenu";
 import "./index.css";
-import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { generateCustomerId } from "../../../utils/utility";
+
 interface LayoutWithSidebarProps {
   children?: any;
   icon?: any;
@@ -18,7 +21,7 @@ const LayoutContainer: React.FC<LayoutContainerProps> = ({ fn }) => {
   let title = fn.title;
   
   if(window.location.pathname === "/user/dashboard" && user)
-    title = title + ", " +user.first_Name + " " + user.last_name;
+    title = title + ", " + user.first_Name + " " + user.last_name + ` (${generateCustomerId(user.userId)})`;
 
   return (
     <>

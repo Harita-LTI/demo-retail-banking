@@ -40,7 +40,7 @@ const UserDetailsCard = ({ accountId, balance }: UserDetailsCardProps) => {
       <Card.Body className="d-flex justify-content-between">
         <div>
           <Card.Title style={{ fontSize: "0.9rem" }} className="text-primary">
-            <b>Account ID</b>
+            <b>Account Number</b>
           </Card.Title>
           <Card.Text style={{ fontSize: "0.8rem" }}>{accountId}</Card.Text>
         </div>
@@ -202,7 +202,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <UserDetailsCard accountId={accountInfo?.accountId} balance={accountInfo?.balance} />
+      <UserDetailsCard accountId={accountInfo ? accountInfo.accountNumber : "No account present"} balance={accountInfo ? accountInfo.availableBalance : "0.00"} />
       <QuickOptions />
       <RecentTransactions statementList={reversedStatementList}/>
     </>
