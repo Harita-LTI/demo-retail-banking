@@ -11,28 +11,29 @@ import { RootState } from "../../store/store";
 const StatementList = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { data:statementList, error, isLoading } = useGetStatementListQuery(user?.userId, {skip: !user});
-  // const reversedStatementList = statementList && [...statementList].reverse();
-  // const [ finalizedStatementList, setFinalizedStatementList ] = useState<any>(reversedStatementList);
   const [ finalizedStatementList, setFinalizedStatementList ] = useState<any>([]);
   const [ startDate, setStartDate ] = useState<string>("");
   const [ endDate, setEndDate ] = useState<string>("");
 
-  console.log("----------------------", startDate, endDate)
-  
   const userData = {
     userId: user?.userId,
     startDate: startDate,
     endDate: endDate
   }
   const { data:newList, error: statementListErr } = useGetStatementListInDateRangeQuery(userData, { skip: !startDate || !endDate || !user});
+  console.log("------------------", newList);
   // @ts-ignore
   const filteredStatementList = newList && [...newList].reverse();
 
   useEffect(() => {
     if(filteredStatementList)
       setFinalizedStatementList(filteredStatementList);
-    else
-      setFinalizedStatementList(statementList);
+    else {
+      if(statementList && statementList.length) {
+        let list = [...statementList].reverse();
+        setFinalizedStatementList(list);
+      }
+    }
   }, [filteredStatementList, statementList]);
 
 
@@ -71,38 +72,14 @@ const StatementList = () => {
 
   const fetchStatements = (filterType: string, userId: number) => {
     const { startDate, endDate } = calculateDateRange(filterType);
-    console.log("------2", startDate, endDate)
   
     setStartDate(startDate);
     setEndDate(endDate);
-
-    // const { data, error } = useGetStatementListInDateRangeQuery({
-    //   userId,
-    //   startDate,
-    //   endDate
-    // });
-  
-    // if (error) {
-    //   console.error('Error fetching range statement:', error);
-    //   return reversedStatementList;
-    // }
-  
-    // return data || reversedStatementList;
   };
 
   const handleFilterSelect = (filterType: string|null) => {
-    console.log("------1", filterType)
-    // let filteredStatements:any;
-
-    // if (!filterType ) {
-    //   // filteredStatements = reversedStatementList;
-    //   reversedStatementList;
-    // } else {
-    //   // filteredStatements = fetchStatements(filterType, user.userId)
-    // }
     if(filterType)
       fetchStatements(filterType, user?.userId)
-    // setFinalizedStatementList(filteredStatements);
   };
 
   const getTransactionTypeIcon = (type:string) => {
