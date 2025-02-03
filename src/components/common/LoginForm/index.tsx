@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { navigateUser } from "../../../utils/user";
 import { setToken } from "../../../utils/token";
 import { encrypt } from "../../../utils/utility";
+import { useState } from "react";
 
 export default function SignInForm() {
   const {
@@ -23,21 +24,26 @@ export default function SignInForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [login, { isLoading }] = useLoginAndValidateMutation();
+  const [apiError, setApiError] = useState(null);
 
   const onSubmit = async (data: any) => {
-    const { email, password } = data;
-
+    const { username, password } = data;
+    setApiError(null);
     try {
       const user: any = await login({
-        emailId: email,
+        userName: username,
         password: password ? encrypt(password) : "",
         timeZone: "IST",
       }).unwrap();
       await dispatch(setCredentials(user));
       setToken(user?.token);
       navigateUser(user?.user, navigate);
-    } catch (err) {
-      console.log("error", err);
+    } catch (err: any) {
+      //console.log("error", err);
+      const msg = err?.data?.details
+        ? err.data.details
+        : "An error has occured";
+      setApiError(msg);
     }
   };
 
@@ -53,24 +59,26 @@ export default function SignInForm() {
         <Row className="justify-content-md-center">
           <Col md="12">
             <h1 className="headline pb-4">Log In</h1>
+            {<p className="text-red m-0">{apiError}</p>}
             <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group controlId="email" className="py-2">
+              <Form.Group controlId="username" className="py-2">
                 <Form.Label>
-                  Please enter your email <span className="text-danger">*</span>
+                  Please enter your username
+                  <span className="text-danger">*</span>
                 </Form.Label>
                 <Form.Control
-                  type="email"
-                  aria-label="Please enter your email"
+                  type="text"
+                  aria-label="Please enter your username"
                   autoComplete="off"
-                  {...register("email", {
-                    required: "You must provide your email.",
+                  {...register("username", {
+                    required: "You must provide your username.",
                   })}
-                  isInvalid={!!errors.email}
+                  isInvalid={!!errors.username}
                   className="login-input-field"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {typeof errors.email?.message === "string" &&
-                    errors.email.message}
+                  {typeof errors.username?.message === "string" &&
+                    errors.username.message}
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group controlId="password" className="py-2">
@@ -93,7 +101,7 @@ export default function SignInForm() {
                 </Form.Control.Feedback>
               </Form.Group>
               <Button type="submit" className="LoginBtn mt-3">
-                Log In
+                {isLoading ? "Logging In..." : "Log In"}
               </Button>
             </Form>
           </Col>

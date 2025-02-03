@@ -6,7 +6,7 @@ export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<
       { user: any; token: string },
-      { emailId: string; password: string; timeZone: string }
+      { userName: string; password: string; timeZone: string }
     >({
       query: (credentials) => ({
         url: "/auth/login",
@@ -16,7 +16,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
     loginAndValidate: builder.mutation<
       { user: any; token: string },
-      { emailId: string; password: string; timeZone: string }
+      { userName: string; password: string; timeZone: string }
     >({
       queryFn: async (credentials, api, extraOptions, baseQuery) => {
         // First API call for login
