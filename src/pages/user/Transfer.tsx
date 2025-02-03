@@ -1,33 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import LayoutWithSidebar from '../../components/common/LayoutWithSidebar';
 import { FaMoneyBill } from 'react-icons/fa';
 import { useTransferMutation } from '../../services/userServices';
+import { useNavigate } from 'react-router-dom';
+import PlaneModalForNotification from '../../components/common/PlaneModalForNotification';
 
 const TransferForm = () => {
   const { register, reset, handleSubmit, formState: { errors } } = useForm();
   const [transfer, {}] = useTransferMutation();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const navigate = useNavigate();
   
   const onSubmit = async (formData: any) => {
     try {
       const resp = await transfer({
-        receiverAccount: "0600140000003", // #check -> account number needed
-        senderAccount: "0600140000002",   // #check -> account number needed
+        receiverAccount: formData.otherBankAccount,
+        senderAccount: formData.ownAccount,
         amount: JSON.parse(formData.amount)
       }).unwrap();
 
-      // #check
-      console.log("----------", resp)
+      //@ts-ignore
+      setModalMessage(resp.message || 'Transaction successful!');
+      setShowModal(true);
+      reset();
+
+      setTimeout(() => {
+        setShowModal(false);
+        navigate('/user/dashboard');
+      }, 3000);
     } catch (err) {
       console.log(err)
     }    
-  };
-
-  const handleCancel = () => {
-    console.log('Cancel clicked');
-    // Handle the cancel logic here
   };
 
   return (
@@ -84,6 +91,13 @@ const TransferForm = () => {
           </Button>
         </Form.Group>
       </Form>
+
+      <PlaneModalForNotification
+        bodyMessage={modalMessage}
+        title="Transaction Status"
+        showModal={showModal}
+        setShowModal={() => setShowModal}
+      />
     </div>
   );
 };

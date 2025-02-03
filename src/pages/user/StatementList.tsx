@@ -21,20 +21,19 @@ const StatementList = () => {
     endDate: endDate
   }
   const { data:newList, error: statementListErr } = useGetStatementListInDateRangeQuery(userData, { skip: !startDate || !endDate || !user});
-  console.log("------------------", newList);
   // @ts-ignore
   const filteredStatementList = newList && [...newList].reverse();
 
   useEffect(() => {
-    if(filteredStatementList)
+    if (newList) 
       setFinalizedStatementList(filteredStatementList);
     else {
-      if(statementList && statementList.length) {
+      if (statementList && statementList.length) {
         let list = [...statementList].reverse();
         setFinalizedStatementList(list);
       }
     }
-  }, [filteredStatementList, statementList]);
+  }, [newList, statementList]);
 
 
   const calculateDateRange = (filterType: string) => {
