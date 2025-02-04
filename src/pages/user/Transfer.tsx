@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Form, Button } from 'react-bootstrap';
 
@@ -7,6 +8,8 @@ import { FaMoneyBill } from 'react-icons/fa';
 import { useTransferMutation } from '../../services/userServices';
 import { useNavigate } from 'react-router-dom';
 import PlaneModalForNotification from '../../components/common/PlaneModalForNotification';
+import { RootState } from '../../store/store';
+import { useAccountViewByUserIdQuery } from '../../services/adminServices';
 
 const TransferForm = () => {
   const { register, reset, handleSubmit, formState: { errors } } = useForm();
@@ -14,6 +17,8 @@ const TransferForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const { data: accountInfo, error, isLoading: accountInfoIsLoading } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
   
   const onSubmit = async (formData: any) => {
     try {
@@ -45,6 +50,7 @@ const TransferForm = () => {
           <Form.Control
             type="text"
             autoComplete='off'
+            defaultValue={accountInfo?.accountNumber}
             {...register('ownAccount', { required: "You must provide your own account number." })}
             isInvalid={!!errors.ownAccount}
             className='transaction-input-field'
@@ -84,10 +90,10 @@ const TransferForm = () => {
           <Button
             type="button"
             className="ms-2"
-            variant="danger"
+            variant="secondary"
             onClick={() => reset()}
           >
-            Cancel
+            Reset
           </Button>
         </Form.Group>
       </Form>

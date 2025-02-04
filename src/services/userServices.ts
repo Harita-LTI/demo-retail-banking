@@ -46,20 +46,29 @@ export const userTransactionApi = baseApi.injectEndpoints({
         transformResponse: (response:any) => response.data,
       }),
     }),
+    // getStatementList: builder.query({
+    //   query: ({userId, page, size}) => ({
+    //     url: `/retailBanking/transaction/statement/${userId}`,
+    //     params: { page, size }
+    //   }),
+    //     transformResponse: (response: any) => {
+    //     return Array.isArray(response) ? response.map(({ transactionID, transaction_amount, closingBalance, transactionType, createdBy, currency, transactionRefNo, createdDate }) => ({
+    //         transactionID,
+    //         transaction_amount,
+    //         closingBalance,
+    //         transactionType,
+    //         createdBy,
+    //         currency,
+    //         transactionRefNo,
+    //         createdDate
+    //     })) : [];
+    //   }
+    // }),
     getStatementList: builder.query({
-      query: (userId:number) => `/retailBanking/transaction/statement/${userId}`,
-        transformResponse: (response: any) => {
-        return Array.isArray(response) ? response.map(({ transactionID, transaction_amount, closingBalance, transactionType, createdBy, currency, transactionRefNo, createdDate }) => ({
-            transactionID,
-            transaction_amount,
-            closingBalance,
-            transactionType,
-            createdBy,
-            currency,
-            transactionRefNo,
-            createdDate
-        })) : [];
-      }
+      query: ({ userId, page, size }) => ({
+        url: `/retailBanking/transaction/statement/${userId}`,
+        params: { page, size },
+      }),
     }),
     getStatementListInDateRange: builder.query({
       query: ({ userId, startDate, endDate }) => ({

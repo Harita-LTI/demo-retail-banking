@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Table, Pagination, Form } from "react-bootstrap";
 import { NavLink } from "react-router";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+
 import "./index.css";
+import { dateToDDMonYYYYTime } from "../../../utils/utility";
+
 interface TableItem {
   [key: string]: any;
 }
@@ -38,6 +42,7 @@ interface PaginationTableProps {
   totalPages: number;
   tableItems: TableItem[];
   columns: Column[];
+  emptyMessage?: string|"No Records found"
 }
 
 const PaginationTable: React.FC<PaginationTableProps> = ({
@@ -48,6 +53,7 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
   totalPages,
   tableItems,
   columns,
+  emptyMessage
 }) => {
   //const [currentPage, setCurrentPage] = useState<number>(1);
   //const [pageSize, setPageSize] = useState<number>(10);
@@ -64,7 +70,15 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
   console.log("pagination called");
 
   //function prepareJsxElement(item: any) {}
-
+  const getTransactionTypeIcon = (type:string) => {
+    if (type === 'DEBIT') {
+      return <FaArrowUp className="text-danger"/>;
+    } else if (type === 'CREDIT') {
+      return <FaArrowDown className="text-success" />;
+    }
+    return null;
+  };
+  
   return (
     <div>
       {/* <div className="d-flex justify-content-end mb-2">
@@ -98,20 +112,29 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {currentTableItems.map((customer, index) => (
+          {currentTableItems && currentTableItems.length > 0 ?  (currentTableItems.map((row, index) => (
             <tr key={index}>
               <td>{startIndex + index + 1}</td>
               {columns.map((column, colIndex) => (
                 <td key={colIndex}>
                   {column.type && column.type === "link"
                     ? column.link
-                      ? prepareLinkElement(column, customer[column.accessor])
+                      ? prepareLinkElement(column, row[column.accessor])
                       : ""
-                    : customer[column.accessor]}
+                    : column.accessor && column.accessor === "createdDate"
+                    ? dateToDDMonYYYYTime(row[column.accessor])
+                    : column.accessor && column.accessor === "icon"
+                    ? getTransactionTypeIcon(row["transactionType"])
+                    : row[column.accessor]}
                 </td>
               ))}
             </tr>
-          ))}
+          ))
+        ) : (
+          <tr>
+            <td colSpan={columns.length} style={{ "color": "#a4a1a1 !important" }}>{emptyMessage}</td>
+          </tr>
+        )}
         </tbody>
       </Table>
       <div className="d-flex justify-content-center">

@@ -1,19 +1,31 @@
 import { useEffect, useState } from "react";
-import { FaArrowDown, FaArrowUp, FaListOl } from "react-icons/fa";
+import { FaListOl } from "react-icons/fa";
 import { Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { useGetStatementListInDateRangeQuery, useGetStatementListQuery } from "../../services/userServices";
-import { dateToDDMonYYYYTime } from "../../utils/utility";
+// import { dateToDDMonYYYYTime } from "../../utils/utility";
 import { RootState } from "../../store/store";
+import PaginationTable from "../../components/common/Pagination/TableWithPagination";
 
 const StatementList = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(2);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data:statementList, error, isLoading } = useGetStatementListQuery(user?.userId, {skip: !user});
+  const { data:statementList, error, isLoading } = useGetStatementListQuery({userId:user?.userId, page:currentPage -1, size: pageSize}, {skip: !user});
   const [ finalizedStatementList, setFinalizedStatementList ] = useState<any>([]);
   const [ startDate, setStartDate ] = useState<string>("");
   const [ endDate, setEndDate ] = useState<string>("");
+
+  const columns = [
+    { header: "Time", accessor: "createdDate" },
+    { header: "Type", accessor: "transactionType" },
+    { header: "Amount", accessor: "transaction_amount" },
+    { header: "Closing Balance", accessor: "closingBalance" },
+    { header: "", accessor: "icon" }
+  ]
 
   const userData = {
     userId: user?.userId,
@@ -28,8 +40,8 @@ const StatementList = () => {
     if (newList) 
       setFinalizedStatementList(filteredStatementList);
     else {
-      if (statementList && statementList.length) {
-        let list = [...statementList].reverse();
+      if (statementList && statementList.content.length) {
+        let list = [...statementList.content].reverse();
         setFinalizedStatementList(list);
       }
     }
@@ -81,14 +93,14 @@ const StatementList = () => {
       fetchStatements(filterType, user?.userId)
   };
 
-  const getTransactionTypeIcon = (type:string) => {
-    if (type === 'DEBIT') {
-      return <FaArrowUp className="text-danger"/>;
-    } else if (type === 'CREDIT') {
-      return <FaArrowDown className="text-success" />;
-    }
-    return null;
-  };
+  // const getTransactionTypeIcon = (type:string) => {
+  //   if (type === 'DEBIT') {
+  //     return <FaArrowUp className="text-danger"/>;
+  //   } else if (type === 'CREDIT') {
+  //     return <FaArrowDown className="text-success" />;
+  //   }
+  //   return null;
+  // };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -109,7 +121,19 @@ const StatementList = () => {
         <Dropdown.Item eventKey="lastQuarter">Last Quarter Transactions</Dropdown.Item>
         <Dropdown.Item eventKey="currentYear">Current Year Transactions</Dropdown.Item>
       </DropdownButton>
-      <Table hover>
+
+      <PaginationTable
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        totalPages={totalPages}
+        tableItems={finalizedStatementList ? finalizedStatementList : []}
+        columns={columns}
+        emptyMessage="No transaction found"
+      />
+
+      {/* <Table hover>
         <thead>
           <tr className="text-primary">
             <th>Time</th>
@@ -135,7 +159,7 @@ const StatementList = () => {
             </tr>
           )}
         </tbody>
-      </Table>
+      </Table> */}
     </Container>
   );
 };

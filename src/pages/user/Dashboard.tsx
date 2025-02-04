@@ -165,7 +165,8 @@ const RecentTransactions = (props:RecentTransactionsProps) => {
             </thead>
             <tbody>
               {props.statementList && props.statementList.length > 0 ? (
-                props.statementList.slice(0, 5).map((transaction) => (
+                // props.statementList.slice(0, 5).map((transaction) => (
+                  props.statementList.map((transaction) => (
                   <tr key={transaction.transactionID}>
                     <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
                     <td>{transaction.transactionType}</td>
@@ -188,10 +189,13 @@ const RecentTransactions = (props:RecentTransactionsProps) => {
 };
 
 const Dashboard = () => {
+  // const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [pageSize, setPageSize] = useState<number>(2);
+  // const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.auth);
   const { data: accountInfo, error, isLoading, refetch } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
-  const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery(user?.userId, {skip: !user});
-  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList].reverse();
+  const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery({userId:user?.userId, page:0, size: 5}, {skip: !user});
+  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList?.content].reverse();
   
   useEffect(() => {
     if(user) {
