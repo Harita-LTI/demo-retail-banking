@@ -82,15 +82,18 @@ export const userTransactionApi = baseApi.injectEndpoints({
       query: (userId: number) =>
         `/retailBanking/account/allAccountByUserId/${userId}`,
     }),
-    getCustomerList: builder.query<Customer[], void>({
-      query: () => "/retailBanking/customer/displayAllCustomer",
-      transformResponse: (response: any[]) =>
-        response.map(({ id, firstName, lastName, userStatus: status }) => ({
-          id,
-          firstName,
-          lastName,
-          status,
-        })),
+    getCustomerList: builder.query<Customer[], any>({
+      query: ({ page, size }) => ({
+        url: "/retailBanking/customer/displayAllCustomer",
+        params: { page, size },
+      }),
+      // transformResponse: (response: any[]) =>
+      //   response.map(({ id, firstName, lastName, userStatus: status }) => ({
+      //     id,
+      //     firstName,
+      //     lastName,
+      //     status,
+      //   })),
     }),
     getCustomerDetils: builder.query({
       query: (userId: number) =>
