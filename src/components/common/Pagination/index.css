@@ -1,0 +1,12 @@
+.active > .page-link {
+  background-color: #1f6b6b !important;
+  border-color: #1f6b6b !important;
+  color: #fff;
+}
+
+.page-link {
+  color: #1f6b6b;
+}
+.page-item {
+  border-radius: 0 !important;
+}

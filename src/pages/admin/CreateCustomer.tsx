@@ -247,7 +247,7 @@ const CreateCustomer = () => {
           </Form.Group>
         </Row>
         <Form.Group className="mt-4">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{isLoading ? "Creating..." : "Submit"}</Button>
           <Button
             type="button"
             className="ms-2"

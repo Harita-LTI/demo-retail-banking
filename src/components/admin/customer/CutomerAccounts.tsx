@@ -9,6 +9,7 @@ import {
 import ConfirmModal from "../../common/ConfirmModal";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import { getBgClass, toTitleCase } from "../../../utils/utility";
+import CloseAccountFormModal from "./CloseAccountFormModal";
 
 const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   const { userId }: any = useParams();
@@ -138,7 +139,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   return (
     <React.Fragment>
       {accountsSection()}
-      <ConfirmModal
+      {/* <ConfirmModal
         bodyMessage={
           "Are you sure you want to close the account " +
           selectedAccount?.accountNumber +
@@ -148,6 +149,14 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
         showModal={showConfirmModal}
         handleYes={handleOkClick}
         handleNo={handleCancelClick}
+      /> */}
+      <CloseAccountFormModal
+        accNo={
+          selectedAccount?.accountNumber ? selectedAccount?.accountNumber : ""
+        }
+        show={showConfirmModal}
+        handleClose={handleCancelClick}
+        handleConfirm={handleOkClick}
       />
       <PlaneModalForNotification
         bodyMessage={modalMessage}
