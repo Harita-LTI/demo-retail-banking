@@ -50,6 +50,7 @@ const TransferForm = () => {
           <Form.Control
             type="text"
             autoComplete='off'
+            disabled={true}
             defaultValue={accountInfo?.accountNumber}
             {...register('ownAccount', { required: "You must provide your own account number." })}
             isInvalid={!!errors.ownAccount}
@@ -90,7 +91,7 @@ const TransferForm = () => {
           <Button
             type="button"
             className="ms-2"
-            variant="secondary"
+            variant="danger"
             onClick={() => reset()}
           >
             Reset

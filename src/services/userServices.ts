@@ -71,9 +71,9 @@ export const userTransactionApi = baseApi.injectEndpoints({
       }),
     }),
     getStatementListInDateRange: builder.query({
-      query: ({ userId, startDate, endDate }) => ({
+      query: ({ userId, startDate, endDate, page, size }) => ({
         url: `/retailBanking/transaction/statement/${userId}/date-range`,
-        params: { startDate, endDate },
+        params: { startDate, endDate, page, size },
       }),
     }),
   }),

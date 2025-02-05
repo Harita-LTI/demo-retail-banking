@@ -67,7 +67,7 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
   //const totalPages = Math.ceil(tableItems.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
   const currentTableItems = tableItems; //.slice(startIndex, startIndex + pageSize);
-  console.log("pagination called");
+  // console.log("pagination called");
 
   //function prepareJsxElement(item: any) {}
   const getTransactionTypeIcon = (type:string) => {

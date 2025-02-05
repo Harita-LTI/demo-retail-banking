@@ -9,7 +9,12 @@ interface PlaneModalForNotificationProps {
 
 export default function PlaneModalForNotification(props:PlaneModalForNotificationProps) {
   return (
-    <Modal show={props.showModal} onHide={() => props.setShowModal(false)}>
+    <Modal
+      show={props.showModal}
+      onHide={() => props.setShowModal(false)}
+      backdrop={true}
+      keyboard={true}
+      >
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>

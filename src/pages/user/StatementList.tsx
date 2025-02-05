@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaListOl } from "react-icons/fa";
-import { Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
+import { Button, Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
@@ -18,6 +18,7 @@ const StatementList = () => {
   const [ finalizedStatementList, setFinalizedStatementList ] = useState<any>([]);
   const [ startDate, setStartDate ] = useState<string>("");
   const [ endDate, setEndDate ] = useState<string>("");
+  const [ selectedFilter, setSelectedFilter ] = useState<string>("All");
 
   const columns = [
     { header: "Time", accessor: "createdDate" },
@@ -25,28 +26,38 @@ const StatementList = () => {
     { header: "Amount", accessor: "transaction_amount" },
     { header: "Closing Balance", accessor: "closingBalance" },
     { header: "", accessor: "icon" }
-  ]
+  ];
 
-  const userData = {
+  const params = {
     userId: user?.userId,
     startDate: startDate,
-    endDate: endDate
-  }
-  const { data:newList, error: statementListErr } = useGetStatementListInDateRangeQuery(userData, { skip: !startDate || !endDate || !user});
+    endDate: endDate,
+    page: currentPage - 1,
+    size: pageSize
+  };
+  const { data:newList, error: statementListErr } = useGetStatementListInDateRangeQuery(params, { skip: !startDate || !endDate || !user});
   // @ts-ignore
-  const filteredStatementList = newList && [...newList].reverse();
-
+  const filteredStatementList = newList && [...newList.content].reverse();
+  
   useEffect(() => {
-    if (newList) 
+    if (newList && selectedFilter !== "All") {
       setFinalizedStatementList(filteredStatementList);
-    else {
+      setTotalPages(newList.totalPages);
+    } else {
       if (statementList && statementList.content.length) {
         let list = [...statementList.content].reverse();
+        // let list = [...statementList.content];
         setFinalizedStatementList(list);
+        setTotalPages(statementList.totalPages);
       }
     }
-  }, [newList, statementList]);
+  }, [newList, statementList, selectedFilter]);
 
+  // const sortStatementListToDesc = (list: any) => {
+  //   return list.sort((a: any, b: any) => {
+  //     return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+  //   });
+  // }
 
   const calculateDateRange = (filterType: string) => {
     const now = new Date();
@@ -88,19 +99,24 @@ const StatementList = () => {
     setEndDate(endDate);
   };
 
-  const handleFilterSelect = (filterType: string|null) => {
-    if(filterType)
-      fetchStatements(filterType, user?.userId)
+  const handleFilterSelect = (filterType: string | null) => {
+    if (filterType) {
+      setSelectedFilter(filterType);
+      if (filterType === "All") {
+        setSelectedFilter("All");
+        setStartDate("");
+        setEndDate("");
+      } else {
+        fetchStatements(filterType, user?.userId);
+      }
+    }
   };
-
-  // const getTransactionTypeIcon = (type:string) => {
-  //   if (type === 'DEBIT') {
-  //     return <FaArrowUp className="text-danger"/>;
-  //   } else if (type === 'CREDIT') {
-  //     return <FaArrowDown className="text-success" />;
-  //   }
-  //   return null;
-  // };
+  
+  const clearFilter = () => {
+    setSelectedFilter("All");
+    setStartDate("");
+    setEndDate("");
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -114,13 +130,21 @@ const StatementList = () => {
 
   return (
     <Container className="">
-      <DropdownButton id="dropdown-basic-button" title="Filter Transactions" className="pb-3" onSelect={handleFilterSelect}>
-        {/* <Dropdown.Item eventKey="last10">Last 10 Transactions</Dropdown.Item> */}
-        <Dropdown.Item eventKey="lastWeek">Last Week Transactions</Dropdown.Item>
-        <Dropdown.Item eventKey="lastMonth">Last Month Transactions</Dropdown.Item>
-        <Dropdown.Item eventKey="lastQuarter">Last Quarter Transactions</Dropdown.Item>
-        <Dropdown.Item eventKey="currentYear">Current Year Transactions</Dropdown.Item>
-      </DropdownButton>
+      <div className="d-flex align-items-center pb-3">
+        <DropdownButton id="dropdown-basic-button" title="Filter Transactions" onSelect={handleFilterSelect}>
+          <Dropdown.Item eventKey="All">All</Dropdown.Item>
+          <Dropdown.Item eventKey="lastWeek">Last Week Transactions</Dropdown.Item>
+          <Dropdown.Item eventKey="lastMonth">Last Month Transactions</Dropdown.Item>
+          <Dropdown.Item eventKey="lastQuarter">Last Quarter Transactions</Dropdown.Item>
+          <Dropdown.Item eventKey="currentYear">Current Year Transactions</Dropdown.Item>
+        </DropdownButton>
+        
+        {selectedFilter !== "All" && (
+          <Button variant="secondary" className="ms-2" onClick={clearFilter}>
+            Clear Filter
+          </Button>
+        )}
+      </div>
 
       <PaginationTable
         currentPage={currentPage}
@@ -132,34 +156,6 @@ const StatementList = () => {
         columns={columns}
         emptyMessage="No transaction found"
       />
-
-      {/* <Table hover>
-        <thead>
-          <tr className="text-primary">
-            <th>Time</th>
-            <th>Type</th>
-            <th>Amount</th>
-            <th className="text-center">Closing Balance</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {finalizedStatementList && finalizedStatementList.length > 0 ? (finalizedStatementList?.map((transaction:any) => (
-            <tr key={transaction.transactionID}>
-              <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
-              <td>{transaction.transactionType}</td>
-              <td>{transaction.transaction_amount}</td>
-              <td className="text-center">{transaction.closingBalance}</td>
-              <td>{getTransactionTypeIcon(transaction.transactionType)}</td>
-            </tr>
-          ))
-          ) : (
-            <tr>
-              <td colSpan={5} style={{ "color": "#a4a1a1 !important" }}>No recent transaction</td>
-            </tr>
-          )}
-        </tbody>
-      </Table> */}
     </Container>
   );
 };

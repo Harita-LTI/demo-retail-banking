@@ -98,7 +98,7 @@ const Credit = () => {
           <Button
             type="button"
             className="ms-2"
-            variant="secondary"
+            variant="danger"
             onClick={() => reset()}
           >
             Reset
