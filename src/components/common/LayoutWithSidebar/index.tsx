@@ -12,6 +12,7 @@ import { setCredentials } from "../../../features/auth/authSlice";
 import { navigateUser } from "../../../utils/user";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import SessionTimeout from "../SessionTimeout/SessionTimeout";
 
 interface LayoutWithSidebarProps {
   children?: any;
@@ -50,6 +51,7 @@ function LayoutWithSidebar(fn: LayoutWithSidebarProps) {
   };
   return (
     <div>
+      <SessionTimeout />
       <Header />
       <LayoutContainer fn={fn} />
       <LayoutFooter />

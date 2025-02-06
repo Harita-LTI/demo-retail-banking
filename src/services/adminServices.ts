@@ -56,17 +56,18 @@ export const userTransactionApi = baseApi.injectEndpoints({
       }),
     }),
     closeAccountByAccountNumber: builder.mutation({
-      query: (accountNumber: number) => ({
-        url: `/retailBanking/account/closeAccount/${accountNumber}`,
+      query: (userData: any) => ({
+        url: `/retailBanking/account/closeAccount`,
         method: "POST",
+        body: userData,
         transformResponse: (response: any) => response.data,
       }),
     }),
     accountStatusUpdateByAccountNumber: builder.mutation({
-      query: () => ({
-        url: (accountNumber: number) =>
-          `/retailBanking/account/updateAccountStatus/${accountNumber}`,
+      query: (userData: any) => ({
+        url: `/retailBanking/account/updateAccountStatus`,
         method: "POST",
+        body: userData,
         transformResponse: (response: any) => response.data,
       }),
     }),

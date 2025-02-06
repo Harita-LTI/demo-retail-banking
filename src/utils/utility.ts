@@ -17,8 +17,18 @@ export function dateToDDMonYYYYTime(date: string) {
   const dateObj = new Date(date);
   const day = String(dateObj.getDate()).padStart(2, "0");
   const monthNames = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   const month = monthNames[dateObj.getMonth()];
   const year = dateObj.getFullYear();
@@ -62,8 +72,8 @@ export function getBgClass(status: string) {
   switch (status) {
     case "ACTIVE":
       return "success";
-    case "INACTIVE":
-      return "secondary";
+    case "BLOCKED":
+      return "danger";
     case "CLOSED":
       return "secondary";
     default:
