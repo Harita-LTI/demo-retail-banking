@@ -11,7 +11,12 @@ import {
   useRegisterCustomerMutation,
 } from "../../services/adminServices";
 import PlaneModalForNotification from "../../components/common/PlaneModalForNotification";
-import { convertDateFormat, encrypt, toTitleCase } from "../../utils/utility";
+import {
+  convertDateFormat,
+  encrypt,
+  generateCustomerId,
+  toTitleCase,
+} from "../../utils/utility";
 
 const CreateCustomer = () => {
   const {
@@ -48,8 +53,7 @@ const CreateCustomer = () => {
       const resp = await registerCustomer(newCustomerObj).unwrap();
 
       setModalMessage(
-        resp.message + "Customer ID: " + resp.customerid ||
-          "Customer Created Successfully"
+        resp.message + "Customer ID: " + generateCustomerId(resp.customerid)
       );
       setShowModal(true);
       reset();
@@ -57,7 +61,7 @@ const CreateCustomer = () => {
       setTimeout(() => {
         setShowModal(false);
         navigate("/admin/customer-details/" + resp.customerid);
-      }, 2000);
+      }, 8000);
     } catch (error) {
       console.log(error);
     }
@@ -254,7 +258,7 @@ const CreateCustomer = () => {
             variant="danger"
             onClick={() => reset()}
           >
-            Cancel
+            Reset
           </Button>
         </Form.Group>
       </Form>
