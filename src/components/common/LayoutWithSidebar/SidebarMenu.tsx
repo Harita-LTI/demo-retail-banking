@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 import {
   FaPlus,
   FaUsers,
-  FaPlusSquare,
-  FaPeopleArrows,
   FaHome,
   FaListOl,
   FaMoneyBillWave,
   FaExchangeAlt,
+  FaPiggyBank,
 } from "react-icons/fa";
 import "./index.css";
 import { Nav } from "react-bootstrap";
@@ -60,9 +59,14 @@ function SidebarMenu() {
       icon: <FaMoneyBillWave />,
     },
     {
-      name: "Transfer",
+      name: "Money Transfer",
       path: "/user/transfer",
       icon: <FaExchangeAlt />,
+    },
+    {
+      name: "Quick Pay",
+      path: "/user/quick-pay",
+      icon: <FaPiggyBank />,
     },
     {
       name: "Statement",

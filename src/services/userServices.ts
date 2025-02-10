@@ -63,7 +63,7 @@ export const userTransactionApi = baseApi.injectEndpoints({
     //         createdDate
     //     })) : [];
     //   }
-    // }),
+    // }), 
     getStatementList: builder.query({
       query: ({ userId, page, size }) => ({
         url: `/retailBanking/transaction/statement/${userId}`,
@@ -76,6 +76,9 @@ export const userTransactionApi = baseApi.injectEndpoints({
         params: { startDate, endDate, page, size },
       }),
     }),
+    getAllActiveAccounts: builder.query({
+      query: () => `/retailBanking/account/allActiveAccount`,
+    }),
   }),
 });
 
@@ -84,5 +87,6 @@ export const {
   useWithdrawMutation,
   useTransferMutation,
   useGetStatementListInDateRangeQuery,
-  useGetStatementListQuery
+  useGetStatementListQuery,
+  useGetAllActiveAccountsQuery
 } = userTransactionApi;

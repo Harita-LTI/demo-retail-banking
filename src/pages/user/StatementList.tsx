@@ -8,19 +8,20 @@ import {
   Table,
 } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { jsPDF } from "jspdf";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import {
   useGetStatementListInDateRangeQuery,
   useGetStatementListQuery,
 } from "../../services/userServices";
-// import { dateToDDMonYYYYTime } from "../../utils/utility";
+import { dateToDDMonYYYYTime } from "../../utils/utility";
 import { RootState } from "../../store/store";
 import PaginationTable from "../../components/common/Pagination/TableWithPagination";
 
 const StatementList = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(2);
+  const [pageSize, setPageSize] = useState<number>(10);
   const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.auth);
   const {
@@ -56,7 +57,7 @@ const StatementList = () => {
       skip: !startDate || !endDate || !user,
     });
   // @ts-ignore
-  const filteredStatementList = newList && [...newList.content].reverse();
+  const filteredStatementList = newList && [...newList.content];
 
   useEffect(() => {
     if (newList && selectedFilter !== "All") {
@@ -64,19 +65,12 @@ const StatementList = () => {
       setTotalPages(newList.totalPages);
     } else {
       if (statementList && statementList.content.length) {
-        let list = [...statementList.content].reverse();
-        // let list = [...statementList.content];
+        let list = [...statementList.content];
         setFinalizedStatementList(list);
         setTotalPages(statementList.totalPages);
       }
     }
   }, [newList, statementList, selectedFilter]);
-
-  // const sortStatementListToDesc = (list: any) => {
-  //   return list.sort((a: any, b: any) => {
-  //     return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
-  //   });
-  // }
 
   const calculateDateRange = (filterType: string) => {
     const now = new Date();
@@ -147,6 +141,46 @@ const StatementList = () => {
     setEndDate("");
   };
 
+  const handleViewPDF = () => {
+    const doc = generatePDF();
+    const pdfBlob = doc.output("blob");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    window.open(pdfUrl, "_blank");
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.text("Statement List", 10, 10);
+  
+    // Table headers
+    doc.text("S.No", 10, 20);
+    doc.text("Time", 35, 20);
+    doc.text("Amount", 120, 20);
+    doc.text("Closing Balance", 160, 20);
+  
+    // Table content
+    finalizedStatementList.forEach((item:any, index:any) => {
+      const y = 30 + index * 10;
+      doc.text(`${index + 1}`, 10, y);
+      doc.text(dateToDDMonYYYYTime(item.createdDate),35, y);
+      doc.text(`${item.transaction_amount}`, 120, y);
+      doc.text(`${item.closingBalance}`, 160, y);
+    });
+  
+    return doc;
+  };
+  
+  const handleDownloadPDF = () => {
+    const doc = generatePDF();
+    const pdfBlob = doc.output("blob");
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(pdfBlob);
+    link.download = "statement_list.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   //@ts-ignore
@@ -157,11 +191,11 @@ const StatementList = () => {
   }
 
   return (
-    <Container className="">
+    <Container>
       <div className="d-flex align-items-center pb-3">
         <DropdownButton
           id="dropdown-basic-button"
-          title="Filter Transactions"
+          title="Filter"
           onSelect={handleFilterSelect}
         >
           <Dropdown.Item eventKey="All">All</Dropdown.Item>
@@ -181,9 +215,14 @@ const StatementList = () => {
 
         {selectedFilter !== "All" && (
           <Button variant="secondary" className="ms-2" onClick={clearFilter}>
-            Clear Filter
+            Clear
           </Button>
         )}
+
+        <div className="ms-auto">
+          <Button variant="info" className="me-2" onClick={handleViewPDF}>View</Button>
+          <Button variant="dark" onClick={handleDownloadPDF}>Download</Button>
+        </div>
       </div>
 
       <PaginationTable

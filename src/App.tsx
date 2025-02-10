@@ -17,6 +17,7 @@ import TransferPage from "./pages/user/Transfer";
 import StatementPage from "./pages/user/StatementList";
 import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
 import PageNotFound from "./components/common/PageNotFound";
+import QuickPayPage from "./pages/user/QuickPay";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/user/deposit" element={<CreditPage />} />
           <Route path="/user/transfer" element={<TransferPage />} />
           <Route path="/user/statement" element={<StatementPage />} />
+          <Route path="/user/quick-pay" element={<QuickPayPage />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

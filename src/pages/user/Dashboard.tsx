@@ -122,7 +122,7 @@ const QuickOptions = () => {
           </Col>
           <Col>
             <OptionCard
-              title="Transfer"
+              title="Money Transfer"
               Icon={FaExchangeAlt}
               onClick={() => handleOptionClick("Transfer")}
             />
@@ -195,7 +195,7 @@ const Dashboard = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { data: accountInfo, error, isLoading, refetch } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
   const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery({userId:user?.userId, page:0, size: 5}, {skip: !user});
-  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList?.content].reverse();
+  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList?.content];
   
   useEffect(() => {
     if(user) {
