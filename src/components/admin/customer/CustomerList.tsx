@@ -9,13 +9,18 @@ import PaginationTable from "../../common/Pagination/TableWithPagination";
 const CustomerListTable = () => {
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(2);
+  const [pageSize, setPageSize] = useState<number>(1);
+  const [lastPageSize, setLastPageSize] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const {
     data: customersData,
     error,
     isLoading,
-  }: any = useGetCustomerListQuery({ page: currentPage - 1, size: pageSize });
+  }: any = useGetCustomerListQuery(
+    { page: currentPage - 1, size: pageSize }
+    //{ refetchOnMountOrArgChange: true }
+    //{ skip: lastPageSize > pageSize }
+  );
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
@@ -29,7 +34,12 @@ const CustomerListTable = () => {
       );
       setTotalPages(customersData.totalPages);
     }
-  }, [customersData]);
+  }, [customersData, pageSize]);
+
+  useEffect(() => {
+    console.log("Last Page size updated:", lastPageSize);
+    console.log("Page size updated:", pageSize);
+  }, [lastPageSize, pageSize]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading customers</div>;
@@ -61,6 +71,10 @@ const CustomerListTable = () => {
       totalPages={totalPages}
       tableItems={customers ? customers : []}
       columns={columns}
+      totalElements={
+        customersData?.totalElements ? customersData.totalElements : 0
+      }
+      setLastPageSize={setLastPageSize}
     />
   );
 
