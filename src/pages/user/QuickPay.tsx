@@ -153,6 +153,12 @@ const BankTransferForm = () => {
             label="I agree to the terms and conditions"
             {...register('btTerms', { required: "You must agree to the terms and conditions." })}
             isInvalid={!!errors.terms}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                (e.target as HTMLInputElement).click();
+              }
+            }}
           />
           <Form.Control.Feedback type="invalid">
             {typeof errors.terms?.message === 'string' && errors.terms.message}
@@ -279,6 +285,12 @@ const OneTimePayForm = () => {
             type="checkbox"
             label="Add as beneficiary"
             {...register('otAddBeneficiary')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                (e.target as HTMLInputElement).click();
+              }
+            }}
           />
         </Form.Group>
         <Form.Group controlId="otAmount" className="py-2 w-100">
@@ -327,6 +339,12 @@ const OneTimePayForm = () => {
             label="I agree to the terms and conditions"
             {...register('terms', { required: "You must agree to the terms and conditions." })}
             isInvalid={!!errors.terms}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                (e.target as HTMLInputElement).click();
+              }
+            }}
           />
           <Form.Control.Feedback type="invalid">
             {typeof errors.terms?.message === 'string' && errors.terms.message}

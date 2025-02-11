@@ -159,6 +159,12 @@ const TransferForm = () => {
             label="I agree to the terms and conditions"
             {...register('terms', { required: "You must agree to the terms and conditions." })}
             isInvalid={!!errors.terms}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                (e.target as HTMLInputElement).click();
+              }
+            }}
           />
           <Form.Control.Feedback type="invalid">
             {typeof errors.terms?.message === 'string' && errors.terms.message}

@@ -18,6 +18,7 @@ const Credit = () => {
     reset,
     formState: { errors },
     setError,
+    watch
   } = useForm();
   const [deposit, { isLoading }] = useDepositMutation();
   const [showModal, setShowModal] = useState(false);
@@ -44,17 +45,28 @@ const Credit = () => {
         amount: JSON.parse(formData.amount),
       }).unwrap();
 
-      setModalMessage(resp.message || 'Transaction successful!');
-      setShowModal(true);
-      reset();
-
-      setTimeout(() => {
-        setShowModal(false);
-        navigate('/user/dashboard');
-      }, 3000);
+      if(resp && resp.transactionId) {
+        setModalMessage(resp.message || 'Transaction successful!');
+        setShowModal(true);
+        reset();
+      }
+      //@ts-ignore
+      else if(resp && resp.originalStatus) {
+        //@ts-ignore
+        setModalMessage(resp.data || 'Transaction failed!');
+        setShowModal(true);
+      }
+      
     } catch (err) {
-      console.log(err);
+      //@ts-ignore
+      setModalMessage('Transaction failed with error: ' + err.data);
+      setShowModal(true);
     }
+
+    setTimeout(() => {
+      setShowModal(false);
+      // navigate('/user/dashboard');
+    }, 1000);
   };
 
   return (
@@ -62,7 +74,7 @@ const Credit = () => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         {
           accountInfo && <Form.Group controlId="accountNumber" className="py-2" style={{color:"grey"}}>
-            <Form.Label>{`Account Number: ${accountInfo?.accountNumber}`}</Form.Label>
+            <Form.Label>{`Transfer To: ${accountInfo?.accountNumber}`}</Form.Label>
           </Form.Group>
         }
         <Form.Group controlId="amount" className="py-2">
@@ -86,15 +98,43 @@ const Credit = () => {
               required: "You must provide the amount.",
             })}
             isInvalid={!!errors.amount}
-            className="transaction-input-field"
           />
           <Form.Control.Feedback type="invalid">
             {typeof errors.amount?.message === "string" &&
               errors.amount.message}
           </Form.Control.Feedback>
         </Form.Group>
+        <Form.Group controlId="remarks" className="py-2">
+          <Form.Label>Remark</Form.Label>
+          <Form.Control
+            type="text"
+            autoComplete="off"
+            // {...register('remarks', { required: "You must provide a remark or comment." })}
+            // isInvalid={!!errors.remarks}
+          />
+          {/* <Form.Control.Feedback type="invalid">
+            {typeof errors.remarks?.message === 'string' && errors.remarks.message}
+          </Form.Control.Feedback> */}
+        </Form.Group>
+        <Form.Group controlId="terms" className="py-2">
+          <Form.Check
+            type="checkbox"
+            label="I agree to the terms and conditions"
+            {...register('terms', { required: "You must agree to the terms and conditions." })}
+            isInvalid={!!errors.terms}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                (e.target as HTMLInputElement).click();
+              }
+            }}
+          />
+          <Form.Control.Feedback type="invalid">
+            {typeof errors.terms?.message === 'string' && errors.terms.message}
+          </Form.Control.Feedback>
+        </Form.Group>
         <Form.Group className="mt-4">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={!watch('terms') || !watch('amount')} >Submit</Button>
           <Button
             type="button"
             className="ms-2"
