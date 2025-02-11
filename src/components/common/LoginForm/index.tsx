@@ -18,6 +18,7 @@ export default function SignInForm() {
   const {
     register,
     handleSubmit,
+    setFocus,
     formState: { errors },
     setError,
   } = useForm();
@@ -44,6 +45,7 @@ export default function SignInForm() {
         ? err.data.details
         : "An error has occured";
       setApiError(msg);
+      setFocus("password");
     }
   };
 

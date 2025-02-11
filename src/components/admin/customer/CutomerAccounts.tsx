@@ -177,38 +177,35 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
               </p>
               <p>{account.currency + " " + account.availableBalance}</p>
               {account.accountStatus !== "CLOSED" && (
-                <>
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    title={
-                      account.accountStatus !== "BLOCKED"
-                        ? "Freeze"
-                        : "Unfreeze"
-                    } //"Close Account"
-                    onClick={() => {
-                      handleStatusButtonClick(account);
-                    }}
-                    className="me-2"
-                  >
-                    {statusButtonText
-                      ? statusButtonText
-                      : account.accountStatus !== "BLOCKED"
-                      ? "Freeze Account"
-                      : "Unfreeze Account"}
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    title="Close"
-                    onClick={() => {
-                      handleButtonClick(account);
-                    }}
-                  >
-                    {buttonText}
-                  </Button>
-                </>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  title={
+                    account.accountStatus !== "BLOCKED" ? "Freeze" : "Unfreeze"
+                  } //"Close Account"
+                  onClick={() => {
+                    handleStatusButtonClick(account);
+                  }}
+                  className="me-2"
+                >
+                  {statusButtonText
+                    ? statusButtonText
+                    : account.accountStatus !== "BLOCKED"
+                    ? "Freeze Account"
+                    : "Unfreeze Account"}
+                </Button>
+              )}
+              {account.accountStatus === "ACTIVE" && (
+                <Button
+                  size="sm"
+                  variant="primary"
+                  title="Close"
+                  onClick={() => {
+                    handleButtonClick(account);
+                  }}
+                >
+                  {buttonText}
+                </Button>
               )}
             </div>
           </Col>
