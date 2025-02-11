@@ -31,20 +31,20 @@ const AccountsView = () => {
   return (
     <div className="container">
       <Row>
-        {accounts?.map((account: any) => {
+        {accounts && [...accounts]?.reverse().map((account: any) => {
           const isActive = account.accountStatus === "ACTIVE";
           return (
             <Col 
               key={account.accountId} 
               xs={12} 
-              sm={6} 
-              md={4} 
-              lg={3} 
+              sm={12} 
+              md={6} 
+              lg={4} 
               className="mb-4"
               onClick={isActive ? () => handleOnClick(account.accountStatus) : undefined}
               style={{ cursor: isActive ? 'pointer' : 'default' }}
             >
-              <Card className="h-100 border-0" style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px", minWidth: "300px" }}>
+              <Card className="h-100 border-0" style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
                 <Card.Header 
                   className="text-white" 
                   style={{ backgroundColor: isActive ? "#1f6b6b" : "#a3abab" }}
@@ -53,9 +53,24 @@ const AccountsView = () => {
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    <strong>Status:</strong> <span style={{ color: (account.accountStatus === "ACTIVE") ? "green" : "" }} >{account.accountStatus}</span><br />
+                    <strong>Status: </strong>
+                    <span style={{ color: (account.accountStatus === "ACTIVE") ? "green" : "" }} >{account.accountStatus}</span><br />
                     <strong>Type:</strong> {account.accountType}<br />
-                    <strong>Opening Date:</strong> {dateToDDMonYYYYTime(account.openingDate)}<br />
+                    {
+                      account.accountStatus === "ACTIVE" ? (
+                        <span>
+                          <strong>Opening Date: </strong>
+                          {dateToDDMonYYYYTime(account.openingDate)}
+                          <br />
+                        </span>
+                      ) : (
+                        <span>
+                          <strong>Closing Date: </strong>
+                          {dateToDDMonYYYYTime(account.closingDate)}
+                          <br />
+                        </span>
+                      )
+                    }
                     <strong>Balance:</strong> {account.currency} {account.availableBalance}
                   </Card.Text>
                 </Card.Body>
