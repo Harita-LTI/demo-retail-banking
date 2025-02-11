@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaListOl } from "react-icons/fa";
+import { FaFileAlt, FaFileDownload, FaListOl } from "react-icons/fa";
 import {
   Button,
   Container,
@@ -220,8 +220,12 @@ const StatementList = () => {
         )}
 
         <div className="ms-auto">
-          <Button variant="info" className="me-2" onClick={handleViewPDF}>View</Button>
-          <Button variant="dark" onClick={handleDownloadPDF}>Download</Button>
+            <span className="fs-3 me-3">
+              <FaFileAlt onClick={handleViewPDF} />
+            </span>
+            <span className="fs-3">
+              <FaFileDownload onClick={handleDownloadPDF} />
+            </span>
         </div>
       </div>
 

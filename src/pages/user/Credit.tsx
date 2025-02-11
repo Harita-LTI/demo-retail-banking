@@ -72,50 +72,46 @@ const Credit = () => {
   return (
     <div className="container">
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {
-          accountInfo && <Form.Group controlId="accountNumber" className="py-2" style={{color:"grey"}}>
+        {accountInfo && (
+          <Form.Group controlId="accountNumber" className="py-2" style={{ color: "grey" }}>
             <Form.Label>{`Transfer To: ${accountInfo?.accountNumber}`}</Form.Label>
           </Form.Group>
-        }
-        <Form.Group controlId="amount" className="py-2">
-          <Form.Label>
-            Please enter the amount <span className="text-danger">*</span>
-            <OverlayTrigger
-              placement="right"
-              overlay={
-                <Tooltip>
-                  The amount should be a multiple of 100, 200, or 500.
-                </Tooltip>
-              }
-            >
-              <span className="ml-2 text-info">ℹ️</span>
-            </OverlayTrigger>
-          </Form.Label>
-          <Form.Control
-            type="number"
-            autoComplete="off"
-            {...register("amount", {
-              required: "You must provide the amount.",
-            })}
-            isInvalid={!!errors.amount}
-          />
-          <Form.Control.Feedback type="invalid">
-            {typeof errors.amount?.message === "string" &&
-              errors.amount.message}
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group controlId="remarks" className="py-2">
-          <Form.Label>Remark</Form.Label>
-          <Form.Control
-            type="text"
-            autoComplete="off"
-            // {...register('remarks', { required: "You must provide a remark or comment." })}
-            // isInvalid={!!errors.remarks}
-          />
-          {/* <Form.Control.Feedback type="invalid">
-            {typeof errors.remarks?.message === 'string' && errors.remarks.message}
-          </Form.Control.Feedback> */}
-        </Form.Group>
+        )}
+        <div className="d-flex">
+          <Form.Group controlId="amount" className="py-2 me-2" style={{ flex: 1 }}>
+            <Form.Label>
+              Please enter the amount <span className="text-danger">*</span>
+              <OverlayTrigger
+                placement="right"
+                overlay={
+                  <Tooltip>
+                    The amount should be a multiple of 100, 200, or 500.
+                  </Tooltip>
+                }
+              >
+                <span className="ml-2 text-info">ℹ️</span>
+              </OverlayTrigger>
+            </Form.Label>
+            <Form.Control
+              type="number"
+              autoComplete="off"
+              {...register("amount", {
+                required: "You must provide the amount.",
+              })}
+              isInvalid={!!errors.amount}
+            />
+            <Form.Control.Feedback type="invalid">
+              {typeof errors.amount?.message === "string" && errors.amount.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="remarks" className="py-2 ms-2" style={{ flex: 1 }}>
+            <Form.Label>Remark</Form.Label>
+            <Form.Control
+              type="text"
+              autoComplete="off"
+            />
+          </Form.Group>
+        </div>
         <Form.Group controlId="terms" className="py-2">
           <Form.Check
             type="checkbox"
@@ -134,7 +130,7 @@ const Credit = () => {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mt-4">
-          <Button type="submit" disabled={!watch('terms') || !watch('amount')} >Submit</Button>
+          <Button type="submit" disabled={!watch('terms') || !watch('amount')}>Submit</Button>
           <Button
             type="button"
             className="ms-2"

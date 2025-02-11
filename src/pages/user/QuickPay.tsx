@@ -69,7 +69,7 @@ const BankTransferForm = () => {
               {...register('btBank1IFSC')}
             />
           </Form.Group>
-          <Form.Group controlId="btOwnAccount" className="py-2 w-100">
+          <Form.Group controlId="btOwnAccount" className="py-2 ms-2 w-100">
             <Form.Label>Transfer From</Form.Label>
             <Form.Control
               type="text"
@@ -80,7 +80,7 @@ const BankTransferForm = () => {
             />
           </Form.Group>
         </div>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex">
           <Form.Group controlId="btBank2IFSC" className="py-2 me-2 w-100">
             <Form.Label>IFSC Code</Form.Label>
             <Form.Control
@@ -89,7 +89,7 @@ const BankTransferForm = () => {
               {...register('btBank2IFSC')}
             />
           </Form.Group>
-          <Form.Group controlId="btOtherBankAccount" className="py-2 w-100">
+          <Form.Group controlId="btOtherBankAccount" className="py-2 ms-2 w-100">
             <Form.Label>Transfer To</Form.Label>
             <Form.Control
               as="select"
@@ -107,18 +107,32 @@ const BankTransferForm = () => {
             </Form.Control.Feedback>
           </Form.Group>
         </div>
-        <Form.Group controlId="btAmount" className="py-2 w-100">
-          <Form.Label>Transfer Amount</Form.Label>
-          <Form.Control
-            type="number"
-            autoComplete='off'
-            {...register('btAmount', { required: "You must provide the amount." })}
-            isInvalid={!!errors.btAmount}
-          />
-          <Form.Control.Feedback type="invalid">
-            {typeof errors.btAmount?.message === 'string' && errors.btAmount.message}
-          </Form.Control.Feedback>
-        </Form.Group>
+        <div className="d-flex">
+          <Form.Group controlId="btAmount" className="py-2  me-2" style={{ flex: 1 }}>
+            <Form.Label>Transfer Amount</Form.Label>
+            <Form.Control
+              type="number"
+              autoComplete='off'
+              {...register('btAmount', { required: "You must provide the amount." })}
+              isInvalid={!!errors.btAmount}
+            />
+            <Form.Control.Feedback type="invalid">
+              {typeof errors.btAmount?.message === 'string' && errors.btAmount.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="btRemarks" className="py-2  ms-2" style={{ flex: 1 }}>
+            <Form.Label>Remark</Form.Label>
+            <Form.Control
+              type="text"
+              autoComplete='off'
+              {...register('btRemarks', { required: "You must provide a remark or comment." })}
+              isInvalid={!!errors.btRemarks}
+            />
+            <Form.Control.Feedback type="invalid">
+              {typeof errors.btRemarks?.message === 'string' && errors.btRemarks.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
         <Form.Group controlId="paymentMode" className="py-2 w-100">
           <Form.Label>Transfer Mode</Form.Label>
           <div className="d-flex">
@@ -134,18 +148,6 @@ const BankTransferForm = () => {
               />
             ))}
           </div>
-        </Form.Group>
-        <Form.Group controlId="btRemarks" className="py-2 w-100">
-          <Form.Label>Remark</Form.Label>
-          <Form.Control
-            type="text"
-            autoComplete='off'
-            {...register('btRemarks', { required: "You must provide a remark or comment." })}
-            isInvalid={!!errors.btRemarks}
-          />
-          <Form.Control.Feedback type="invalid">
-            {typeof errors.btRemarks?.message === 'string' && errors.btRemarks.message}
-          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group controlId="terms" className="py-2 w-100">
           <Form.Check
@@ -247,7 +249,7 @@ const OneTimePayForm = () => {
               {...register('otBank1IFSC')}
             />
           </Form.Group>
-          <Form.Group controlId="otOwnAccount" className="py-2 w-100">
+          <Form.Group controlId="otOwnAccount" className="py-2 ms-2 w-100">
             <Form.Label>Transfer From</Form.Label>
             <Form.Control
               type="text"
@@ -267,7 +269,7 @@ const OneTimePayForm = () => {
               {...register('otBank2IFSC')}
             />
           </Form.Group>
-          <Form.Group controlId="otOtherBankAccount" className="py-2 w-100">
+          <Form.Group controlId="otOtherBankAccount" className="py-2 ms-2 w-100">
             <Form.Label>Transfer To</Form.Label>
             <Form.Control
               type="text"
@@ -278,33 +280,47 @@ const OneTimePayForm = () => {
             <Form.Control.Feedback type="invalid">
               {typeof errors.otOtherBankAccount?.message === 'string' && errors.otOtherBankAccount.message}
             </Form.Control.Feedback>
+            <Form.Group controlId="otAddBeneficiary" className="py-2 mt-2">
+              <Form.Check
+                type="checkbox"
+                label="Add as beneficiary"
+                {...register('otAddBeneficiary')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    (e.target as HTMLInputElement).click();
+                  }
+                }}
+              />
+            </Form.Group>
           </Form.Group>
         </div>
-        <Form.Group controlId="otAddBeneficiary" className="py-2">
-          <Form.Check
-            type="checkbox"
-            label="Add as beneficiary"
-            {...register('otAddBeneficiary')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                (e.target as HTMLInputElement).click();
-              }
-            }}
-          />
-        </Form.Group>
-        <Form.Group controlId="otAmount" className="py-2 w-100">
-          <Form.Label>Transfer Amount</Form.Label>
-          <Form.Control
-            type="number"
-            autoComplete='off'
-            {...register('otAmount', { required: "You must provide the amount." })}
-            isInvalid={!!errors.otAmount}
-          />
-          <Form.Control.Feedback type="invalid">
-            {typeof errors.otAmount?.message === 'string' && errors.otAmount.message}
-          </Form.Control.Feedback>
-        </Form.Group>
+        <div className="d-flex">
+          <Form.Group controlId="otAmount" className="py-2 me-2" style={{ flex: 1 }}>
+            <Form.Label>Transfer Amount</Form.Label>
+            <Form.Control
+              type="number"
+              autoComplete='off'
+              {...register('otAmount', { required: "You must provide the amount." })}
+              isInvalid={!!errors.otAmount}
+            />
+            <Form.Control.Feedback type="invalid">
+              {typeof errors.otAmount?.message === 'string' && errors.otAmount.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="otRemarks" className="py-2 ms-2" style={{ flex: 1 }}>
+            <Form.Label>Remark</Form.Label>
+            <Form.Control
+              type="text"
+              autoComplete="off"
+              {...register('otRemarks', { required: "You must provide a remark or comment." })}
+              isInvalid={!!errors.otRemarks}
+            />
+            <Form.Control.Feedback type="invalid">
+              {typeof errors.otRemarks?.message === 'string' && errors.otRemarks.message}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
         <Form.Group controlId="paymentMode" className="py-2 w-100">
           <Form.Label>Transfer Mode</Form.Label>
           <div className="d-flex">
@@ -320,18 +336,6 @@ const OneTimePayForm = () => {
               />
             ))}
           </div>
-        </Form.Group>
-        <Form.Group controlId="otRemarks" className="py-2 w-100">
-          <Form.Label>Remark</Form.Label>
-          <Form.Control
-            type="text"
-            autoComplete="off"
-            {...register('otRemarks', { required: "You must provide a remark or comment." })}
-            isInvalid={!!errors.otRemarks}
-          />
-          <Form.Control.Feedback type="invalid">
-            {typeof errors.otRemarks?.message === 'string' && errors.otRemarks.message}
-          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group controlId="terms" className="py-2 w-100">
           <Form.Check
