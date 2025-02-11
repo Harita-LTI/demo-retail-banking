@@ -7,6 +7,7 @@ import { useCreateAccountMutation } from "../../../services/adminServices";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import showError from "../../../utils/error";
 import { generateCustomerId } from "../../../utils/utility";
+import AccountCreateFormModal from "./AccountCreateFormModal";
 
 function CustomerDetails() {
   const { userId } = useParams();
@@ -21,6 +22,7 @@ function CustomerDetails() {
   const [newAccountAdded, setNewAccountAdded] = useState(false);
   const [createButtonClass, setCtreateButtonClass] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
 
@@ -38,12 +40,16 @@ function CustomerDetails() {
   if (error)
     return <div className="text-red">{showError("customer-details-get")}</div>;
 
-  const handleCreateAccount = async () => {
+  const handleCreateAccountCancel = () => {
+    setShowCreateModal(false);
+  };
+
+  const handleCreateAccountConfirm = async (accountType: string) => {
     if (userId) {
       try {
         const accData = {
           userId: parseInt(userId ? userId : "0"),
-          accountType: "Saving",
+          accountType: accountType,
           currency: "INR",
         };
         const resp = await createAccount(accData).unwrap();
@@ -78,7 +84,7 @@ function CustomerDetails() {
               className={"mt-2"}
               size="sm"
               disabled={!showCreateButton}
-              onClick={handleCreateAccount}
+              onClick={() => setShowCreateModal(true)}
             >
               {accountLoading ? "Creating..." : "Create Account"}
             </Button>
@@ -177,6 +183,11 @@ function CustomerDetails() {
         title="Notification"
         setShowModal={() => setShowModal}
         showModal={showModal}
+      />
+      <AccountCreateFormModal
+        show={showCreateModal}
+        handleClose={handleCreateAccountCancel}
+        handleConfirm={handleCreateAccountConfirm}
       />
     </Container>
   );
