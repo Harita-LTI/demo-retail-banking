@@ -23,11 +23,13 @@ const Debit = () => {
   const [ withdraw, {}] = useWithdrawMutation();
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const navigate = useNavigate();
+  const [apiError, setApiError] = useState(null);
   const { user } = useSelector((state: RootState) => state.auth);
   const { data: accountInfo, error, isLoading: accountInfoIsLoading } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
 
   const onSubmit = async (formData: any) => {
+    setApiError(null);
+
     if (formData.amount % 100 !== 0 && formData.amount % 200 !== 0 && formData.amount % 500 !== 0) {
       setError('amount', {
         type: 'manual',
@@ -46,22 +48,10 @@ const Debit = () => {
         setShowModal(true);
         reset();
       }
-      //@ts-ignore
-      else if(resp && resp.originalStatus) {
-        //@ts-ignore
-        setModalMessage(resp.data || 'Transaction failed!');
-        setShowModal(true);
-      }
     } catch (err) {
       //@ts-ignore
-      setModalMessage('Transaction failed with error: ' + err.data);
-      setShowModal(true);
+      setApiError(err.data || "Transaction failed")
     }
-
-    setTimeout(() => {
-      setShowModal(false);
-      // navigate('/user/dashboard');
-    }, 2000);
   };
 
   return (
@@ -72,6 +62,7 @@ const Debit = () => {
             <Form.Label>{`Transfer From: ${accountInfo?.accountNumber}`}</Form.Label>
           </Form.Group>
         )}
+        {<p className="text-red m-0">{apiError}</p>}
         <div className="d-flex">
           <Form.Group controlId="amount" className="py-2 me-2" style={{ flex: 1 }}>
             <Form.Label>

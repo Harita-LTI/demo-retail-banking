@@ -18,6 +18,7 @@ import StatementPage from "./pages/user/StatementList";
 import ProtectedRoute from "./components/common/ProtectedRoute/ProtectedRoute";
 import PageNotFound from "./components/common/PageNotFound";
 import QuickPayPage from "./pages/user/QuickPay";
+import AccountPage from "./pages/user/Accounts";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/user/transfer" element={<TransferPage />} />
           <Route path="/user/statement" element={<StatementPage />} />
           <Route path="/user/quick-pay" element={<QuickPayPage />} />
+          <Route path="/user/accounts" element={<AccountPage />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

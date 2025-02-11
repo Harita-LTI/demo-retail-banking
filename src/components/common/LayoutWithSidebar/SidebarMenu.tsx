@@ -8,6 +8,7 @@ import {
   FaMoneyBillWave,
   FaExchangeAlt,
   FaPiggyBank,
+  FaBriefcase,
 } from "react-icons/fa";
 import "./index.css";
 import { Nav } from "react-bootstrap";
@@ -47,6 +48,11 @@ function SidebarMenu() {
       name: "Home",
       path: "/user/dashboard",
       icon: <FaHome />,
+    },
+    {
+      name: "Accounts",
+      path: "/user/accounts",
+      icon: <FaBriefcase />,
     },
     {
       name: "Withdraw",
