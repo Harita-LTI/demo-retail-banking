@@ -162,7 +162,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
           <Col md={6} className="mt-2" key={account.accountNumber}>
             <div className="p-2 border bg-light h-100">
               <p className="mb-0 text-primary d-flex justify-content-between w-100">
-                <small style={{ fontSize: "0.85rem" }}>
+                <small style={{ fontSize: "0.8rem" }}>
                   {toTitleCase(account.accountType)} Account
                 </small>
                 <Badge

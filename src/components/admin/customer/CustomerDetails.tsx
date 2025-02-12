@@ -8,6 +8,7 @@ import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import showError from "../../../utils/error";
 import { generateCustomerId } from "../../../utils/utility";
 import AccountCreateFormModal from "./AccountCreateFormModal";
+import CustomerImage from "./customer-details/CustomerImage";
 
 function CustomerDetails() {
   const { userId } = useParams();
@@ -70,18 +71,24 @@ function CustomerDetails() {
   return (
     <Container>
       <Row>
-        <Col md={3} className="d-flex flex-column align-items-start border-end">
-          <h5 className="text-primary d-flex justify-content-between w-100">
+        <Col
+          md={3}
+          className="d-flex flex-column align-items-center border-end pt-4"
+        >
+          <CustomerImage src={null} gender={user.gender} />
+          <Badge bg="success" text="white" className="customer-status">
+            <small>{user.userStatus}</small>
+          </Badge>
+          <h5 className="text-primary w-auto mt-3 mb-1 customer-name">
             <strong>{user.firstName + " " + user.lastName}</strong>
-            <Badge bg="success" text="white" className="ms-1">
-              <small>{user.userStatus}</small>
-            </Badge>
           </h5>
-          <p className="">{generateCustomerId(user.id)}</p>
+          <p className="mt-0 mb-1">
+            <small>{"Customer Id: " + generateCustomerId(user.id)}</small>
+          </p>
           <span className={createButtonClass}>
             <Button
               variant="primary"
-              className={"mt-2"}
+              className={"mt-1"}
               size="sm"
               disabled={!showCreateButton}
               onClick={() => setShowCreateModal(true)}
@@ -93,8 +100,8 @@ function CustomerDetails() {
         <Col md={9}>
           <Row className="border-bottom">
             <Col md={12}>
-              <p className="text-primary mb-1">
-                <b>Contact Details</b>
+              <p className="text-primary mb-1 details-heading">
+                <span>Contact Details</span>
               </p>
             </Col>
             <Col>
@@ -130,8 +137,8 @@ function CustomerDetails() {
           </Row>
           <Row className="border-bottom mt-3">
             <Col md={12}>
-              <p className="text-primary mb-1">
-                <b>Identification Details</b>
+              <p className="text-primary mb-1 details-heading">
+                <span>Identification Details</span>
               </p>
             </Col>
             <Col>
@@ -167,8 +174,8 @@ function CustomerDetails() {
           </Row>
           <Row className="mt-3">
             <Col md={12}>
-              <p className="text-primary mb-1">
-                <b>Accounts</b>
+              <p className="text-primary mb-1 details-heading">
+                <span>Accounts</span>
               </p>
             </Col>
             <CustomerAccounts
