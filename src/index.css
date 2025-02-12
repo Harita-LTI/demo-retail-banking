@@ -44,3 +44,7 @@ code {
 .btn.disabled {
   cursor: not-allowed !important;
 }
+
+.font-8 {
+  font-size: 0.8rem !important;
+}

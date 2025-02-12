@@ -12,6 +12,7 @@ export interface RegisterUserObj {
   userStatus: "ACTIVE" | "INACTIVE";
   dateOfBirth: string;
   password?: string;
+  gender: string;
 }
 
 export interface RegisterCustomerResponse {

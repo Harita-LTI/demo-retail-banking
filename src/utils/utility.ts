@@ -80,3 +80,25 @@ export function getBgClass(status: string) {
       return "success";
   }
 }
+
+export function formatDate(dateTime: string) {
+  const date = new Date(dateTime);
+  let day = String(date.getDate()).padStart(2, "0");
+  let month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  let year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
+export function sortAccountsByStatus(accounts: any[]) {
+  const statusOrder: any = {
+    ACTIVE: 1,
+    BLOCKED: 2,
+    CLOSED: 3,
+  };
+
+  return accounts.sort(
+    (a: any, b: any) =>
+      statusOrder[a.accountStatus] - statusOrder[b.accountStatus]
+  );
+}
