@@ -36,11 +36,6 @@ const CustomerListTable = () => {
     }
   }, [customersData, pageSize]);
 
-  useEffect(() => {
-    console.log("Last Page size updated:", lastPageSize);
-    console.log("Page size updated:", pageSize);
-  }, [lastPageSize, pageSize]);
-
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading customers</div>;
 
