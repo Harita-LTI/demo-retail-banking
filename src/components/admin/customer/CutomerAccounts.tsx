@@ -9,9 +9,15 @@ import {
 } from "../../../services/adminServices";
 //import ConfirmModal from "../../common/ConfirmModal";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
-import { getBgClass, toTitleCase } from "../../../utils/utility";
+import {
+  formatDate,
+  getBgClass,
+  sortAccountsByStatus,
+  toTitleCase,
+} from "../../../utils/utility";
 import CloseAccountFormModal from "./CloseAccountFormModal";
 import AccountStatusFormModal from "./AccountStatusFormModal";
+import "./index.css";
 
 const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   const { userId }: any = useParams();
@@ -37,7 +43,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   }: any = useAllAccountViewByUserIdQuery(userId, { skip: !userId });
   const userAccounts = accounts
     ? Array.isArray(accounts)
-      ? [...accounts]
+      ? sortAccountsByStatus([...accounts])
       : [accounts]
     : [];
 
@@ -159,8 +165,12 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
     return (
       <>
         {userAccounts.map((account: any) => (
-          <Col md={6} className="mt-2" key={account.accountNumber}>
-            <div className="p-2 border bg-light h-100">
+          <Col
+            md={6}
+            className="mt-3 ps-3 pe-0 me-0"
+            key={account.accountNumber}
+          >
+            <div className="p-2 bg-light h-100 account-card">
               <p className="mb-0 text-primary d-flex justify-content-between w-100">
                 <small style={{ fontSize: "0.8rem" }}>
                   {toTitleCase(account.accountType)} Account
@@ -175,7 +185,14 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
               <p className="mb-2">
                 <b>{account.accountNumber}</b>
               </p>
-              <p>{account.currency + " " + account.availableBalance}</p>
+              <p className="mb-1">
+                {account.currency + " " + account.availableBalance}
+              </p>
+              {account.accountStatus === "CLOSED" && account.closingDate && (
+                <span className="d-block text-red">
+                  <small>Closed on {formatDate(account.closingDate)}</small>
+                </span>
+              )}
               {account.accountStatus !== "CLOSED" && (
                 <Button
                   size="sm"
@@ -186,7 +203,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
                   onClick={() => {
                     handleStatusButtonClick(account);
                   }}
-                  className="me-2"
+                  className="me-2 mt-2 font-8"
                 >
                   {statusButtonText
                     ? statusButtonText
@@ -203,6 +220,7 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
                   onClick={() => {
                     handleButtonClick(account);
                   }}
+                  className="mt-2 font-8"
                 >
                   {buttonText}
                 </Button>

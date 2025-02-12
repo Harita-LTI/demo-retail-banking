@@ -79,9 +79,12 @@ function CustomerDetails() {
           <Badge bg="success" text="white" className="customer-status">
             <small>{user.userStatus}</small>
           </Badge>
-          <h5 className="text-primary w-auto mt-3 mb-1 customer-name">
+          <h5 className="text-primary w-auto mt-3 mb-0 customer-name">
             <strong>{user.firstName + " " + user.lastName}</strong>
           </h5>
+          <p className="mt-0 mb-2 text-secondary">
+            <small className="font-8">{user.gender}</small>
+          </p>
           <p className="mt-0 mb-1">
             <small>{"Customer Id: " + generateCustomerId(user.id)}</small>
           </p>

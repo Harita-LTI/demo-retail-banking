@@ -29,6 +29,7 @@ const CreateCustomer = () => {
     useRegisterCustomerMutation();
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [apiError, setApiError] = useState(null);
   const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
@@ -47,6 +48,7 @@ const CreateCustomer = () => {
       userStatus: "ACTIVE",
       dateOfBirth: formattedDob,
       password: encryptedPassword,
+      gender: data.gender,
     };
 
     try {
@@ -62,14 +64,19 @@ const CreateCustomer = () => {
         setShowModal(false);
         navigate("/admin/customer-details/" + resp.customerid);
       }, 8000);
-    } catch (error) {
-      console.log(error);
+    } catch (err: any) {
+      const msg = err?.data?.details
+        ? err.data.details
+        : "An error has occured";
+      setApiError(msg);
+      //setFocus("password");
     }
   };
 
   return (
     <Container className="mt-3">
       <Form onSubmit={handleSubmit(onSubmit)}>
+        {<p className="text-red m-0">{apiError}</p>}
         <Row className="text-primary border-bottom border-2 bg-light p-2 mb-2">
           <Col>
             <h4>Personal Information</h4>
@@ -140,6 +147,27 @@ const CreateCustomer = () => {
             {errors.dateOfBirth && (
               <Form.Text className="text-danger">
                 This field is required and should be in the format dd-mm-yyyy
+              </Form.Text>
+            )}
+          </Form.Group>
+          <Form.Group controlId="gender" as={Col} xs md={6}>
+            <Form.Label>
+              Gender <span className="text-danger">*</span>
+            </Form.Label>
+            <Form.Control
+              as="select"
+              {...register("gender", { required: true })}
+              //onChange={(e) => setSelectedReason(e.target.value)}
+              className="form-select"
+            >
+              <option value="">Select Gender</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </Form.Control>
+            {errors.gender && (
+              <Form.Text className="text-danger">
+                This field is required
               </Form.Text>
             )}
           </Form.Group>

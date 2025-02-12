@@ -9,7 +9,7 @@ import PaginationTable from "../../common/Pagination/TableWithPagination";
 const CustomerListTable = () => {
   const [selectedCustomers, setSelectedCustomers] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(4);
   const [lastPageSize, setLastPageSize] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const {
