@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Table, Pagination, Form, Col } from "react-bootstrap";
 import { NavLink } from "react-router";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
@@ -70,7 +70,6 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
   const handlePageChange = (page: number) => setCurrentPage(page);
   const handlePageSizeChange = async (e: any) => {
     const newPageSize = e.target.value;
-    console.log("handlePageSizeChange called-", newPageSize);
     await setLastPageSize(pageSize);
     await setPageSize(newPageSize);
     setCurrentPage(1); // Reset to first page
@@ -124,10 +123,10 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
               onChange={handlePageSizeChange}
               className="form-select w-auto"
             >
-              <option value={1}>10</option>
-              <option value={2}>20</option>
-              <option value={3}>50</option>
-              <option value={4}>100</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
             </Form.Control>
           </Form.Group>
         </Col>
