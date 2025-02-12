@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Button, Badge } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Button, Badge, Modal, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import { useGetCustomerDetailsQuery } from "../../../services/customerServices";
 import CustomerAccounts from "./CutomerAccounts";
-import { useCreateAccountMutation } from "../../../services/adminServices";
+import { useCreateAccountMutation, useUpdateCustomerMutation } from "../../../services/adminServices";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import showError from "../../../utils/error";
 import { generateCustomerId } from "../../../utils/utility";
 import AccountCreateFormModal from "./AccountCreateFormModal";
 import CustomerImage from "./customer-details/CustomerImage";
+import { FaEdit } from "react-icons/fa";
 
 function CustomerDetails() {
   const { userId } = useParams();
@@ -16,9 +17,12 @@ function CustomerDetails() {
     data: user,
     error,
     isLoading,
+    refetch
   } = useGetCustomerDetailsQuery(userId, { skip: !userId });
-  const [createAccount, { isLoading: accountLoading, isError }] =
-    useCreateAccountMutation();
+  const [updateCustomer, { isLoading:updateCustomerIsLoading, isError: updateCustomerIsErr }] =
+  useUpdateCustomerMutation();
+  const [createAccount, { isLoading: accountLoading, isError }] = 
+  useCreateAccountMutation();
   const [showCreateButton, setShowCreateButton] = useState(true);
   const [newAccountAdded, setNewAccountAdded] = useState(false);
   const [createButtonClass, setCtreateButtonClass] = useState("");
@@ -26,6 +30,34 @@ function CustomerDetails() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    emailId: '',
+    contact: '',
+    address: '',
+    userId: userId,
+  });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailId: user.emailId,
+        contact: user.contact,
+        address: user.address,
+        userId: userId
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!updateCustomerIsLoading && !updateCustomerIsErr) {
+      refetch();
+    }
+  }, [updateCustomerIsLoading, updateCustomerIsErr, refetch]);
 
   const disableButton = (status: boolean) => {
     if (status) {
@@ -36,10 +68,6 @@ function CustomerDetails() {
       setCtreateButtonClass("");
     }
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error)
-    return <div className="text-red">{showError("customer-details-get")}</div>;
 
   const handleCreateAccountCancel = () => {
     setShowCreateModal(false);
@@ -68,6 +96,69 @@ function CustomerDetails() {
       console.log("userId not found");
     }
   };
+
+  const handleEditClick = () => {
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = async() => {
+    const info: { [key: string]: string | undefined } = {
+      userId: userId,
+    };
+    
+    if (user.firstName !== formData.firstName) {
+      info.firstName = formData.firstName;
+    }
+    
+    if (user.lastName !== formData.lastName) {
+      info.lastName = formData.lastName;
+    }
+    
+    if (user.emailId !== formData.emailId) {
+      info.emailId = formData.emailId;
+    }
+    
+    if (user.contact !== formData.contact) {
+      info.contact = formData.contact;
+    }
+    
+    if (user.address !== formData.address) {
+      info.address = formData.address;
+    }
+
+    try {
+      const resp = await updateCustomer(info).unwrap();
+      setModalMessage("Customer details updated successfully");
+      setShowModal(true);
+
+      handleCloseEditModal();
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/admin/customer-details/" + resp.customerid);
+      }, 3000);
+    } catch (err) {
+      console.log("Error updating customer details:", err);
+    }
+  };
+
+  if (isLoading)
+    return <div>Loading...</div>;
+
+  if (error)
+    return <div className="text-red">{showError("customer-details-get")}</div>;
+
   return (
     <Container>
       <Row>
@@ -101,11 +192,14 @@ function CustomerDetails() {
           </span>
         </Col>
         <Col md={9}>
-          <Row className="border-bottom">
-            <Col md={12}>
+          <Row className="border-bottom align-items-center">
+            <Col md={6}>
               <p className="text-primary mb-1 details-heading">
                 <span>Contact Details</span>
               </p>
+            </Col>
+            <Col md={6} className="text-end">
+              <FaEdit className="fs-4 btn-primary" onClick={handleEditClick} />
             </Col>
             <Col>
               <div className="p-1">
@@ -199,6 +293,122 @@ function CustomerDetails() {
         handleClose={handleCreateAccountCancel}
         handleConfirm={handleCreateAccountConfirm}
       />
+
+      <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Contact Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="p-4">
+          <Form>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="formFirstName" className="mb-4">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoComplete="off"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="formLastName" className="mb-4">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoComplete="off"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="formEmail" className="mb-4">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    autoComplete="off"
+                    name="emailId"
+                    value={formData.emailId}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="formContact" className="mb-4">
+                  <Form.Label>Contact Number</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoComplete="off"
+                    name="contact"
+                    value={formData.contact}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="formAddress" className="mb-4">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoComplete="off"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleFormChange}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="formDOB" className="mb-4">
+                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={user.dateOfBirth}
+                    disabled
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <Form.Group controlId="formPAN" className="mb-4">
+                  <Form.Label>PAN Number</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={user.panNumber}
+                    disabled
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="formAadhar" className="mb-4">
+                  <Form.Label>Aaadhar Number</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={user.aadharNumber}
+                    disabled
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleCloseEditModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleUpdate}>
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

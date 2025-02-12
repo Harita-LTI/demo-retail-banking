@@ -48,6 +48,14 @@ export const userTransactionApi = baseApi.injectEndpoints({
         transformResponse: (response: any) => response.data,
       }),
     }),
+    updateCustomer: builder.mutation({
+      query: (userData) => ({
+        url: "/retailBanking/customer/updateCustomer",
+        method: "POST",
+        body: userData,
+        transformResponse: (response: any) => response.data,
+      }),
+    }),
     createAccount: builder.mutation<{}, createAccountObj>({
       query: (userData) => ({
         url: "/retailBanking/account/createAccount",
@@ -106,6 +114,7 @@ export const userTransactionApi = baseApi.injectEndpoints({
 
 export const {
   useRegisterCustomerMutation,
+  useUpdateCustomerMutation,
   useCreateAccountMutation,
   useCloseAccountByAccountNumberMutation,
   useAccountStatusUpdateByAccountNumberMutation,
