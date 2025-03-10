@@ -5,7 +5,7 @@ import {
   faPhone,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import "./index.css";
 

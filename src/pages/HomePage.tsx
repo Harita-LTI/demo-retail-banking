@@ -127,7 +127,7 @@ function Home() {
 
   return (
     <>
-      <div style={{ background: "#fff" }}>
+      <div style={{ background: "#fff" }} data-testid="home-page">
         <div style={{ position: "fixed", top: "0", width: "100%" }}>
           <NavBar1 />
           <NavBar2 />

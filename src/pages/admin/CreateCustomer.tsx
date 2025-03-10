@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { FaPlus } from "react-icons/fa";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";

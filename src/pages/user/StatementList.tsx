@@ -151,25 +151,25 @@ const StatementList = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text("Statement List", 10, 10);
-  
+
     // Table headers
     doc.text("S.No", 10, 20);
     doc.text("Time", 35, 20);
     doc.text("Amount", 120, 20);
     doc.text("Closing Balance", 160, 20);
-  
+
     // Table content
-    finalizedStatementList.forEach((item:any, index:any) => {
+    finalizedStatementList.forEach((item: any, index: any) => {
       const y = 30 + index * 10;
       doc.text(`${index + 1}`, 10, y);
-      doc.text(dateToDDMonYYYYTime(item.createdDate),35, y);
+      doc.text(dateToDDMonYYYYTime(item.createdDate), 35, y);
       doc.text(`${item.transaction_amount}`, 120, y);
       doc.text(`${item.closingBalance}`, 160, y);
     });
-  
+
     return doc;
   };
-  
+
   const handleDownloadPDF = () => {
     const doc = generatePDF();
     const pdfBlob = doc.output("blob");
@@ -203,7 +203,7 @@ const StatementList = () => {
             Last Week Transactions
           </Dropdown.Item>
           <Dropdown.Item eventKey="lastMonth">
-            Last Month Transactions
+            Last 30 Days Transactions
           </Dropdown.Item>
           <Dropdown.Item eventKey="lastQuarter">
             Last Quarter Transactions
@@ -220,12 +220,12 @@ const StatementList = () => {
         )}
 
         <div className="ms-auto">
-            <span className="fs-3 me-3">
-              <FaFileAlt onClick={handleViewPDF} />
-            </span>
-            <span className="fs-3">
-              <FaFileDownload onClick={handleDownloadPDF} />
-            </span>
+          <span className="fs-3 me-3">
+            <FaFileAlt onClick={handleViewPDF} />
+          </span>
+          <span className="fs-3">
+            <FaFileDownload onClick={handleDownloadPDF} />
+          </span>
         </div>
       </div>
 

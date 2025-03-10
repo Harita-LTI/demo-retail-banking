@@ -55,6 +55,33 @@ export const userTransactionApi = baseApi.injectEndpoints({
         body: userData,
         transformResponse: (response: any) => response.data,
       }),
+      onQueryStarted: async ({ ...userData }, { dispatch, queryFulfilled }) => {
+        console.log("onQueryStarted", userData);
+        const patchResult = dispatch(
+          userTransactionApi.util.updateQueryData(
+            "getCustomerDetils",
+            userData.userId,
+            (draft) => {
+              Object.assign(draft, userData);
+            }
+          )
+        );
+        // const cachedCustomerDetails =
+        //   userTransactionApi.endpoints.getCustomerDetils.select(userData.userId);
+        // console.log("Cached customer details:", cachedCustomerDetails);
+        // console.log("patchResult", patchResult);
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+
+          /**
+           * Alternatively, on failure you can invalidate the corresponding cache tags
+           * to trigger a re-fetch:
+           * dispatch(api.util.invalidateTags(['Post']))
+           */
+        }
+      },
     }),
     createAccount: builder.mutation<{}, createAccountObj>({
       query: (userData) => ({
@@ -108,6 +135,7 @@ export const userTransactionApi = baseApi.injectEndpoints({
     getCustomerDetils: builder.query({
       query: (userId: number) =>
         `/retailBanking/customer/displayCustomer/${userId}`,
+      //providesTags: (result, error, {userId}) => [{ type: "User", userId }]
     }),
   }),
 });

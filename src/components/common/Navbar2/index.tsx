@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import "./index.css";
 
@@ -13,7 +13,8 @@ function NavBar2() {
           <img
             className="bank-full-logo"
             src={
-              process.env.PUBLIC_URL + "/assets/images/unity_bank_full_logo_vertical.png"
+              process.env.PUBLIC_URL +
+              "/assets/images/unity_bank_full_logo_vertical.png"
             }
             alt="bank_logo"
           />

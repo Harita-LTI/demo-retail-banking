@@ -4,6 +4,7 @@ import { logout } from "../../../features/auth/authSlice";
 import { Link, NavLink, useNavigate } from "react-router";
 import { text } from "@fortawesome/fontawesome-svg-core";
 import { removeToken } from "../../../utils/token";
+import { baseApi } from "../../../services/baseApi";
 
 const Logout: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Logout: React.FC = () => {
     e.preventDefault();
     dispatch(logout());
     removeToken();
+    dispatch(baseApi.util.resetApiState());
     navigate("/login");
   };
 
