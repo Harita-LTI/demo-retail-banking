@@ -80,7 +80,10 @@ function SidebarMenu() {
       icon: <FaListOl />,
     },
   ];
-  if (user?.role && user.role === "BF_ADMIN") {
+  if (
+    user?.role &&
+    (user.role === "BF_ADMIN" || user.role === "BF_CORPORATOR")
+  ) {
     menuItems = [...menuItems, ...adminMenuItems];
   } else if (user?.role && user?.role === "BF_CUSTOMER") {
     menuItems = [...menuItems, ...userMenuItems];

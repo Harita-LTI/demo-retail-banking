@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Badge, Modal, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Badge,
+  Modal,
+  Form,
+} from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import { useGetCustomerDetailsQuery } from "../../../services/customerServices";
 import CustomerAccounts from "./CutomerAccounts";
-import { useCreateAccountMutation, useUpdateCustomerMutation } from "../../../services/adminServices";
+import {
+  useCreateAccountMutation,
+  useUpdateCustomerMutation,
+} from "../../../services/adminServices";
 import PlaneModalForNotification from "../../common/PlaneModalForNotification";
 import showError from "../../../utils/error";
 import { generateCustomerId } from "../../../utils/utility";
 import AccountCreateFormModal from "./AccountCreateFormModal";
 import CustomerImage from "./customer-details/CustomerImage";
 import { FaEdit } from "react-icons/fa";
+import EditCustomerModal from "./EditCustomerModal";
 
 function CustomerDetails() {
   const { userId } = useParams();
@@ -17,12 +29,14 @@ function CustomerDetails() {
     data: user,
     error,
     isLoading,
-    refetch
+    refetch,
   } = useGetCustomerDetailsQuery(userId, { skip: !userId });
-  const [updateCustomer, { isLoading:updateCustomerIsLoading, isError: updateCustomerIsErr }] =
-  useUpdateCustomerMutation();
-  const [createAccount, { isLoading: accountLoading, isError }] = 
-  useCreateAccountMutation();
+  const [
+    updateCustomer,
+    { isLoading: updateCustomerIsLoading, isError: updateCustomerIsErr },
+  ] = useUpdateCustomerMutation();
+  const [createAccount, { isLoading: accountLoading, isError }] =
+    useCreateAccountMutation();
   const [showCreateButton, setShowCreateButton] = useState(true);
   const [newAccountAdded, setNewAccountAdded] = useState(false);
   const [createButtonClass, setCtreateButtonClass] = useState("");
@@ -32,11 +46,11 @@ function CustomerDetails() {
   const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    emailId: '',
-    contact: '',
-    address: '',
+    firstName: "",
+    lastName: "",
+    emailId: "",
+    contact: "",
+    address: "",
     userId: userId,
   });
 
@@ -48,7 +62,7 @@ function CustomerDetails() {
         emailId: user.emailId,
         contact: user.contact,
         address: user.address,
-        userId: userId
+        userId: userId,
       });
     }
   }, [user]);
@@ -87,7 +101,7 @@ function CustomerDetails() {
         setShowModal(true);
         setTimeout(() => {
           setShowModal(false);
-          //navigate("/admin/customer-details/" + userId);
+          navigate("/admin/customer-details/" + userId);
         }, 2000);
       } catch (e) {
         console.log(e);
@@ -105,38 +119,36 @@ function CustomerDetails() {
     setShowEditModal(false);
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleUpdate = async() => {
+  const handleUpdate = async (formData: any) => {
     const info: { [key: string]: string | undefined } = {
       userId: userId,
     };
-    
     if (user.firstName !== formData.firstName) {
       info.firstName = formData.firstName;
     }
-    
+
     if (user.lastName !== formData.lastName) {
       info.lastName = formData.lastName;
     }
-    
+
     if (user.emailId !== formData.emailId) {
       info.emailId = formData.emailId;
     }
-    
+
     if (user.contact !== formData.contact) {
       info.contact = formData.contact;
     }
-    
+
     if (user.address !== formData.address) {
       info.address = formData.address;
     }
+    if (user.gender !== formData.gender.toUpperCase()) {
+      info.gender = formData.gender.toUpperCase();
+    }
+    // const info = {
+    //   userId: userId,
+    //   ...data,
+    // };
 
     try {
       const resp = await updateCustomer(info).unwrap();
@@ -153,8 +165,7 @@ function CustomerDetails() {
     }
   };
 
-  if (isLoading)
-    return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
   if (error)
     return <div className="text-red">{showError("customer-details-get")}</div>;
@@ -293,122 +304,12 @@ function CustomerDetails() {
         handleClose={handleCreateAccountCancel}
         handleConfirm={handleCreateAccountConfirm}
       />
-
-      <Modal show={showEditModal} onHide={handleCloseEditModal} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Contact Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="p-4">
-          <Form>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="formFirstName" className="mb-4">
-                  <Form.Label>First Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    autoComplete="off"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="formLastName" className="mb-4">
-                  <Form.Label>Last Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    autoComplete="off"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="formEmail" className="mb-4">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    autoComplete="off"
-                    name="emailId"
-                    value={formData.emailId}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="formContact" className="mb-4">
-                  <Form.Label>Contact Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    autoComplete="off"
-                    name="contact"
-                    value={formData.contact}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="formAddress" className="mb-4">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    autoComplete="off"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleFormChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="formDOB" className="mb-4">
-                  <Form.Label>Date of Birth</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={user.dateOfBirth}
-                    disabled
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="formPAN" className="mb-4">
-                  <Form.Label>PAN Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={user.panNumber}
-                    disabled
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="formAadhar" className="mb-4">
-                  <Form.Label>Aaadhar Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={user.aadharNumber}
-                    disabled
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleCloseEditModal}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleUpdate}>
-            Update
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <EditCustomerModal
+        user={user}
+        show={showEditModal}
+        handleClose={handleCloseEditModal}
+        handleConfirm={handleUpdate}
+      />
     </Container>
   );
 }

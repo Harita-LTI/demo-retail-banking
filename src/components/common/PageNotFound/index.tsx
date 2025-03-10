@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 const PageNotFound = () => {
   return (
     <>
-      <div className="">
+      <div className="" data-testid="page-not-found">
         <div className="d-flex align-items-center justify-content-center min-vh-100 px-2">
           <div className="text-center">
             <h1 className="display-1 fw-bold text-primary">

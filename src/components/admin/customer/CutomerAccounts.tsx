@@ -18,9 +18,12 @@ import {
 import CloseAccountFormModal from "./CloseAccountFormModal";
 import AccountStatusFormModal from "./AccountStatusFormModal";
 import "./index.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
   const { userId }: any = useParams();
+  const { user } = useSelector((state: RootState) => state.auth);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showStatusConfirmModal, setShowStatusConfirmModal] = useState(false);
@@ -130,6 +133,22 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
     setShowStatusConfirmModal(false);
   };
 
+  const checkIfAdminCanCloseAccount = () => {
+    return user?.role && user.role === "BF_ADMIN";
+  };
+
+  const checkIfAdminCanFreezeAccount = (accountStatus: any) => {
+    if (user?.role) {
+      if (user.role === "BF_ADMIN") {
+        return true;
+      } else if (user.role === "BF_CORPORATOR" && accountStatus === "BLOCKED") {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (newAccountAdded) refetch(); // This will re-execute the query when the props change
   }, [newAccountAdded, refetch]);
@@ -190,41 +209,53 @@ const CustomerAccounts = ({ disableButton, newAccountAdded }: any) => {
               </p>
               {account.accountStatus === "CLOSED" && account.closingDate && (
                 <span className="d-block text-red">
-                  <small>Closed on {formatDate(account.closingDate)}</small>
+                  <small>
+                    Closed on {formatDate(account.closingDate)} due to{" "}
+                    {account.feedback}
+                  </small>
                 </span>
               )}
-              {account.accountStatus !== "CLOSED" && (
-                <Button
-                  size="sm"
-                  variant="primary"
-                  title={
-                    account.accountStatus !== "BLOCKED" ? "Freeze" : "Unfreeze"
-                  } //"Close Account"
-                  onClick={() => {
-                    handleStatusButtonClick(account);
-                  }}
-                  className="me-2 mt-2 font-8"
-                >
-                  {statusButtonText
-                    ? statusButtonText
-                    : account.accountStatus !== "BLOCKED"
-                    ? "Freeze Account"
-                    : "Unfreeze Account"}
-                </Button>
+              {account.accountStatus === "BLOCKED" && (
+                <span className="d-block text-red">
+                  <small>Blocked due to {account.feedback}</small>
+                </span>
               )}
-              {account.accountStatus === "ACTIVE" && (
-                <Button
-                  size="sm"
-                  variant="primary"
-                  title="Close"
-                  onClick={() => {
-                    handleButtonClick(account);
-                  }}
-                  className="mt-2 font-8"
-                >
-                  {buttonText}
-                </Button>
-              )}
+              {account.accountStatus !== "CLOSED" &&
+                checkIfAdminCanFreezeAccount(account.accountStatus) && (
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    title={
+                      account.accountStatus !== "BLOCKED"
+                        ? "Freeze"
+                        : "Unfreeze"
+                    } //"Close Account"
+                    onClick={() => {
+                      handleStatusButtonClick(account);
+                    }}
+                    className="me-2 mt-2 font-8"
+                  >
+                    {statusButtonText
+                      ? statusButtonText
+                      : account.accountStatus !== "BLOCKED"
+                      ? "Freeze Account"
+                      : "Unfreeze Account"}
+                  </Button>
+                )}
+              {account.accountStatus === "ACTIVE" &&
+                checkIfAdminCanCloseAccount() && (
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    title="Close"
+                    onClick={() => {
+                      handleButtonClick(account);
+                    }}
+                    className="mt-2 font-8"
+                  >
+                    {buttonText}
+                  </Button>
+                )}
             </div>
           </Col>
         ))}

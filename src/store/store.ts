@@ -6,6 +6,7 @@ import {
   reducerPath as baseApiReducerPath,
   middleware as baseApiMiddleware,
 } from "../services/baseApi";
+import { userTransactionApi } from "../services/adminServices";
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +15,9 @@ export const store = configureStore({
     //[authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApiMiddleware),
+    getDefaultMiddleware()
+      .concat(baseApiMiddleware)
+      .concat(userTransactionApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

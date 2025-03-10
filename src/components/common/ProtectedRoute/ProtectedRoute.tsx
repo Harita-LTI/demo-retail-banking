@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router";
 import { RootState } from "../../../store/store";
 import { getToken } from "../../../utils/token";
 
@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
   // show unauthorized screen if no user is found in redux store
   if (!token) {
     return (
-      <div className="">
+      <div className="" data-testid="protected-route">
         <div className="d-flex align-items-center justify-content-center min-vh-100 px-2">
           <div className="text-center">
             <h1 className="display-1 fw-bold text-primary">

@@ -8,18 +8,21 @@ import {
   FaListOl,
   FaMoneyBillWave,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 import { RootState } from "../../store/store";
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { useAccountViewByUserIdQuery } from "../../services/adminServices";
-import { StatementInfo, useGetStatementListQuery } from "../../services/userServices";
+import {
+  StatementInfo,
+  useGetStatementListQuery,
+} from "../../services/userServices";
 import { dateToDDMonYYYYTime } from "../../utils/utility";
 
 interface UserDetailsCardProps {
-  accountId: string
-  balance: number
+  accountId: string;
+  balance: number;
 }
 
 const UserDetailsCard = ({ accountId, balance }: UserDetailsCardProps) => {
@@ -134,15 +137,14 @@ const QuickOptions = () => {
 };
 
 interface RecentTransactionsProps {
-  statementList:StatementInfo[]|undefined
+  statementList: StatementInfo[] | undefined;
 }
 
-const RecentTransactions = (props:RecentTransactionsProps) => {
-
+const RecentTransactions = (props: RecentTransactionsProps) => {
   const getTransactionTypeIcon = (type: string) => {
-    if (type === 'DEBIT') {
+    if (type === "DEBIT") {
       return <FaArrowUp className="text-danger" />;
-    } else if (type === 'CREDIT') {
+    } else if (type === "CREDIT") {
       return <FaArrowDown className="text-success" />;
     }
     return null;
@@ -151,7 +153,9 @@ const RecentTransactions = (props:RecentTransactionsProps) => {
   return (
     <Card className="mb-3 border-0">
       <Card.Body className="px-0 py-3 border-0">
-        <h5 className="fw-bold" style={{color:"#1f6b6b"}}>Recent Transactions</h5>
+        <h5 className="fw-bold" style={{ color: "#1f6b6b" }}>
+          Recent Transactions
+        </h5>
         <Row className="px-1">
           <Table hover>
             <thead>
@@ -166,18 +170,22 @@ const RecentTransactions = (props:RecentTransactionsProps) => {
             <tbody>
               {props.statementList && props.statementList.length > 0 ? (
                 // props.statementList.slice(0, 5).map((transaction) => (
-                  props.statementList.map((transaction) => (
+                props.statementList.map((transaction) => (
                   <tr key={transaction.transactionID}>
                     <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
                     <td>{transaction.transactionType}</td>
                     <td>{transaction.transaction_amount}</td>
                     <td>{transaction.closingBalance}</td>
-                    <td>{getTransactionTypeIcon(transaction.transactionType)}</td>
+                    <td>
+                      {getTransactionTypeIcon(transaction.transactionType)}
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} style={{"color": "#a4a1a1 !important"}}>No recent transaction</td>
+                  <td colSpan={5} style={{ color: "#a4a1a1 !important" }}>
+                    No recent transaction
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -193,12 +201,27 @@ const Dashboard = () => {
   // const [pageSize, setPageSize] = useState<number>(2);
   // const [totalPages, setTotalPages] = useState<number>(0);
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: accountInfo, error, isLoading, refetch } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
-  const { data: statementList, error:statementErr, isLoading:statementIsLoading, refetch:statementRefetch } = useGetStatementListQuery({userId:user?.userId, page:0, size: 5}, {skip: !user});
-  let reversedStatementList:StatementInfo[]|undefined = statementList && [...statementList?.content];
-  
+  const {
+    data: accountInfo,
+    error,
+    isLoading,
+    refetch,
+  } = useAccountViewByUserIdQuery(user?.userId, { skip: !user });
+  const {
+    data: statementList,
+    error: statementErr,
+    isLoading: statementIsLoading,
+    refetch: statementRefetch,
+  } = useGetStatementListQuery(
+    { userId: user?.userId, page: 0, size: 5 },
+    { skip: !user }
+  );
+  let reversedStatementList: StatementInfo[] | undefined = statementList && [
+    ...statementList?.content,
+  ];
+
   useEffect(() => {
-    if(user) {
+    if (user) {
       refetch();
       statementRefetch();
     }
@@ -206,9 +229,14 @@ const Dashboard = () => {
 
   return (
     <>
-      <UserDetailsCard accountId={accountInfo ? accountInfo.accountNumber : "No account present"} balance={accountInfo ? accountInfo.availableBalance : "0.00"} />
+      <UserDetailsCard
+        accountId={
+          accountInfo ? accountInfo.accountNumber : "No account present"
+        }
+        balance={accountInfo ? accountInfo.availableBalance : "0.00"}
+      />
       <QuickOptions />
-      <RecentTransactions statementList={reversedStatementList}/>
+      <RecentTransactions statementList={reversedStatementList} />
     </>
   );
 };

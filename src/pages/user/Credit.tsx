@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaMoneyBill } from "react-icons/fa";
 import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
@@ -18,14 +18,19 @@ const Credit = () => {
     reset,
     formState: { errors },
     setError,
-    watch
+    watch,
   } = useForm();
   const [deposit, { isLoading }] = useDepositMutation();
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMessage, setModalMessage] = useState("");
   const [apiError, setApiError] = useState(null);
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: accountInfo, error, isLoading: accountInfoIsLoading } = useAccountViewByUserIdQuery(user?.userId, {skip: !user});
+  const navigate = useNavigate();
+  const {
+    data: accountInfo,
+    error,
+    isLoading: accountInfoIsLoading,
+  } = useAccountViewByUserIdQuery(user?.userId, { skip: !user });
 
   const onSubmit = async (formData: any) => {
     setApiError(null);
@@ -47,14 +52,18 @@ const Credit = () => {
         amount: JSON.parse(formData.amount),
       }).unwrap();
 
-      if(resp && resp.transactionId) {
-        setModalMessage(resp.message || 'Transaction successful!');
+      if (resp && resp.transactionId) {
+        setModalMessage(resp.message || "Transaction successful!");
         setShowModal(true);
         reset();
+        setTimeout(() => {
+          setShowModal(false);
+          navigate("/user/dashboard");
+        }, 3000);
       }
     } catch (err) {
       //@ts-ignore
-      setApiError(err.data || "Transaction failed")
+      setApiError(err.data || "Transaction failed");
     }
   };
 
@@ -62,13 +71,21 @@ const Credit = () => {
     <div className="container">
       <Form onSubmit={handleSubmit(onSubmit)}>
         {accountInfo && (
-          <Form.Group controlId="accountNumber" className="py-2" style={{ color: "grey" }}>
+          <Form.Group
+            controlId="accountNumber"
+            className="py-2"
+            style={{ color: "grey" }}
+          >
             <Form.Label>{`Transfer To: ${accountInfo?.accountNumber}`}</Form.Label>
           </Form.Group>
         )}
         {<p className="text-red m-0">{apiError}</p>}
         <div className="d-flex">
-          <Form.Group controlId="amount" className="py-2 me-2" style={{ flex: 1 }}>
+          <Form.Group
+            controlId="amount"
+            className="py-2 me-2"
+            style={{ flex: 1 }}
+          >
             <Form.Label>
               Please enter the amount <span className="text-danger">*</span>
               <OverlayTrigger
@@ -91,36 +108,42 @@ const Credit = () => {
               isInvalid={!!errors.amount}
             />
             <Form.Control.Feedback type="invalid">
-              {typeof errors.amount?.message === "string" && errors.amount.message}
+              {typeof errors.amount?.message === "string" &&
+                errors.amount.message}
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="remarks" className="py-2 ms-2" style={{ flex: 1 }}>
+          <Form.Group
+            controlId="remarks"
+            className="py-2 ms-2"
+            style={{ flex: 1 }}
+          >
             <Form.Label>Remark</Form.Label>
-            <Form.Control
-              type="text"
-              autoComplete="off"
-            />
+            <Form.Control type="text" autoComplete="off" />
           </Form.Group>
         </div>
         <Form.Group controlId="terms" className="py-2">
           <Form.Check
             type="checkbox"
             label="I agree to the terms and conditions"
-            {...register('terms', { required: "You must agree to the terms and conditions." })}
+            {...register("terms", {
+              required: "You must agree to the terms and conditions.",
+            })}
             isInvalid={!!errors.terms}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 e.preventDefault();
                 (e.target as HTMLInputElement).click();
               }
             }}
           />
           <Form.Control.Feedback type="invalid">
-            {typeof errors.terms?.message === 'string' && errors.terms.message}
+            {typeof errors.terms?.message === "string" && errors.terms.message}
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mt-4">
-          <Button type="submit" disabled={!watch('terms') || !watch('amount')}>Submit</Button>
+          <Button type="submit" disabled={!watch("terms") || !watch("amount")}>
+            Submit
+          </Button>
           <Button
             type="button"
             className="ms-2"

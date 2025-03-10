@@ -1,6 +1,6 @@
 // import React, { useEffect } from 'react';
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
 import { Form, Button, Container, Row, Col } from "react-bootstrap";

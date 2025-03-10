@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router";
 import Home from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import CreateCustomer from "./pages/admin/CreateCustomer";
