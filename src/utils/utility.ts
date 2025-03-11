@@ -102,3 +102,10 @@ export function sortAccountsByStatus(accounts: any[]) {
       statusOrder[a.accountStatus] - statusOrder[b.accountStatus]
   );
 }
+
+export const formatAmount = (amount: number): string => {
+  return amount.toLocaleString('en-IN', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};

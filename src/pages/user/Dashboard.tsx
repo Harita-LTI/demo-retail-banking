@@ -14,11 +14,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import LayoutWithSidebar from "../../components/common/LayoutWithSidebar";
 import { useAccountViewByUserIdQuery } from "../../services/adminServices";
-import {
-  StatementInfo,
-  useGetStatementListQuery,
-} from "../../services/userServices";
-import { dateToDDMonYYYYTime } from "../../utils/utility";
+import { StatementInfo, useGetStatementListQuery } from "../../services/userServices";
+import { dateToDDMonYYYYTime, formatAmount } from "../../utils/utility";
 
 interface UserDetailsCardProps {
   accountId: string;
@@ -174,11 +171,9 @@ const RecentTransactions = (props: RecentTransactionsProps) => {
                   <tr key={transaction.transactionID}>
                     <td>{dateToDDMonYYYYTime(transaction.createdDate)}</td>
                     <td>{transaction.transactionType}</td>
-                    <td>{transaction.transaction_amount}</td>
-                    <td>{transaction.closingBalance}</td>
-                    <td>
-                      {getTransactionTypeIcon(transaction.transactionType)}
-                    </td>
+                    <td>{formatAmount(transaction.transaction_amount)}</td>
+                    <td>{formatAmount(transaction.closingBalance)}</td>
+                    <td>{getTransactionTypeIcon(transaction.transactionType)}</td>
                   </tr>
                 ))
               ) : (

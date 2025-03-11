@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 import "./index.css";
-import { dateToDDMonYYYYTime } from "../../../utils/utility";
+import { dateToDDMonYYYYTime, formatAmount } from "../../../utils/utility";
 
 interface TableItem {
   [key: string]: any;
@@ -158,6 +158,8 @@ const PaginationTable: React.FC<PaginationTableProps> = ({
                       ? dateToDDMonYYYYTime(row[column.accessor])
                       : column.accessor && column.accessor === "icon"
                       ? getTransactionTypeIcon(row["transactionType"])
+                      : column.accessor === "transaction_amount" || column.accessor === "closingBalance"
+                      ? formatAmount(row[column.accessor])
                       : row[column.accessor]}
                   </td>
                 ))}
